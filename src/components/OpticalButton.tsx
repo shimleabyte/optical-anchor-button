@@ -202,6 +202,14 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
       const handleFocusOut = () => {
         focused = false;
         if (blocked) return;
+
+        // If focus leaves while already tired, finish the tired phase rather
+        // than restarting the full idle interval.
+        if (state === 'tired') {
+          clearTimers();
+          sleepTimer = window.setTimeout(sleep, TIRED_MS);
+          return;
+        }
         scheduleSleep();
       };
       const handleWindowBlur = () => {
@@ -240,7 +248,15 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         clearTimers();
         clearBlinkTimers();
         window.clearTimeout(returnTimer);
-        button.classList.remove('oa-button--pointer-hover');
+        button.classList.remove(
+          'oa-button--pointer-hover',
+          'oa-button--returning',
+          'oa-button--awake',
+          'oa-button--tired',
+          'oa-button--sleeping',
+        );
+        resetPull();
+        resetGaze();
       };
     }, [blocked]);
 
