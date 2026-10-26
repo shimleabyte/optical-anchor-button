@@ -31,6 +31,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
       size = 'md',
       type = 'button',
       'aria-label': ariaLabel,
+      onPointerEnter: onPointerEnterProp,
       onPointerMove,
       onPointerLeave,
       onPointerDown,
@@ -239,14 +240,22 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         clearTimers();
         clearBlinkTimers();
         window.clearTimeout(returnTimer);
+        button.classList.remove('oa-button--pointer-hover');
       };
     }, [blocked]);
 
+    const handlePointerEnter = useCallback((event: PointerEvent<HTMLButtonElement>) => {
+      if (event.pointerType !== 'touch' && !blocked) {
+        localRef.current?.classList.add('oa-button--pointer-hover');
+      }
+      onPointerEnterProp?.(event);
+    }, [blocked, onPointerEnterProp]);
     const handlePointerMove = useCallback((event: PointerEvent<HTMLButtonElement>) => {
       onPointerMove?.(event);
     }, [onPointerMove]);
     const handlePointerLeave = useCallback((event: PointerEvent<HTMLButtonElement>) => {
       const node = localRef.current;
+      if (event.pointerType !== 'touch') node?.classList.remove('oa-button--pointer-hover');
       node?.style.setProperty('--pull-x', '0px');
       node?.style.setProperty('--pull-y', '0px');
       onPointerLeave?.(event);
@@ -276,6 +285,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         disabled={blocked}
         aria-label={ariaLabel || (!children ? 'Optical Anchor eye control' : undefined)}
         aria-busy={loading || undefined}
+        onPointerEnter={handlePointerEnter}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
         onPointerDown={handlePointerDown}
