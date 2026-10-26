@@ -303,12 +303,11 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
   filter: drop-shadow(0 2px 1.5px rgb(53 25 15 / 24%));
 }
 .oa-button__orbital-shadow { fill: #4d2517; opacity: .18; }
-.oa-button__aperture {
-  transform: scaleY(.025);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 320ms cubic-bezier(.2,.75,.25,1.06);
-}
+.oa-button__aperture { isolation: isolate; }
+.oa-button__lid-cover { opacity: 0; pointer-events: none; transition: opacity 150ms cubic-bezier(.2,.65,.25,1); }
+.oa-button__lid-edge { fill: none; stroke: #6d3b29; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; opacity: 0; pointer-events: none; transition: opacity 120ms ease; }
+.oa-button__lid-edge--tired { stroke: #77432f; stroke-width: 1.7; }
+.oa-button__lid--upper, .oa-button__lid--lower, .oa-button__lid-highlight, .oa-button__tear-duct { transition: opacity 130ms ease; }
 .oa-button__iris {
   opacity: 0;
   transform: translate(var(--gaze-x), var(--gaze-y));
@@ -362,14 +361,14 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
   opacity: 1;
   transition: opacity 150ms ease;
 }
-.oa-button--awake .oa-button__aperture,
-.oa-button.demo-force-hover .oa-button__aperture {
-  transform: scaleY(1);
-}
-.oa-button--awake .oa-button__iris,
-.oa-button.demo-force-hover .oa-button__iris {
-  opacity: 1;
-}
+.oa-button--awake .oa-button__lid-cover--awake, .oa-button.demo-force-hover .oa-button__lid-cover--awake { opacity: 1; }
+.oa-button--awake .oa-button__lid-edge--awake, .oa-button.demo-force-hover .oa-button__lid-edge--awake { opacity: 1; }
+.oa-button--awake .oa-button__lid-cover--sleeping,
+.oa-button--tired .oa-button__lid-cover--sleeping,
+.oa-button.demo-force-hover .oa-button__lid-cover--sleeping,
+.oa-button.demo-force-tired .oa-button__lid-cover--sleeping { opacity: 0; }
+.oa-button--awake .oa-button__iris, .oa-button.demo-force-hover .oa-button__iris { opacity: 1; }
+.oa-button--awake .oa-button__lid--upper, .oa-button.demo-force-hover .oa-button__lid--upper { opacity: 1; }
 .oa-button--awake .oa-button__closed-lid,
 .oa-button.demo-force-hover .oa-button__closed-lid {
   opacity: 0;
@@ -379,12 +378,10 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
   transform: translateY(-1.5px);
   opacity: 1;
 }
-.oa-button--tired .oa-button__aperture {
-  transform: scaleY(.57);
-}
-.oa-button--tired .oa-button__iris {
-  opacity: 1;
-}
+.oa-button--tired .oa-button__lid-cover--tired, .oa-button.demo-force-tired .oa-button__lid-cover--tired { opacity: 1; }
+.oa-button--tired .oa-button__lid-edge--tired, .oa-button.demo-force-tired .oa-button__lid-edge--tired { opacity: 1; }
+.oa-button--tired .oa-button__lid-cover--awake, .oa-button.demo-force-tired .oa-button__lid-cover--awake { opacity: 0; }
+.oa-button--tired .oa-button__iris { opacity: 1; }
 .oa-button--tired .oa-button__closed-lid {
   opacity: .42;
 }
@@ -392,6 +389,24 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
   transform: translateY(2.5px);
   opacity: .58;
 }
+.oa-button--sleeping .oa-button__lid-cover--sleeping { opacity: 1; }
+.oa-button--sleeping .oa-button__lid--upper,
+.oa-button--sleeping .oa-button__lid--lower,
+.oa-button--sleeping .oa-button__lid-highlight,
+.oa-button--sleeping .oa-button__tear-duct,
+.oa-button--sleeping .oa-button__lid-edge { opacity: 0; }
+.oa-button.demo-force-hover .oa-button__lid-cover--tired,
+.oa-button.demo-force-tired .oa-button__lid-cover--awake,
+.oa-button.demo-force-hover .oa-button__lid-edge--tired,
+.oa-button.demo-force-tired .oa-button__lid-edge--awake { opacity: 0; }
+.oa-button.demo-force-hover .oa-button__lid--upper,
+.oa-button.demo-force-tired .oa-button__lid--upper,
+.oa-button.demo-force-hover .oa-button__lid--lower,
+.oa-button.demo-force-tired .oa-button__lid--lower,
+.oa-button.demo-force-hover .oa-button__lid-highlight,
+.oa-button.demo-force-tired .oa-button__lid-highlight,
+.oa-button.demo-force-hover .oa-button__tear-duct,
+.oa-button.demo-force-tired .oa-button__tear-duct { opacity: 1; }
 .oa-button__label {
   position: absolute;
   left: 8px;
@@ -571,6 +586,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
                       <stop offset="0%" stop-color="#ffffff" />
                       <stop offset="100%" stop-color="#fff0d6" />
                     </linearGradient>
+                    <clipPath id="oa-aperture-clip"><path d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 79 104 89 80 89 C56 89 31 79 9 52Z" /></clipPath>
                     <clipPath id="oa-iris-clip"><circle cx="80" cy="52" r="27.5" /></clipPath>
                     <filter id="oa-soft-shadow" x="-10%" y="-25%" width="120%" height="160%">
                       <feDropShadow dx="0" dy="2.2" stdDeviation="2.1" flood-color="#351c13" flood-opacity=".3" />
@@ -581,7 +597,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
                   <g class="oa-button__aperture">
                     <path class="oa-button__sclera" d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 79 104 89 80 89 C56 89 31 79 9 52Z" fill="url(#oa-sclera)" stroke="#6d4231" stroke-width="1.25" filter="url(#oa-soft-shadow)" />
                     <path d="M17 52 C39 32 59 23 80 23 C101 23 121 32 143 52" fill="none" stroke="#fff" stroke-opacity=".56" stroke-width="2" stroke-linecap="round" />
-                    <g class="oa-button__iris">
+                    <g class="oa-button__iris" clip-path="url(#oa-aperture-clip)">
                       <circle cx="80" cy="52" r="28.2" fill="#3a2118" />
                       <circle cx="80" cy="52" r="26.4" fill="url(#oa-iris)" stroke="#5e301c" stroke-width="1.2" />
                       <circle cx="80" cy="52" r="21.3" fill="none" stroke="#edbd72" stroke-opacity=".7" stroke-width="1.1" />
@@ -595,12 +611,17 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
                       <circle cx="88.7" cy="61.2" r="2" fill="#f3d9b2" opacity=".72" />
                       <circle cx="72.8" cy="42.4" r="1.5" fill="#fff" />
                     </g>
+                    <path class="oa-button__lid-cover oa-button__lid-cover--awake" d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 39 106 31 80 30 C54 31 31 39 9 52Z" fill="url(#oa-lid)" />
+                    <path class="oa-button__lid-cover oa-button__lid-cover--tired" d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 47 105 49 80 48 C55 49 31 47 9 52Z" fill="url(#oa-lid)" />
+                    <path class="oa-button__lid-cover oa-button__lid-cover--sleeping" d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 79 104 89 80 89 C56 89 31 79 9 52Z" fill="url(#oa-lid)" />
+                    <path class="oa-button__lid-edge oa-button__lid-edge--awake" d="M9 52 C31 39 54 30 80 30 C106 30 129 39 151 52" />
+                    <path class="oa-button__lid-edge oa-button__lid-edge--tired" d="M9 52 C31 47 55 49 80 48 C105 49 129 47 151 52" />
                   </g>
                   <path class="oa-button__lid--upper" stroke="url(#oa-lid)" d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52" />
                   <path class="oa-button__lid--lower" d="M10 52 C34 79 56 89 80 89 C104 89 126 79 150 52" />
-                  <path class="oa-button__closed-lid" d="M9 52 C39 66 121 66 151 52" />
+                  <path class="oa-button__closed-lid" d="M10 52 C35 43 57 41 80 42 C103 41 125 43 150 52" />
                   <path class="oa-button__lid-highlight" d="M24 38 C44 21 61 18 80 18 C100 18 117 22 136 38" />
-                  <path class="oa-button__tear-duct" d="M13 49 Q17 52 13 55 M147 49 Q143 52 147 55" />
+                  <path class="oa-button__tear-duct" d="M15 48 C11 50 12 54 16 56 M145 50 Q149 52 145 54" />
                 </svg>
               </span></span>
             </button>
