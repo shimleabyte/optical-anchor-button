@@ -2,7 +2,7 @@
 
 An eye-first React button experiment built around a centered, oversized, pointer-aware iris.
 
-Optical Anchor combines a machined graphite frame, a lightly micro-grained burnt-orange enamel face, and a custom vector eye with warm sclera shading, an amber/copper iris, radial fibres, glossy reflections, and page-wide tracking. The CTA label is intentionally removed in this design branch so the eye becomes the single focal point.
+Optical Anchor combines a machined graphite frame, a lightly micro-grained burnt-orange enamel face, and a custom vector eye with warm sclera shading, an amber/copper iris, radial fibres, glossy reflections, and page-wide tracking. While the pointer is over the button, the brow lifts into an excited expression and a small “Let's collab!” speech bubble appears; there is no persistent CTA label.
 
 ![Optical Anchor design preview](docs/previews/optical-anchor.svg)
 
@@ -28,7 +28,7 @@ Requires Node.js 20.19+ or 22.12+.
 
 1. Run npm install.
 2. Run npm run dev.
-3. Open the local URL printed by Vite. Hover the eye housing to wake it, move elsewhere on the page to watch the iris track, then pause to observe the tired and sleeping states. The label is absent by design.
+3. Open the local URL printed by Vite. Hover the eye housing to wake it, move elsewhere on the page to watch the iris track, then pause to observe the tired and sleeping states. The bubble appears only while hovering the button; move away to return the brow to neutral.
 
 ## Verify
 
