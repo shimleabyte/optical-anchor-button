@@ -1,3 +1,4 @@
+import { mkdir } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
 
 test.beforeEach(async ({ page }) => {
@@ -25,6 +26,26 @@ test('loads the standalone build without React and exposes native button semanti
   expect(runtime.factory).toBe('function');
   expect(runtime.controller).toBe('function');
   expect(runtime.vanillaScriptTypes).toEqual(['classic', 'classic', 'classic']);
+});
+
+test('opens from file URL without a dev server, module loader, or framework runtime', async ({ page }) => {
+  const pageErrors: string[] = [];
+  page.on('pageerror', (error) => pageErrors.push(error.message));
+  await page.goto(new URL('../vanilla/index.html', import.meta.url).href);
+
+  const button = page.getByRole('button', { name: 'Optical Anchor eye button' });
+  await expect(button).toBeVisible();
+  await expect(button).toHaveClass(/oa-button--sleeping/);
+  const runtime = await page.evaluate(() => ({
+    factory: typeof (window as Window & { OpticalAnchorButton?: { create?: unknown } }).OpticalAnchorButton?.create,
+    moduleScripts: document.querySelectorAll('script[type="module"]').length,
+  }));
+  expect(runtime.factory).toBe('function');
+  expect(runtime.moduleScripts).toBe(0);
+  expect(pageErrors).toEqual([]);
+
+  await mkdir('artifacts', { recursive: true });
+  await page.screenshot({ path: 'artifacts/vanilla-file-protocol-idle.png', fullPage: true });
 });
 
 test('wakes on physical mouse hover and returns to neutral after pointer exit', async ({ page }) => {
