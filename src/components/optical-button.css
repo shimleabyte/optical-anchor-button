@@ -18,14 +18,14 @@
   --press-y: 0px;
   position: relative;
   display: inline-flex;
-  width: 184px;
+  width: 280px;
   min-width: 0;
-  height: 132px;
-  padding: 5px;
+  height: 76px;
+  padding: 4px;
   align-items: stretch;
   justify-content: center;
   border: 1px solid #4b3328;
-  border-radius: 4px;
+  border-radius: 25px;
   background: linear-gradient(145deg, #413027 0%, #211b17 48%, #120f0d 100%);
   color: var(--oa-ink);
   font: inherit;
@@ -44,7 +44,7 @@
   position: absolute;
   inset: -4px;
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 27px;
   pointer-events: none;
   transition: border-color var(--oa-speed) var(--oa-ease), inset var(--oa-speed) var(--oa-ease);
 }
@@ -71,12 +71,31 @@
   inset: 0;
   display: block;
   min-width: 0;
+  overflow: visible;
+}
+.oa-button__content::before {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  left: 50%;
+  top: 50%;
+  width: 138px;
+  height: 138px;
+  border: 1px solid #6c4635;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 24%, rgb(255 218 181 / 18%), transparent 48%),
+    linear-gradient(145deg, #c35a31 0%, #b34d26 45%, #78321d 100%);
+  box-shadow: 0 4px 8px rgb(0 0 0 / 24%), inset 0 1px 0 rgb(255 231 202 / 42%), inset 0 -5px 10px rgb(61 22 11 / 24%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 .oa-button__eye {
   position: absolute;
   display: block;
   left: 50%;
   top: 50%;
+  z-index: 1;
   width: 132px;
   height: 86px;
   overflow: visible;
@@ -255,11 +274,13 @@
   background: linear-gradient(145deg, #b9522a, #87371e);
   border-color: #cf6a40;
 }
-.oa-button--sm { width: 156px; height: 112px; }
+.oa-button--sm { width: 236px; height: 64px; }
+.oa-button--sm .oa-button__content::before { width: 116px; height: 116px; }
 .oa-button--sm .oa-button__eye { width: 108px; height: 70px; }
-.oa-button--lg { width: 216px; height: 156px; }
+.oa-button--lg { width: 324px; height: 88px; }
+.oa-button--lg .oa-button__content::before { width: 160px; height: 160px; }
 .oa-button--lg .oa-button__eye { width: 158px; height: 103px; }
-.oa-button--full-width { display: flex; width: 100%; min-width: 0; }
+.oa-button--full-width { display: flex; width: min(100%, 360px); min-width: 0; }
 
 .oa-button.demo-force-hover:not(:disabled) { border-color: #96664d; }
 .oa-button.demo-force-hover:not(:disabled)::before { border-color: rgb(179 77 38 / 46%); }
