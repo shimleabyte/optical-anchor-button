@@ -136,6 +136,152 @@ test('reduced motion removes transition delay and touch movement does not activa
   }
 });
 
+test('supports native button attributes without allowing attribute strings to install event handlers', async ({ page }) => {
+  await page.evaluate(() => {
+    const form = document.createElement('form');
+    form.id = 'vanilla-native-form';
+    document.body.appendChild(form);
+  });
+
+  const attributes = await page.evaluate(() => {
+    const control = window.OpticalAnchorButton!.create({
+      ariaLabel: 'Native attributes test',
+      attributes: {
+        id: 'vanilla-native-control',
+        name: 'destination',
+        value: 'portfolio',
+        form: 'vanilla-native-form',
+        title: 'Open portfolio',
+        tabIndex: 3,
+        'data-purpose': 'project-link',
+        onclick: 'window.__unsafeAttributeRan = true',
+      },
+    });
+    document.body.appendChild(control.element);
+    const button = control.element;
+    const result = {
+      id: button.id,
+      name: button.name,
+      value: button.value,
+      form: button.form?.id,
+      title: button.title,
+      tabIndex: button.tabIndex,
+      dataPurpose: button.getAttribute('data-purpose'),
+      onclickAttribute: button.getAttribute('onclick'),
+      unsafeGlobal: (window as Window & { __unsafeAttributeRan?: boolean }).__unsafeAttributeRan === true,
+    };
+    control.destroy();
+    return result;
+  });
+
+  expect(attributes).toEqual({
+    id: 'vanilla-native-control',
+    name: 'destination',
+    value: 'portfolio',
+    form: 'vanilla-native-form',
+    title: 'Open portfolio',
+    tabIndex: 3,
+    dataPurpose: 'project-link',
+    onclickAttribute: null,
+    unsafeGlobal: false,
+  });
+});
+
+test('keeps focus awake through idle and tired phases, then sleeps after blur', async ({ page }) => {
+  await page.clock.install();
+  const button = page.getByRole('button', { name: 'Optical Anchor eye button' });
+  await button.focus();
+
+  await page.clock.runFor(2200);
+  await expect(button).toHaveClass(/oa-button--tired/);
+  await page.clock.runFor(5000);
+  await expect(button).toHaveClass(/oa-button--tired/);
+  await expect(button).not.toHaveClass(/oa-button--sleeping/);
+
+  await button.evaluate((node) => node.blur());
+  await page.clock.runFor(780);
+  await expect(button).toHaveClass(/oa-button--sleeping/);
+});
+
+test('destroy clears controller timers/listeners/classes and reacts to live reduced-motion changes', async ({ page }) => {
+  await page.clock.install();
+  const lifecycle = await page.evaluate(() => {
+    const windowAdded: Array<{ type: string; listener: EventListenerOrEventListenerObject }> = [];
+    const windowRemoved: Array<{ type: string; listener: EventListenerOrEventListenerObject }> = [];
+    const documentAdded: Array<{ type: string; listener: EventListenerOrEventListenerObject }> = [];
+    const documentRemoved: Array<{ type: string; listener: EventListenerOrEventListenerObject }> = [];
+    const originalWindowAdd = window.addEventListener;
+    const originalWindowRemove = window.removeEventListener;
+    const originalDocumentAdd = document.addEventListener;
+    const originalDocumentRemove = document.removeEventListener;
+    const watchedWindow = new Set(['pointermove', 'pointerout', 'blur']);
+    window.addEventListener = function (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) {
+      if (watchedWindow.has(type)) windowAdded.push({ type, listener });
+      return originalWindowAdd.call(this, type, listener, options);
+    } as typeof window.addEventListener;
+    window.removeEventListener = function (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions) {
+      if (watchedWindow.has(type)) windowRemoved.push({ type, listener });
+      return originalWindowRemove.call(this, type, listener, options);
+    } as typeof window.removeEventListener;
+    document.addEventListener = function (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) {
+      if (type === 'visibilitychange') documentAdded.push({ type, listener });
+      return originalDocumentAdd.call(this, type, listener, options);
+    } as typeof document.addEventListener;
+    document.removeEventListener = function (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions) {
+      if (type === 'visibilitychange') documentRemoved.push({ type, listener });
+      return originalDocumentRemove.call(this, type, listener, options);
+    } as typeof document.removeEventListener;
+
+    const control = window.OpticalAnchorButton!.create({ ariaLabel: 'Destroy lifecycle probe' });
+    document.body.appendChild(control.element);
+    const rect = control.element.getBoundingClientRect();
+    window.dispatchEvent(new PointerEvent('pointermove', {
+      pointerType: 'mouse', clientX: rect.left + rect.width / 2, clientY: rect.top + rect.height / 2,
+    }));
+    const woke = control.element.classList.contains('oa-button--awake');
+    const retainedButton = control.element;
+    control.destroy();
+
+    window.addEventListener = originalWindowAdd;
+    window.removeEventListener = originalWindowRemove;
+    document.addEventListener = originalDocumentAdd;
+    document.removeEventListener = originalDocumentRemove;
+
+    const leaks = windowAdded.filter((added) => !windowRemoved.some((removed) =>
+      removed.type === added.type && removed.listener === added.listener,
+    )).length + documentAdded.filter((added) => !documentRemoved.some((removed) =>
+      removed.type === added.type && removed.listener === added.listener,
+    )).length;
+    return {
+      woke,
+      leaks,
+      pendingTimers: Object.values(control.controller.timers).filter(Boolean).length,
+      classesAfterDestroy: retainedButton.className,
+      controller: control.controller,
+    };
+  });
+
+  expect(lifecycle.woke).toBe(true);
+  expect(lifecycle.leaks).toBe(0);
+  expect(lifecycle.pendingTimers).toBe(0);
+  expect(lifecycle.classesAfterDestroy).not.toMatch(/oa-button--(awake|tired|sleeping|blinking|returning|pointer-hover)/);
+
+  await page.clock.runFor(5000);
+  await expect(page.getByRole('button', { name: 'Optical Anchor eye button' })).toHaveClass(/oa-button--sleeping/);
+
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  const liveMotion = await page.evaluate(() => {
+    const control = window.OpticalAnchorButton!.create({ ariaLabel: 'Live motion preference' });
+    document.body.appendChild(control.element);
+    const before = control.controller.reducedMotion;
+    return { control, before };
+  });
+  await expect.poll(async () => liveMotion.control.controller.reducedMotion).toBe(false);
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect.poll(async () => liveMotion.control.controller.reducedMotion).toBe(true);
+  await page.evaluate((control) => control.destroy(), liveMotion.control);
+});
+
 test('supports sm/md/lg factory sizing, fullWidth caps, and mobile viewport fit', async ({ page }) => {
   const metrics = await page.evaluate(() => {
     const host = document.createElement('div');
