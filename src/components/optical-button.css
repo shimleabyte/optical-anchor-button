@@ -108,7 +108,13 @@
     radial-gradient(circle at 70% 68%, rgb(57 21 11 / 38%) 0 .5px, transparent 1px),
     linear-gradient(145deg, #c35a31 0%, #b34d26 45%, #78321d 100%);
   background-size: auto, 4px 5px, 5px 4px, auto;
-  box-shadow: 0 4px 8px rgb(0 0 0 / 24%), inset 0 1px 0 rgb(255 231 202 / 42%), inset 0 -5px 10px rgb(61 22 11 / 24%);
+  box-shadow:
+    0 5px 9px rgb(0 0 0 / 27%),
+    0 1px 1px rgb(18 12 9 / 40%),
+    inset 0 1px 0 rgb(255 231 202 / 45%),
+    inset 0 0 0 3px rgb(59 29 20 / 24%),
+    inset 0 0 0 5px rgb(236 148 102 / 19%),
+    inset 0 -6px 10px rgb(61 22 11 / 25%);
   transform: translate(-50%, -50%);
   pointer-events: none;
 }
@@ -125,13 +131,28 @@
   color: #2a1b15;
   filter: drop-shadow(0 2px 1.5px rgb(53 25 15 / 24%));
 }
-.oa-button__orbital-shadow { fill: #4d2517; opacity: .18; }
-.oa-button__aperture {
-  transform: scaleY(.025);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 320ms cubic-bezier(.2,.75,.25,1.06);
+.oa-button__orbital-shadow { fill: #4d2517; opacity: .2; }
+.oa-button__aperture { isolation: isolate; }
+.oa-button__lid-cover {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 150ms cubic-bezier(.2,.65,.25,1);
 }
+.oa-button__lid-edge {
+  fill: none;
+  stroke: #6d3b29;
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 120ms ease;
+}
+.oa-button__lid-edge--tired { stroke: #77432f; stroke-width: 1.7; }
+.oa-button__lid--upper { transition: opacity 130ms ease; }
+.oa-button__lid--lower { transition: opacity 130ms ease; }
+.oa-button__lid-highlight { transition: opacity 130ms ease; }
+.oa-button__tear-duct { transition: opacity 130ms ease; }
 .oa-button__iris {
   opacity: 0;
   transform: translate(var(--gaze-x), var(--gaze-y));
@@ -186,14 +207,18 @@
   transition: opacity 150ms ease;
 }
 .oa-button--returning .oa-button__iris { transition-duration: 520ms; }
-.oa-button--awake .oa-button__aperture,
-.oa-button.demo-force-hover .oa-button__aperture {
-  transform: scaleY(1);
-}
+.oa-button--awake .oa-button__lid-cover--awake,
+.oa-button.demo-force-hover .oa-button__lid-cover--awake { opacity: 1; }
+.oa-button--awake .oa-button__lid-edge--awake,
+.oa-button.demo-force-hover .oa-button__lid-edge--awake { opacity: 1; }
+.oa-button--awake .oa-button__lid-cover--sleeping,
+.oa-button--tired .oa-button__lid-cover--sleeping,
+.oa-button.demo-force-hover .oa-button__lid-cover--sleeping,
+.oa-button.demo-force-tired .oa-button__lid-cover--sleeping { opacity: 0; }
 .oa-button--awake .oa-button__iris,
-.oa-button.demo-force-hover .oa-button__iris {
-  opacity: 1;
-}
+.oa-button.demo-force-hover .oa-button__iris { opacity: 1; }
+.oa-button--awake .oa-button__lid--upper,
+.oa-button.demo-force-hover .oa-button__lid--upper { opacity: 1; }
 .oa-button--awake .oa-button__closed-lid,
 .oa-button.demo-force-hover .oa-button__closed-lid {
   opacity: 0;
@@ -203,12 +228,13 @@
   transform: translateY(-1.5px);
   opacity: 1;
 }
-.oa-button--tired .oa-button__aperture {
-  transform: scaleY(.57);
-}
-.oa-button--tired .oa-button__iris {
-  opacity: 1;
-}
+.oa-button--tired .oa-button__lid-cover--tired,
+.oa-button.demo-force-tired .oa-button__lid-cover--tired { opacity: 1; }
+.oa-button--tired .oa-button__lid-edge--tired,
+.oa-button.demo-force-tired .oa-button__lid-edge--tired { opacity: 1; }
+.oa-button--tired .oa-button__lid-cover--awake,
+.oa-button.demo-force-tired .oa-button__lid-cover--awake { opacity: 0; }
+.oa-button--tired .oa-button__iris { opacity: 1; }
 .oa-button--tired .oa-button__closed-lid {
   opacity: .42;
 }
@@ -216,6 +242,24 @@
   transform: translateY(2.5px);
   opacity: .58;
 }
+.oa-button--sleeping .oa-button__lid-cover--sleeping { opacity: 1; }
+.oa-button--sleeping .oa-button__lid--upper,
+.oa-button--sleeping .oa-button__lid--lower,
+.oa-button--sleeping .oa-button__lid-highlight,
+.oa-button--sleeping .oa-button__tear-duct { opacity: 0; }
+.oa-button--sleeping .oa-button__lid-edge { opacity: 0; }
+.oa-button.demo-force-hover .oa-button__lid-cover--tired,
+.oa-button.demo-force-tired .oa-button__lid-cover--awake { opacity: 0; }
+.oa-button.demo-force-hover .oa-button__lid-edge--tired,
+.oa-button.demo-force-tired .oa-button__lid-edge--awake { opacity: 0; }
+.oa-button.demo-force-hover .oa-button__lid--upper,
+.oa-button.demo-force-tired .oa-button__lid--upper,
+.oa-button.demo-force-hover .oa-button__lid--lower,
+.oa-button.demo-force-tired .oa-button__lid--lower,
+.oa-button.demo-force-hover .oa-button__lid-highlight,
+.oa-button.demo-force-tired .oa-button__lid-highlight,
+.oa-button.demo-force-hover .oa-button__tear-duct,
+.oa-button.demo-force-tired .oa-button__tear-duct { opacity: 1; }
 .oa-button__label {
   position: absolute;
   left: 8px;
@@ -311,7 +355,6 @@
   background: linear-gradient(155deg, rgb(255 218 181 / 17%), transparent 35%), linear-gradient(145deg, #ca6036 0%, #a84422 48%, #87361e 100%);
   border-color: #ec9e73;
 }
-.oa-button.demo-force-tired:not(:disabled) .oa-button__aperture { transform: scaleY(.57); }
 .oa-button.demo-force-tired:not(:disabled) .oa-button__iris { opacity: 1; }
 .oa-button.demo-force-tired:not(:disabled) .oa-button__closed-lid { opacity: .42; }
 .oa-button.demo-force-tired:not(:disabled) .oa-button__brow { transform: translateY(2.5px); opacity: .58; }
@@ -326,4 +369,5 @@
     animation-iteration-count: 1 !important;
   }
   .oa-button__face { will-change: auto; }
+  .oa-button__lid-cover, .oa-button__lid-edge, .oa-button__lid--upper, .oa-button__lid--lower, .oa-button__lid-highlight, .oa-button__tear-duct { transition-duration: .01ms !important; }
 }
