@@ -2,15 +2,16 @@ import { useState } from 'react';
 import { OpticalButton } from './components/OpticalButton';
 import './styles/app.css';
 
-type PreviewState = 'default' | 'hover' | 'pressed' | 'focus' | 'disabled' | 'loading';
+type PreviewState = 'default' | 'hover' | 'tired' | 'pressed' | 'focus' | 'disabled' | 'loading';
 
 const previewStates: { id: PreviewState; label: string; index: string }[] = [
   { id: 'default', label: 'Idle', index: '00' },
-  { id: 'hover', label: 'Hover', index: '01' },
-  { id: 'pressed', label: 'Pressed', index: '02' },
-  { id: 'focus', label: 'Focus', index: '03' },
-  { id: 'disabled', label: 'Disabled', index: '04' },
-  { id: 'loading', label: 'Loading', index: '05' },
+  { id: 'hover', label: 'Awake', index: '01' },
+  { id: 'tired', label: 'Tired', index: '02' },
+  { id: 'pressed', label: 'Pressed', index: '03' },
+  { id: 'focus', label: 'Focus', index: '04' },
+  { id: 'disabled', label: 'Disabled', index: '05' },
+  { id: 'loading', label: 'Loading', index: '06' },
 ];
 
 export default function App() {
@@ -18,11 +19,13 @@ export default function App() {
   const [demoClicks, setDemoClicks] = useState(0);
   const classForState = previewState === 'hover'
     ? 'demo-force-hover'
-    : previewState === 'pressed'
-      ? 'demo-force-pressed'
-      : previewState === 'focus'
-        ? 'demo-force-focus'
-        : '';
+    : previewState === 'tired'
+      ? 'demo-force-tired'
+      : previewState === 'pressed'
+        ? 'demo-force-pressed'
+        : previewState === 'focus'
+          ? 'demo-force-focus'
+          : '';
   const isDisabled = previewState === 'disabled';
   const isLoading = previewState === 'loading';
 
@@ -96,7 +99,7 @@ export default function App() {
       <section className="state-section" aria-labelledby="state-title">
         <div className="section-heading">
           <div>
-            <p className="micro-label">BEHAVIOUR MATRIX / 6 STATES</p>
+            <p className="micro-label">BEHAVIOUR MATRIX / 7 STATES</p>
             <h2 id="state-title">Inspect the response.</h2>
           </div>
           <p className="section-aside">Choose a visual state, hover the button once, then move the pointer anywhere in the page to test its gaze.</p>
@@ -135,6 +138,7 @@ function stateExplanation(state: PreviewState) {
   const explanations: Record<PreviewState, string> = {
     default: 'The eye starts asleep. Hover the button to wake it; it follows the pointer across the page, grows tired after a pause, then sleeps.',
     hover: 'The eyelid opens and the iris responds to pointer direction. The housing stays restrained and tactile.',
+    tired: 'The aperture settles halfway closed; the iris remains present but the upper lid softens its expression.',
     pressed: 'The entire enamel face presses by one pixel. The eye remains the only focal point.',
     focus: 'A clear external focus ring identifies keyboard focus without relying on color alone.',
     disabled: 'The housing is muted, the eye sleeps, and pointer motion is disabled.',
