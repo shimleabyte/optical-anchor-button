@@ -237,6 +237,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         button.removeEventListener('blur', handleFocusOut);
         document.removeEventListener('visibilitychange', handleVisibility);
         clearTimers();
+        clearBlinkTimers();
         window.clearTimeout(returnTimer);
       };
     }, [blocked]);
