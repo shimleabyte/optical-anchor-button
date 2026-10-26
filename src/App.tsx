@@ -139,7 +139,7 @@ function stateExplanation(state: PreviewState) {
     pressed: 'The face travels down by one pixel. No bounce, ripple, or exaggerated scale.',
     focus: 'A clear external focus ring identifies keyboard focus without relying on color alone.',
     disabled: 'The control is unavailable, with a distinct surface and no pointer-driven movement.',
-    loading: 'The label remains stable while a restrained indicator communicates ongoing work.',
+    loading: 'The eye opens into a focused calibration sweep while a compact index advances. The label stays stable and activation is blocked.',
   };
   return explanations[state];
 }
