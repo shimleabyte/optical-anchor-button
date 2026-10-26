@@ -409,16 +409,42 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
 .oa-button--loading::after {
   content: "";
   position: absolute;
-  top: 11px;
-  right: 11px;
-  width: 10px;
-  height: 10px;
-  border: 1.5px solid rgb(255 248 241 / 27%);
-  border-top-color: #fff8f1;
-  border-radius: 50%;
-  animation: oa-spin 700ms linear infinite;
+  top: 13px;
+  right: 12px;
+  width: 21px;
+  height: 3px;
+  border: 0;
+  border-radius: 0;
+  background: repeating-linear-gradient(90deg, #ffe2ad 0 4px, transparent 4px 7px);
+  clip-path: inset(0 66% 0 0);
+  animation: oa-calibration-readout 1050ms steps(3, end) infinite;
 }
-@keyframes oa-spin { to { transform: rotate(360deg); } }
+@keyframes oa-calibration-readout {
+  0%, 100% { clip-path: inset(0 66% 0 0); opacity: .62; }
+  33% { clip-path: inset(0 33% 0 0); opacity: .82; }
+  66% { clip-path: inset(0 0 0 0); opacity: 1; }
+}
+.oa-button--loading:disabled .oa-button__eye { opacity: 1; filter: none; }
+.oa-button--loading .oa-button__lid-cover--awake,
+.oa-button--loading .oa-button__lid-cover--tired,
+.oa-button--loading .oa-button__lid-cover--sleeping,
+.oa-button--loading .oa-button__closed-lid { opacity: 0; }
+.oa-button--loading .oa-button__iris { opacity: 1; }
+.oa-button--loading .oa-button__lid--upper,
+.oa-button--loading .oa-button__lid--lower { opacity: 1; }
+.oa-button--loading .oa-button__loading-scan {
+  opacity: .96;
+  stroke: #fff0c8;
+  stroke-width: 3.1;
+  stroke-linecap: round;
+  stroke-dasharray: 15 126;
+  stroke-dashoffset: 141;
+  animation: oa-optical-scan 1200ms cubic-bezier(.4, 0, .2, 1) infinite alternate;
+}
+@keyframes oa-optical-scan {
+  from { stroke-dashoffset: 141; }
+  to { stroke-dashoffset: 0; }
+}
 @media (hover: hover) and (pointer: fine) {
   .oa-button:not(:disabled):hover {
     border-color: #96664d;
@@ -520,12 +546,14 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
 .oa-button.demo-force-focus:not(:disabled) { outline: 2px solid #f3eee6; outline-offset: 5px; }
 .oa-button.demo-force-focus:not(:disabled)::before { border-color: #b34d26; }
 @media (prefers-reduced-motion: reduce) {
-  .oa-button, .oa-button::before, .oa-button__face, .oa-button__aperture, .oa-button__iris, .oa-button__brow, .oa-button__closed-lid, .oa-button--loading::after {
+  .oa-button, .oa-button::before, .oa-button__face, .oa-button__aperture, .oa-button__iris, .oa-button__brow, .oa-button__closed-lid, .oa-button--loading::after, .oa-button__loading-scan {
     transition-duration: .01ms !important;
     animation-duration: .01ms !important;
     animation-iteration-count: 1 !important;
   }
   .oa-button__face { will-change: auto; }
+  .oa-button--loading::after { animation: none; clip-path: inset(0); }
+  .oa-button--loading .oa-button__loading-scan { animation: none; stroke-dasharray: 15 126; stroke-dashoffset: -63; }
   .oa-button__bubble { transition-duration: .01ms !important; transition-delay: 0s !important; }
   .oa-button__lid-cover, .oa-button__lid-edge, .oa-button__lid--upper, .oa-button__lid--lower, .oa-button__lid-highlight, .oa-button__tear-duct { transition-duration: .01ms !important; }
 }

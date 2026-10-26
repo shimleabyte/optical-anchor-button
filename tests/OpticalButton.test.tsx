@@ -128,6 +128,8 @@ describe('OpticalButton', () => {
     const button = screen.getByRole('button', { name: 'Save' });
     expect(button).toBeDisabled();
     expect(button).toHaveAttribute('aria-busy', 'true');
+    expect(button).toHaveClass('oa-button--loading');
+    expect(button.querySelector('.oa-button__loading-scan')).not.toBeNull();
     await user.click(button);
     expect(onClick).not.toHaveBeenCalled();
   });
