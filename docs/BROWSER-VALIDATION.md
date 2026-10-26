@@ -10,6 +10,7 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 - The bezel appears mechanically seated in the capsule, with distinct graphite, copper, and inset-rim boundaries.
 - Idle shows no speech bubble; hovering the button raises the excited brow and reveals “Let's collab!” without a persistent label.
 - Leaving the button hides the bubble and returns the brow to neutral while page-wide eye tracking may continue.
+- The showcase `STATE` readout changes to `HOVER` while the live object is physically hovered, then returns to the selected preview state on pointer exit.
 - Keyboard focus alone does not show the speech bubble or the excited brow.
 - Physical excited expression is gated to `any-hover: hover` and `any-pointer: fine`; touch-only devices do not acquire a persistent hover bubble.
 - The hover/focus expression and bubble remain hidden when the button is disabled or loading.
@@ -33,8 +34,11 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 
 ## Validation record
 
-- Automated validation: GitHub Actions Quality checks run #118 passed on commit `cbad50e5` with hover-capability gating, responsive bubble anchors, component/prototype sync, and regression tests (type-check, unit tests, production build).
-- Browser visual validation: pending. Automated checks do not verify rendered anatomy, material alignment, or transition quality. Inspect the React showcase and standalone prototype before merge.
+- Automated quality checks: [GitHub Actions Quality checks](https://github.com/shimleabyte/optical-anchor-button/actions/workflows/ci.yml) runs type-checking, unit tests, and the production build.
+- Chromium browser QA: [Browser QA workflow](https://github.com/shimleabyte/optical-anchor-button/actions/workflows/browser-qa.yml) checks idle and hover rendering, pointer exit, keyboard focus, disabled/loading behavior, reduced motion, and horizontal fit at 320 px and 390 px.
+- Browser evidence: the workflow uploads idle, hover, and narrow-viewport screenshots plus Playwright traces and an HTML report as the `optical-anchor-browser-evidence` artifact.
+- The showcase status readout now reports physical hover separately from the selected preview state, so the live object doesn't visually claim to be idle while the real pointer is hovering over it.
+- A passing automation run confirms only the exercised browser contracts; inspect the screenshots for detailed eye anatomy, material boundaries, and transition quality before merging.
 
 ## SVG/rendering notes
 
