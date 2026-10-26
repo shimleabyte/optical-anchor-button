@@ -47,7 +47,7 @@
 - **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, renewed pointer movement wakes it if the pointer is still over the button; if the pointer is outside the button, it waits for the next button entry. Waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
 - **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking. When the pointer leaves the viewport, the gaze briefly holds its last fixation, then gradually returns toward center without triggering sleep by itself.
 - **Pressed:** The face travels down by 1 px; no bounce or ripple.
-- **Focus-visible:** A clear 2 px ivory outline with an orange secondary edge.
+- **Focus-visible:** A clear 2 px ivory outline with an orange secondary edge. Keyboard focus gently wakes the eye with a neutral centered gaze; pointer tracking begins when pointer input is available, while the focus ring remains visible.
 - **Disabled/loading:** Native disabled semantics; tracking is blocked and the eye sleeps. Loading gets a small corner spinner.
 - **Touch:** Pointer tracking is skipped on touch pointer movement.
 - **Reduced motion:** Transitions and spinner animation become effectively immediate.
@@ -158,6 +158,20 @@ While the eye is awake or tired, its iris tracks the pointer throughout the brow
 - After full sleep, follow Decision 07: movement wakes the eye only if the pointer is still over the button; otherwise, button re-entry is required.
 - The gaze boundary and sleep state are separate concerns; do not let page-wide tracking prevent fatigue or sleep.
 - Pointer coordinates, target transitions, and event listeners must remain bounded and cleaned up correctly when the component unmounts.
+
+### Decision 09: keyboard focus / focus wakes the eye
+
+**Chosen direction:** A — Focus wakes the eye.
+
+When the button receives keyboard focus, the eye wakes gently and adopts a neutral, centered gaze. Pointer tracking begins when pointer input is available. The visible focus ring remains present so the expression never substitutes for a conventional keyboard-focus indicator.
+
+**Behavior constraints:**
+- Keyboard focus can initiate the gentle wake transition without requiring pointer movement.
+- Begin from a neutral centered gaze when no usable pointer target is available.
+- When pointer input becomes available, follow the normal gaze-tracking behavior without abrupt target jumps.
+- Keep the visible focus ring clear throughout the wake transition and while focus remains.
+- Preserve native button semantics and Enter/Space activation; focus and wake behavior must not activate the button.
+- Avoid competing wake triggers or stale sleep timers that immediately close the eye after focus wakes it.
 
 ## Accessibility and engineering constraints
 
