@@ -24,11 +24,15 @@
   <text x="126" y="456" font-size="10" font-weight="700" letter-spacing="2.5" fill="#a99b8c">LIVE OBJECT / EYE-FIRST HOUSING</text>
   <text x="1274" y="456" text-anchor="end" font-size="10" font-weight="700" letter-spacing="2" fill="#a99b8c">SLEEP → TRACK → TIRED</text>
   <g>
-    <rect x="582" y="496" width="244" height="186" rx="5" fill="#120f0d" opacity=".58"/>
-    <rect x="578" y="492" width="244" height="186" rx="5" fill="url(#frame)" stroke="#6c4635" stroke-width="1.4"/>
-    <rect x="584" y="498" width="232" height="174" rx="2.5" fill="url(#enamel)" stroke="#d17851" stroke-width="1.2"/>
-    <rect x="590" y="504" width="220" height="162" rx="1.5" fill="none" stroke="#5c2818" stroke-opacity=".5" stroke-width="1.3"/>
-    <path d="M590 508H810" stroke="#ffe0bd" stroke-opacity=".22"/>
+    <rect x="528" y="542" width="344" height="92" rx="47" fill="#120f0d" opacity=".58"/>
+    <rect x="524" y="538" width="344" height="92" rx="46" fill="url(#frame)" stroke="#6c4635" stroke-width="1.4"/>
+    <rect x="530" y="544" width="332" height="80" rx="40" fill="url(#enamel)" stroke="#d17851" stroke-width="1.2"/>
+    <rect x="536" y="550" width="320" height="68" rx="34" fill="none" stroke="#5c2818" stroke-opacity=".5" stroke-width="1.3"/>
+    <circle cx="696" cy="584" r="82" fill="#120f0d" opacity=".62"/>
+    <circle cx="696" cy="580" r="78" fill="url(#frame)" stroke="#6c4635" stroke-width="1.4"/>
+    <circle cx="696" cy="580" r="72" fill="url(#enamel)" stroke="#d17851" stroke-width="1.2"/>
+    <circle cx="696" cy="580" r="66" fill="none" stroke="#5c2818" stroke-opacity=".5" stroke-width="1.3"/>
+    <path d="M548 551H650 M742 551H844" stroke="#ffe0bd" stroke-opacity=".22"/>
     <g transform="translate(607 525) scale(1.16)">
       <path d="M7 52 C31 22 56 13 80 13 C104 13 129 22 153 52 C129 82 104 91 80 91 C56 91 31 82 7 52Z" fill="#4d2517" opacity=".18"/>
       <path d="M27 24 C45 12 63 7 80 8 C100 8 118 14 134 25" fill="none" stroke="#633a2a" stroke-width="3.4" stroke-linecap="round" opacity=".78"/>
