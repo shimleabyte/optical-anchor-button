@@ -1,21 +1,13 @@
-PASS | accessible native button
-PASS | face fills frame and label fits
-PASS | primary uses burnt orange
-PASS | pupil tracking and gravity stay within limits
-PASS | gaze and gravity reset on pointer leave
-PASS | native hover changes edge, face and expression
-PASS | pressed travel is one pixel
-PASS | Enter activates button
-PASS | Space activates button
-PASS | disabled state sets native disabled
-PASS | disabled does not activate
-PASS | loading is distinct and reports busy
-PASS | focus indicator visible against dark stage
-PASS | reduced motion minimizes transitions and spinner animation
-PASS | fullWidth supports narrower parent
-PASS | state controls use pressed semantics
-PASS | reset returns to default and clears count
+PASS | eye starts closed
+PASS | hovering the button wakes the eye
+PASS | iris tracks the pointer outside the button after waking
+PASS | button microgravity resets outside the hit area
+PASS | inactivity changes the expression to tired after 2.2 seconds
+PASS | tired expression returns to sleep after 780 ms
+PASS | page movement does not wake an eye that is already sleeping
+PASS | moving back onto the button wakes the eye again
+PASS | disabled preview state disables the button
+PASS | disabled preview forces the eye to sleep
 PASS | no horizontal overflow at 390px
-PASS | no horizontal overflow at 320px
 PASS | no uncaught JavaScript errors
-TOTAL: 20/20 passed
+TOTAL: 12/12 passed
