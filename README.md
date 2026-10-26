@@ -6,7 +6,7 @@ Optical Anchor combines a machined graphite frame, a lightly micro-grained burnt
 
 ![Optical Anchor design preview](docs/previews/optical-anchor.svg)
 
-[Interactive HTML prototype](Optical-Anchor-Prototype.html) · [Component QA matrix](component-matrix.html) · [Browser validation report](docs/BROWSER-VALIDATION.md)
+[Interactive HTML prototype](Optical-Anchor-Prototype.html) · [Component QA matrix](component-matrix.html) · [Browser validation report](docs/BROWSER-VALIDATION.md) · [Vanilla rebuild](vanilla/index.html) · [Vanilla architecture](docs/VANILLA-REBUILD.md)
 
 ## Design contract
 
@@ -35,6 +35,10 @@ Requires Node.js 20.19+ or 22.12+.
 Run `npm run typecheck`, `npm test`, `npm run build`, and `npm run test:browser`.
 
 GitHub Actions runs the type-check, unit tests, production build, and Playwright Chromium regression suite. Browser coverage includes the `sm` / `md` / `lg` dimensions, bezel and eye scaling, full-width parent caps, idle/hover rendering, pointer exit, keyboard focus, disabled/loading states, reduced motion, simulated touch/mouse input, and narrow viewport fit. The browser workflow uploads desktop and responsive screenshots, traces, and an HTML report as artifacts. Automated checks do not certify every anatomical detail or transition, so review the evidence before merging; see [docs/BROWSER-VALIDATION.md](docs/BROWSER-VALIDATION.md).
+
+## Implementations
+
+The React implementation is the primary component baseline. A framework-free build is available at [`vanilla/index.html`](vanilla/index.html); it uses classic local scripts and can be opened directly in a browser. See [the Vanilla rebuild guide](docs/VANILLA-REBUILD.md) for its API and file boundaries.
 
 ## Component API
 
