@@ -32,9 +32,9 @@ Requires Node.js 20.19+ or 22.12+.
 
 ## Verify
 
-Run npm run typecheck, npm test, and npm run build.
+Run `npm run typecheck`, `npm test`, and `npm run build`.
 
-GitHub Actions runs the same checks on pushes and pull requests. The React build and unit tests still require a successful run in an environment with npm registry access; this execution environment previously failed to resolve registry.npmjs.org (EAI_AGAIN). The last recorded standalone browser report predates the page-wide gaze lifecycle. The updated behavior and React tests have been added, but require a fresh browser/build run before they can be described as verified.
+GitHub Actions passed type-checking, unit tests, and the production build on the current implementation. The updated standalone HTML prototype also passed 10 interaction/responsive checks in headless Chromium with no uncaught page errors. See [docs/BROWSER-VALIDATION.md](docs/BROWSER-VALIDATION.md) for the scope and limitations of those checks.
 
 ## Component API
 
