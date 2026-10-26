@@ -11,7 +11,10 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 - Idle shows no speech bubble; hovering the button raises the excited brow and reveals “Let's collab!” without a persistent label.
 - Leaving the button hides the bubble and returns the brow to neutral while page-wide eye tracking may continue.
 - Keyboard focus alone does not show the speech bubble or the excited brow.
+- Physical excited expression is gated to `any-hover: hover` and `any-pointer: fine`; touch-only devices do not acquire a persistent hover bubble.
 - The hover/focus expression and bubble remain hidden when the button is disabled or loading.
+- Bubble placement stays clear of the brow and bezel at sm/md/lg and full-width sizes; it remains inside narrow 320 px and 390 px layouts.
+- Bubble fade-out completes before visibility becomes hidden; reduced-motion removes the delay.
 - The sleeping state fully covers the sclera and iris; only the closed-lid contour remains.
 - Waking reveals the almond aperture without stretching or flattening the iris.
 - Tired state covers the upper portion of the eye while the visible iris and pupil remain circular.
