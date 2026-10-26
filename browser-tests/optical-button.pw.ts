@@ -75,6 +75,24 @@ test('keeps the bubble visible and inside the viewport at 320 px and 390 px', as
   }
 });
 
+test('keeps keyboard focus visible and reduces bubble motion when requested', async ({ page }) => {
+  const button = page.getByRole('button', { name: 'Optical Anchor eye button' });
+  const bubble = button.locator('.oa-button__bubble');
+
+  await page.mouse.move(0, 0);
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  await expect(button).toBeFocused();
+  await expect(button).toHaveCSS('outline-style', 'solid');
+  await expect(button).toHaveCSS('outline-width', '2px');
+  await expect(bubble).toHaveCSS('visibility', 'hidden');
+
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await button.hover();
+  await expect(bubble).toHaveCSS('visibility', 'visible');
+  await expect(bubble).toHaveCSS('transition-delay', '0s');
+});
+
 test('disabled and loading controls cannot expose or activate the hover bubble', async ({ page }) => {
   const button = page.getByRole('button', { name: 'Optical Anchor eye button' });
   const bubble = button.locator('.oa-button__bubble');
