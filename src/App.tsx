@@ -150,7 +150,7 @@ function stateExplanation(state: PreviewState) {
     pressed: 'The entire enamel face presses by one pixel. The eye remains the only focal point.',
     focus: 'A clear external focus ring identifies keyboard focus without relying on color alone.',
     disabled: 'The housing is muted, the eye sleeps, and pointer motion is disabled.',
-    loading: 'The eye sleeps while a small mechanical indicator communicates ongoing work.',
+    loading: 'The eye opens into a focused calibration sweep while a segmented register marks progress; activation remains blocked.',
   };
   return explanations[state];
 }
