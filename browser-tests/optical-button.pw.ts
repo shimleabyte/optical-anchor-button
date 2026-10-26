@@ -35,12 +35,14 @@ test('physical hover reveals the collab bubble, pointer exit hides it, and focus
   await expect(bubble).toHaveCSS('visibility', 'visible');
   await expect(neutralBrow).toHaveCSS('opacity', '0');
   await expect(excitedBrow).toHaveCSS('opacity', '1');
+  await expect(page.locator('.stage-footer .readout-value').first()).toHaveText('HOVER');
 
   await mkdir(artifactDir, { recursive: true });
   await page.screenshot({ path: `${artifactDir}/desktop-hover-collab.png`, fullPage: true });
 
   await page.mouse.move(8, 8);
   await expect(bubble).toHaveCSS('visibility', 'hidden');
+  await expect(page.locator('.stage-footer .readout-value').first()).toHaveText('DEFAULT');
 
   await button.focus();
   await expect(button).toBeFocused();
