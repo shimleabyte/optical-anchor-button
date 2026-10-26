@@ -54,8 +54,8 @@ describe('OpticalButton', () => {
     expect(button.querySelector('.oa-button__bubble')).toHaveAttribute('aria-hidden', 'true');
   });
 
-  it('limits physical hover expression to hover-capable fine pointers', () => {
-    const mediaBlocks = findCssBlocks(opticalButtonStyles, '@media (hover: hover) and (pointer: fine)');
+  it('limits physical hover expression to any hover-capable fine pointer', () => {
+    const mediaBlocks = findCssBlocks(opticalButtonStyles, '@media (any-hover: hover) and (any-pointer: fine)');
     const mediaCss = mediaBlocks.map((block) => block.text).join('\n');
     const outsideMedia = mediaBlocks.reduce(
       (source, block) => source.slice(0, source.indexOf(block.text)) + source.slice(source.indexOf(block.text) + block.text.length),
