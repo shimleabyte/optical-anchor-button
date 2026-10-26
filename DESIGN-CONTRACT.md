@@ -44,7 +44,7 @@
 - **Awake:** The aperture opens, the iris follows cursor direction anywhere within the page, and the brow subtly relaxes.
 - **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed.
 - **Sleep:** After another 780 ms idle, the eye closes and the gaze resets.
-- **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, it waits for the next button entry; waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
+- **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, renewed pointer movement wakes it if the pointer is still over the button; if the pointer is outside the button, it waits for the next button entry. Waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
 - **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking. When the pointer leaves the viewport, the gaze briefly holds its last fixation, then gradually returns toward center without triggering sleep by itself.
 - **Pressed:** The face travels down by 1 px; no bounce or ripple.
 - **Focus-visible:** A clear 2 px ivory outline with an orange secondary edge.
@@ -131,6 +131,19 @@ When the pointer leaves the browser viewport, the eye briefly preserves its last
 - Pointer exit alone must not force the eye into the sleeping state.
 - The face and housing remain neutral outside the button; this decision applies to gaze behavior.
 - Exact hold duration and return timing remain tunable implementation parameters to validate in the browser.
+
+### Decision 07: recovery from sleep / renewed activity wakes it
+
+**Chosen direction:** B — Renewed activity wakes it.
+
+After the eye reaches full sleep, fresh pointer movement wakes it if the pointer is still inside the button. If the pointer is outside the button, the sleeping state remains until the pointer enters the button again. This lets the eye respond to renewed user activity without making it wake from unrelated motion elsewhere on the page.
+
+**Behavior constraints:**
+- While fully asleep and hovered, a new pointer movement is a wake trigger.
+- While fully asleep and outside the button, pointer movement alone is not a wake trigger; button re-entry is required.
+- The wake transition follows Decision 05: open quickly but gently, coordinate iris orientation toward the pointer, then settle into fixation.
+- Pointer movement must not bypass the waking transition or cause the iris to teleport to its target.
+- The wake trigger is distinct from the fatigue and sleep timers; implementation should avoid stale timers accidentally returning the eye to sleep immediately after waking.
 
 ## Accessibility and engineering constraints
 
