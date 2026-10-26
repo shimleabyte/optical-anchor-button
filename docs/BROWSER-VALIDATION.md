@@ -8,7 +8,10 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 
 - The body, bezel, and eye share a consistent visual center at sm, md, and lg sizes.
 - The bezel appears mechanically seated in the capsule, with distinct graphite, copper, and inset-rim boundaries.
-- The default render shows no “Let's Collab” label or right-side status mark.
+- Idle shows no speech bubble; hovering the button raises the excited brow and reveals “Let's collab!” without a persistent label.
+- Leaving the button hides the bubble and returns the brow to neutral while page-wide eye tracking may continue.
+- Keyboard focus alone does not show the speech bubble or the excited brow.
+- The hover/focus expression and bubble remain hidden when the button is disabled or loading.
 - The sleeping state fully covers the sclera and iris; only the closed-lid contour remains.
 - Waking reveals the almond aperture without stretching or flattening the iris.
 - Tired state covers the upper portion of the eye while the visible iris and pupil remain circular.
