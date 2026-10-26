@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, it, vi } from 'vitest';
 import { OpticalButton } from '../src/components/OpticalButton';
@@ -42,6 +42,38 @@ describe('OpticalButton', () => {
   it('respects native submit type when requested', () => {
     render(<OpticalButton type="submit">Save form</OpticalButton>);
     expect(screen.getByRole('button', { name: 'Save form' })).toHaveAttribute('type', 'submit');
+  });
+
+  it('starts asleep, wakes on button entry, tracks beyond the button, then tires and sleeps', () => {
+    vi.useFakeTimers();
+    try {
+      const { unmount } = render(<OpticalButton>Watch me</OpticalButton>);
+      const button = screen.getByRole('button', { name: 'Watch me' });
+      expect(button).toHaveClass('oa-button--sleeping');
+
+      fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 180, clientY: 180 });
+      expect(button).toHaveClass('oa-button--awake');
+
+      fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 900, clientY: 80 });
+      expect(button.style.getPropertyValue('--gaze-x')).not.toBe('0px');
+      expect(button.style.getPropertyValue('--pull-x')).toBe('0px');
+
+      vi.advanceTimersByTime(2200);
+      expect(button).toHaveClass('oa-button--tired');
+      vi.advanceTimersByTime(780);
+      expect(button).toHaveClass('oa-button--sleeping');
+      unmount();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('keeps a disabled button asleep and does not wake on pointer movement', () => {
+    render(<OpticalButton disabled>Unavailable</OpticalButton>);
+    const button = screen.getByRole('button', { name: 'Unavailable' });
+    fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 20, clientY: 20 });
+    expect(button).toHaveClass('oa-button--sleeping');
+    expect(button).not.toHaveClass('oa-button--awake');
   });
 
   it('applies size and full-width classes', () => {
