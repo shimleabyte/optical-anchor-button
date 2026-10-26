@@ -16,7 +16,7 @@ function ComponentMatrix() {
         .matrix-panel { min-width: 0; padding: 16px; border: 1px solid #c9c0b5; background: #f1ece4; }
         .matrix-panel h2 { margin: 0 0 14px; font-size: 12px; text-transform: uppercase; letter-spacing: .1em; }
         .matrix-panel .oa-button { display: flex; margin-inline: auto; }
-        .matrix-width-grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 248px); align-items: start; gap: 18px; }
+        .matrix-width-grid { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 282px); align-items: start; gap: 18px; }
         .matrix-width-container { width: 100%; min-width: 0; margin-inline: auto; }
         .matrix-width-container--wide { max-width: 420px; }
         .matrix-width-container--narrow { max-width: 248px; }
