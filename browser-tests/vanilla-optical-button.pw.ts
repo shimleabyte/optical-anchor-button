@@ -139,6 +139,29 @@ test('supports sm/md/lg factory sizing, fullWidth caps, and mobile viewport fit'
   ]);
   expect(metrics.wideWidth).toBe(360);
 
+  const availability = await page.evaluate(() => {
+    const control = window.OpticalAnchorButton!.create({ disabled: true, ariaLabel: 'Availability API check' });
+    const initiallyDisabled = control.element.disabled;
+    control.setLoading(true);
+    const loadingIsDisabled = control.element.disabled && control.element.getAttribute('aria-busy') === 'true';
+    control.setDisabled(false);
+    const loadingStillBlocks = control.element.disabled;
+    control.setLoading(false);
+    const reenabledAfterBothFlagsClear = !control.element.disabled && !control.element.hasAttribute('aria-busy');
+    control.setDisabled(true);
+    control.setLoading(false);
+    const disabledRemainsIndependent = control.element.disabled;
+    control.destroy();
+    return { initiallyDisabled, loadingIsDisabled, loadingStillBlocks, reenabledAfterBothFlagsClear, disabledRemainsIndependent };
+  });
+  expect(availability).toEqual({
+    initiallyDisabled: true,
+    loadingIsDisabled: true,
+    loadingStillBlocks: true,
+    reenabledAfterBothFlagsClear: true,
+    disabledRemainsIndependent: true,
+  });
+
   await page.setViewportSize({ width: 320, height: 900 });
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth);
   expect(overflow).toBe(false);
