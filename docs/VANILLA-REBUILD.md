@@ -11,7 +11,7 @@ Open `vanilla/index.html` in a modern browser. The page uses classic scripts and
 - `index.html` — static showcase markup and semantic landmarks.
 - `vanilla.css` — the current studio stylesheet and optical button stylesheet, combined without changing their design tokens or component selectors.
 - `eye-controller.js` — timers, pointer tracking, focus lifecycle, fatigue/sleep, blinking, reduced motion, visibility handling, and cleanup.
-- `optical-button.js` — native button factory, unique SVG IDs per instance, attributes, loading/disabled API, and controller ownership.
+- `optical-button.js` — native button factory, unique SVG IDs per instance, native attributes via the `attributes` object, loading/disabled API, and controller ownership.
 - `showcase.js` — preview state controls, activation counter, and live state readout.
 
 ## Component API
@@ -37,7 +37,7 @@ control.setLoading(false);
 control.destroy();
 ```
 
-The factory returns `element`, `controller`, `setDisabled`, `setLoading`, and `destroy`. It uses the native button element so normal keyboard activation and form behavior remain browser-managed.
+The factory returns `element`, `controller`, `setDisabled`, `setLoading`, and `destroy`. It uses a native button so keyboard activation and form behavior remain browser-managed. Pass common and custom attributes through `attributes`; event-handler strings, `class`, `style`, and lifecycle-managed attributes are ignored in that bag. Use `onClick` for the activation callback. `disabled` and `loading` remain independent flags, so clearing one does not override the other.
 
 ## Behavioral contract
 
@@ -51,5 +51,7 @@ Run the repository scripts from the root:
 - `npm test`
 - `npm run build`
 - `npm run test:browser`
+- `npm run check:vanilla-css` (CI verifies the standalone stylesheet exactly matches the source studio and component styles)
+- `npm run sync:vanilla-css` after changing either source stylesheet
 
-The dedicated Vanilla browser test verifies native button semantics, keyboard activation, physical hover, inactivity, disabled/loading, reduced motion, and narrow viewports. The React implementation remains intact on this branch as the comparison baseline.
+The dedicated Vanilla browser tests verify native button attributes, keyboard activation, physical hover, focused tired/sleep lifecycle, controller cleanup, live reduced-motion changes, disabled/loading API independence, direct `file://` opening, and narrow viewports. CI also checks that `vanilla/vanilla.css` stays synchronized with the two source stylesheets. The React implementation remains intact on this branch as the comparison baseline.
