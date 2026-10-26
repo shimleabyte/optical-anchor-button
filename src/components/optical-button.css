@@ -424,12 +424,12 @@
   transform: translateY(0) scale(1) rotate(0deg);
 }
 @media (any-hover: hover) and (any-pointer: fine) {
-  .oa-button:not(:disabled):hover .oa-button__brow--neutral { opacity: 0; }
-  .oa-button:not(:disabled):hover .oa-button__brow--excited {
+  .oa-button--pointer-hover:not(:disabled) .oa-button__brow--neutral { opacity: 0; }
+  .oa-button--pointer-hover:not(:disabled) .oa-button__brow--excited {
     opacity: 1;
     transform: translateY(-2px);
   }
-  .oa-button:not(:disabled):hover .oa-button__bubble {
+  .oa-button--pointer-hover:not(:disabled) .oa-button__bubble {
     opacity: 1;
     visibility: visible;
     transition-delay: 0s;
