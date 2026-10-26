@@ -52,6 +52,21 @@
 - **Touch:** Pointer tracking is skipped on touch pointer movement.
 - **Reduced motion:** Transitions and spinner animation become effectively immediate.
 
+## Eye behavior research — decisions before implementation
+
+### Decision 01: idle gaze / maintain fixation
+
+**Chosen direction:** A — Maintain fixation.
+
+When the eye is awake and the pointer becomes stationary, it continues looking toward that pointer position rather than wandering away. The gaze can contain very low-amplitude, low-frequency micro-movements so it does not feel like a perfectly frozen vector. Natural blinks may occur at irregular intervals and should not look like a repeating animation loop. Fatigue develops gradually from the awake expression into the tired state; it must not be represented by immediately losing interest or looking away.
+
+**Behavior constraints:**
+- Pointer position remains the gaze target while it is stationary.
+- Micro-movements are subtle deviations around fixation, not random large gaze jumps.
+- Blink timing varies; no obvious fixed-period loop.
+- Fatigue is communicated through eyelid aperture, brow tension, and blink behavior while fixation remains the default.
+- This is a behavior design decision only; exact durations, amplitudes, and implementation remain open for subsequent decisions and testing.
+
 ## Accessibility and engineering constraints
 
 - Use native `<button>` semantics and default `type="button"`.
