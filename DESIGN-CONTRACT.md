@@ -67,6 +67,19 @@ When the eye is awake and the pointer becomes stationary, it continues looking t
 - Fatigue is communicated through eyelid aperture, brow tension, and blink behavior while fixation remains the default.
 - This is a behavior design decision only; exact durations, amplitudes, and implementation remain open for subsequent decisions and testing.
 
+### Decision 02: response to pointer motion / adaptive ocular motion
+
+**Chosen direction:** A — Adaptive ocular motion.
+
+The eye uses two response styles based on target motion. During continuous, slower pointer movement, the iris follows with smooth pursuit and a small, controlled lag. When the target jumps a large distance between samples, the eye makes a rapid saccade-like transition toward the new target, then settles into fixation. The transition should feel organic without overshoot, spring bounce, or exaggerated elastic motion.
+
+**Behavior constraints:**
+- Slow and continuous motion uses smooth pursuit rather than snapping every frame.
+- Sudden, large changes in pointer target use a fast gaze transition.
+- Saccade-like motion ends cleanly at the target; no bouncy overshoot.
+- After reaching the target, the eye returns to the maintain-fixation behavior defined in Decision 01.
+- Thresholds, speeds, easing, and lag are implementation parameters to tune after browser testing; do not imply exact human physiology from the stylized animation.
+
 ## Accessibility and engineering constraints
 
 - Use native `<button>` semantics and default `type="button"`.
