@@ -277,7 +277,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
                   <stop offset="100%" stopColor="#fff0d6" />
                 </linearGradient>
                 <clipPath id={eyeId + '-aperture-clip'}>
-                  <path d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 79 104 89 80 89 C56 89 31 79 9 52Z" />
+                  <path d="M10 53 C9 50 11 47 15 44 C35 25 57 16 80 16 C106 16 131 26 151 47 C132 73 107 87 81 88 C53 89 28 76 10 53Z" />
                 </clipPath>
                 <clipPath id={eyeId + '-iris-clip'}>
                   <circle cx="80" cy="52" r="27.5" />
@@ -287,12 +287,12 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
                 </filter>
               </defs>
 
-              <path className="oa-button__orbital-shadow" d="M7 52 C31 22 56 13 80 13 C104 13 129 22 153 52 C129 82 104 91 80 91 C56 91 31 82 7 52Z" />
+              <path className="oa-button__orbital-shadow" d="M8 53 C7 50 10 46 15 42 C35 22 57 13 80 13 C107 13 133 24 155 47 C135 76 109 92 81 93 C52 94 27 79 8 53Z" />
               <path className="oa-button__brow" d="M27 24 C45 12 63 7 80 8 C100 8 118 14 134 25" />
               <g className="oa-button__aperture">
                 <path
                   className="oa-button__sclera"
-                  d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 79 104 89 80 89 C56 89 31 79 9 52Z"
+                  d="M10 53 C9 50 11 47 15 44 C35 25 57 16 80 16 C106 16 131 26 151 47 C132 73 107 87 81 88 C53 89 28 76 10 53Z"
                   fill={'url(#' + eyeId + '-sclera)'}
                   stroke="#6d4231"
                   strokeWidth="1.25"
@@ -315,25 +315,25 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
                 </g>
                 <path
                   className="oa-button__lid-cover oa-button__lid-cover--awake"
-                  d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 39 106 31 80 30 C54 31 31 39 9 52Z"
+                  d="M10 53 C9 50 11 47 15 44 C35 25 57 16 80 16 C106 16 131 26 151 47 C132 38 108 31 80 31 C55 32 34 39 15 44 C11 47 9 50 10 53Z"
                   fill={'url(#' + eyeId + '-lid)'}
                 />
                 <path
                   className="oa-button__lid-cover oa-button__lid-cover--tired"
-                  d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 47 105 49 80 48 C55 49 31 47 9 52Z"
+                  d="M10 53 C9 50 11 47 15 44 C35 25 57 16 80 16 C106 16 131 26 151 47 C132 47 105 50 80 49 C55 50 32 47 15 44 C11 47 9 50 10 53Z"
                   fill={'url(#' + eyeId + '-lid)'}
                 />
                 <path
                   className="oa-button__lid-cover oa-button__lid-cover--sleeping"
-                  d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 79 104 89 80 89 C56 89 31 79 9 52Z"
+                  d="M10 53 C9 50 11 47 15 44 C35 25 57 16 80 16 C106 16 131 26 151 47 C132 73 107 87 81 88 C53 89 28 76 10 53Z"
                   fill={'url(#' + eyeId + '-lid)'}
                 />
                 <path className="oa-button__lid-edge oa-button__lid-edge--awake" d="M9 52 C31 39 54 30 80 30 C106 30 129 39 151 52" />
                 <path className="oa-button__lid-edge oa-button__lid-edge--tired" d="M9 52 C31 47 55 49 80 48 C105 49 129 47 151 52" />
               </g>
-              <path className="oa-button__lid--upper" stroke={'url(#' + eyeId + '-lid)'} d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52" />
-              <path className="oa-button__lid--lower" d="M10 52 C34 79 56 89 80 89 C104 89 126 79 150 52" />
-              <path className="oa-button__closed-lid" d="M10 52 C35 43 57 41 80 42 C103 41 125 43 150 52" />
+              <path className="oa-button__lid--upper" stroke={'url(#' + eyeId + '-lid)'} d="M10 53 C9 50 11 47 15 44 C35 25 57 16 80 16 C106 16 131 26 151 47" />
+              <path className="oa-button__lid--lower" d="M12 53 C32 76 55 88 81 88 C107 87 132 73 150 49" />
+              <path className="oa-button__closed-lid" d="M10 53 C35 45 58 42 80 43 C104 42 127 44 150 47" />
               <path className="oa-button__lid-highlight" d="M24 38 C44 21 61 18 80 18 C100 18 117 22 136 38" />
               <path className="oa-button__tear-duct" d="M15 48 C11 50 12 54 16 56 M145 50 Q149 52 145 54" />
             </svg>
