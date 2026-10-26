@@ -324,7 +324,8 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
               </defs>
 
               <path className="oa-button__orbital-shadow" d="M8 53 C7 50 10 46 15 42 C35 22 57 13 80 13 C107 13 133 24 155 47 C135 76 109 92 81 93 C52 94 27 79 8 53Z" />
-              <path className="oa-button__brow" d="M27 24 C45 12 63 7 80 8 C100 8 118 14 134 25" />
+              <path className="oa-button__brow oa-button__brow--neutral" d="M27 24 C45 12 63 7 80 8 C100 8 118 14 134 25" />
+              <path className="oa-button__brow oa-button__brow--excited" d="M25 23 C42 6 61 2 80 2 C102 2 122 8 137 23" />
               <g className="oa-button__aperture">
                 <path
                   className="oa-button__sclera"
@@ -373,6 +374,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
               <path className="oa-button__lid-highlight" d="M24 38 C44 21 61 18 80 18 C100 18 117 22 136 38" />
               <path className="oa-button__tear-duct" d="M15 48 C11 50 12 54 16 56 M145 50 Q149 52 145 54" />
             </svg>
+            <span className="oa-button__bubble" aria-hidden="true">Let's collab!</span>
             {children ? <span className="oa-button__label">{children}</span> : null}
           </span>
         </span>
