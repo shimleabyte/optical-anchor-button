@@ -11,7 +11,9 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:browser": "playwright test",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "sync:vanilla-css": "node scripts/sync-vanilla-css.mjs",
+    "check:vanilla-css": "node scripts/sync-vanilla-css.mjs --check"
   },
   "dependencies": {
     "react": "^19.1.0",
