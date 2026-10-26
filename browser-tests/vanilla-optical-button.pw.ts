@@ -17,12 +17,14 @@ test('loads the standalone build without React and exposes native button semanti
     react: typeof (window as Window & { React?: unknown }).React,
     factory: typeof (window as Window & { OpticalAnchorButton?: { create?: unknown } }).OpticalAnchorButton?.create,
     controller: typeof (window as Window & { OpticalAnchorEyeController?: unknown }).OpticalAnchorEyeController,
-    moduleScripts: document.querySelectorAll('script[type="module"]').length,
+    vanillaScriptTypes: Array.from(document.querySelectorAll('script[src]'))
+      .filter((script) => /\\/vanilla\\/(eye-controller|optical-button|showcase)\\.js$/.test(script.getAttribute('src') || ''))
+      .map((script) => script.getAttribute('type') || 'classic'),
   }));
   expect(runtime.react).toBe('undefined');
   expect(runtime.factory).toBe('function');
   expect(runtime.controller).toBe('function');
-  expect(runtime.moduleScripts).toBe(0);
+  expect(runtime.vanillaScriptTypes).toEqual(['classic', 'classic', 'classic']);
 });
 
 test('wakes on physical mouse hover and returns to neutral after pointer exit', async ({ page }) => {
