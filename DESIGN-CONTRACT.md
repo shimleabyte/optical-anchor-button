@@ -80,6 +80,19 @@ The eye uses two response styles based on target motion. During continuous, slow
 - After reaching the target, the eye returns to the maintain-fixation behavior defined in Decision 01.
 - Thresholds, speeds, easing, and lag are implementation parameters to tune after browser testing; do not imply exact human physiology from the stylized animation.
 
+### Decision 03: blink character / natural irregular blinking
+
+**Chosen direction:** A — Natural, irregular blinking.
+
+The eye uses short blinks with variable intervals. A blink may happen after a gaze shift or when attention relaxes, but it preserves the current fixation target. Blinking is driven by the behavior state rather than an obvious repeating CSS loop. As fatigue develops, eyelid motion may slow or the resting aperture may narrow, but blink timing should not become a rigid metronome.
+
+**Behavior constraints:**
+- Blinks are short, complete lid movements with a smooth close-and-open profile.
+- The interval varies within a plausible range; avoid obvious periodic loops.
+- A gaze shift or moment of relaxation can increase the chance of a blink, rather than forcing one after every movement.
+- Blinking never changes the current gaze target.
+- Exact timing and duration remain tunable implementation parameters and must be validated visually.
+
 ## Accessibility and engineering constraints
 
 - Use native `<button>` semantics and default `type="button"`.
