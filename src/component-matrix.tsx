@@ -9,7 +9,7 @@ function ComponentMatrix() {
         * { box-sizing: border-box; }
         html { min-width: 320px; }
         body { margin: 0; background: #e9e3da; color: #201d19; font: 14px/1.5 Arial, Helvetica, sans-serif; }
-        .matrix-page { width: min(900px, 100%); margin: 0 auto; padding: 28px 20px 56px; }
+        .matrix-page { width: min(1360px, 100%); margin: 0 auto; padding: 28px 20px 56px; }
         .matrix-title { margin: 0 0 5px; font-size: 28px; letter-spacing: -.045em; }
         .matrix-description { margin: 0 0 24px; max-width: 620px; color: #655a4f; }
         .matrix-size-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 28px; }
