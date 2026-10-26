@@ -2,7 +2,7 @@
 
 ## Standalone prototype result
 
-**10 / 10 functional and responsive checks passed** against `Optical-Anchor-Prototype.html` in headless Chromium. No uncaught page errors were observed. The scenario ran at 1280 × 900 and then at a 390 × 844 viewport.
+**12 / 12 functional and responsive checks passed** against `Optical-Anchor-Prototype.html` in headless Chromium. No uncaught page errors were observed. The scenario ran at 1280 × 900 and then at a 390 × 844 viewport.
 
 Validated behavior:
 - The eye starts closed.
@@ -22,4 +22,4 @@ GitHub Actions' **Quality checks** workflow passed the TypeScript type-check, un
 
 ## Scope
 
-These checks are focused behavior checks, not a full accessibility audit. Reduced-motion, focus-visible, native keyboard activation, and other existing component behaviors are covered by the project's test baseline, but the 10-check run above specifically records the new lifecycle and responsive behavior.
+These checks are focused behavior checks, not a full accessibility audit. Reduced-motion, focus-visible, native keyboard activation, and other existing component behaviors are covered by the project's test baseline, but the 12-check run above specifically records the new lifecycle and responsive behavior.
