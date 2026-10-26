@@ -15,6 +15,7 @@
 - **Sclera:** Warm ivory with a gentle top highlight and shadowed lower edge, avoiding stark flat white.
 - **Iris:** Layered amber-to-copper radial color, dark limbal ring, fine radial fibres, an inner warm ring, deep pupil, and restrained moisture glints.
 - **Eyelids:** Upper and lower contours, a warm upper-lid gradient, soft brow crease, and separate closed-lid stroke for sleeping state.
+- **Surface texture:** Very low-contrast procedural micro-grain on the matte enamel housing and raised bezel; satin iris and sclera remain smooth for focal contrast.
 - **Shadow:** Localized contact/drop shading and recessed face treatment only. No ambient glow or oversized shadow.
 - **Motion:** The aperture opens on hover, the iris tracks page-wide while awake, and inactivity transitions the eye through tired to sleep.
 
