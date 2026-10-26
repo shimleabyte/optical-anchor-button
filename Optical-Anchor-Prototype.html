@@ -266,18 +266,26 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
 }
 
 .oa-button__iris {
+  opacity: 0;
   transform: translate(var(--gaze-x), var(--gaze-y));
   transform-box: fill-box;
   transform-origin: center;
-  transition: transform 85ms cubic-bezier(0.2, 0.65, 0.25, 1);
+  transition: transform 105ms cubic-bezier(0.2, 0.65, 0.25, 1), opacity 140ms ease;
 }
-
-.oa-button__brow {
-  transform: translateY(0) rotate(0deg);
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 130ms cubic-bezier(0.2, 0.65, 0.25, 1), opacity 130ms ease;
-}
+.oa-button__sclera { transform: scaleY(0.025); transform-box: fill-box; transform-origin: center; transition: transform 210ms cubic-bezier(0.2, 0.65, 0.25, 1); }
+.oa-button__eyelid { opacity: 1; transition: opacity 130ms ease; }
+.oa-button__brow { transform: translateY(1.2px) rotate(0deg); transform-box: fill-box; transform-origin: center; opacity: 0.76; transition: transform 170ms cubic-bezier(0.2, 0.65, 0.25, 1), opacity 170ms ease; }
+.oa-button--awake .oa-button__sclera { transform: scaleY(1); }
+.oa-button--awake .oa-button__iris { opacity: 1; }
+.oa-button--awake .oa-button__eyelid { opacity: 0; }
+.oa-button--awake .oa-button__brow { transform: translateY(0) rotate(0deg); opacity: 1; }
+.oa-button--tired .oa-button__sclera { transform: scaleY(0.52); }
+.oa-button--tired .oa-button__iris { opacity: 1; }
+.oa-button--tired .oa-button__eyelid { opacity: 0.35; }
+.oa-button--tired .oa-button__brow { transform: translateY(2px) rotate(1.5deg); opacity: 0.72; }
+.oa-button.demo-force-hover .oa-button__sclera { transform: scaleY(1); }
+.oa-button.demo-force-hover .oa-button__iris { opacity: 1; }
+.oa-button.demo-force-hover .oa-button__eyelid { opacity: 0; }
 
 .oa-button__label {
   display: block;
@@ -486,19 +494,20 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
         <div class="stage-center">
           <div class="object-index" aria-hidden="true"><span>OA</span><span>001</span></div>
           <div class="button-wrap">
-            <button id="optical-button" class="oa-button oa-button--md" type="button" aria-describedby="button-hint">
+            <button id="optical-button" class="oa-button oa-button--sleeping oa-button--md" type="button" aria-describedby="button-hint">
               <span class="oa-button__face"><span class="oa-button__content">
                 <svg class="oa-button__eye" viewBox="0 0 48 36" aria-hidden="true" focusable="false">
                   <path class="oa-button__brow" d="M10 8.5 Q22 2.5 34 8.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
-                  <path d="M4.5 19 Q24 4.5 43.5 19 Q24 33.5 4.5 19Z" fill="#F3EEE6" stroke="#2A1B15" stroke-width="1.1" />
+                  <path class="oa-button__sclera" d="M4.5 19 Q24 4.5 43.5 19 Q24 33.5 4.5 19Z" fill="#F3EEE6" stroke="#2A1B15" stroke-width="1.1" />
                   <g class="oa-button__iris"><circle cx="24" cy="19" r="7.1" fill="#8B3C20" /><circle cx="24" cy="19" r="4.1" fill="#171513" /><circle cx="25.6" cy="17.4" r="1.35" fill="#FFFFFF" /></g>
                   <path d="M6.5 19 Q24 7.2 41.5 19" fill="none" stroke="#2A1B15" stroke-width="0.75" opacity="0.42" />
+                  <path class="oa-button__eyelid" d="M4.5 19 Q24 23.5 43.5 19" fill="none" stroke="#2A1B15" stroke-width="1.5" stroke-linecap="round" />
                 </svg>
                 <span class="oa-button__label" id="button-label">Let's Collab</span>
                 <span class="oa-button__status" aria-hidden="true"><span class="oa-button__status-mark" id="status-mark"></span></span>
               </span></span>
             </button>
-            <p id="button-hint" class="button-hint">Move the pointer across the face.</p>
+            <p id="button-hint" class="button-hint">Hover to wake the eye, then move anywhere on the page. It tires after a pause.</p>
           </div>
           <div class="object-measure" aria-hidden="true"><span>44 PX</span><span>01 / PRESS</span></div>
         </div>
@@ -511,7 +520,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
     </section>
 
     <section class="state-section" aria-labelledby="state-title">
-      <div class="section-heading"><div><p class="micro-label">BEHAVIOUR MATRIX / 6 STATES</p><h2 id="state-title">Inspect the response.</h2></div><p class="section-aside">Choose a state to inspect its visual treatment. Move the pointer over the live button to test tracking.</p></div>
+      <div class="section-heading"><div><p class="micro-label">BEHAVIOUR MATRIX / 6 STATES</p><h2 id="state-title">Inspect the response.</h2></div><p class="section-aside">Choose a visual state, hover the button once, then move the pointer anywhere in the page to test its gaze.</p></div>
       <div class="state-selector" role="group" aria-label="Preview button state">
         <button type="button" class="state-option state-option--active" data-state="default" aria-pressed="true"><span class="state-option__index">00</span><span>Idle</span></button>
         <button type="button" class="state-option" data-state="hover" aria-pressed="false"><span class="state-option__index">01</span><span>Hover</span></button>
@@ -520,7 +529,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
         <button type="button" class="state-option" data-state="disabled" aria-pressed="false"><span class="state-option__index">04</span><span>Disabled</span></button>
         <button type="button" class="state-option" data-state="loading" aria-pressed="false"><span class="state-option__index">05</span><span>Loading</span></button>
       </div>
-      <div class="state-explanation" aria-live="polite"><span class="state-explanation__mark" aria-hidden="true"></span><p id="state-explanation">Neutral expression. The pupil starts centered; the frame defines the button without a shadow.</p><button type="button" class="reset-button" id="reset-study">RESET STUDY</button></div>
+      <div class="state-explanation" aria-live="polite"><span class="state-explanation__mark" aria-hidden="true"></span><p id="state-explanation">The eye starts asleep. Hover the button to wake it; it follows the pointer across the page, grows tired after a pause, then sleeps.</p><button type="button" class="reset-button" id="reset-study">RESET STUDY</button></div>
     </section>
     <footer class="studio-footer"><span>OPTICAL ANCHOR / PROTOTYPE 0.1.0</span><span>REACT DIRECTION · CSS PROTOTYPE</span><span>NO THIRD-PARTY ICONS OR FONTS</span></footer>
   </main>
@@ -542,6 +551,9 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
       };
       let currentState = 'default';
       let activations = 0;
+      let eyeState = 'sleeping';
+      let tiredTimer = null;
+      let sleepTimer = null;
 
       function setState(next) {
         currentState = next;
@@ -558,7 +570,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
         } else {
           document.querySelector('#status-mark').className = 'oa-button__status-mark';
         }
-        if (next === 'disabled' || next === 'loading') resetTracking();
+        if (next === 'disabled' || next === 'loading') sleepEye();
         options.forEach((option) => {
           const active = option.dataset.state === next;
           option.classList.toggle('state-option--active', active);
@@ -568,22 +580,93 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
         explanation.textContent = descriptions[next];
       }
 
-      function resetTracking() {
-        ['--gaze-x', '--gaze-y', '--pull-x', '--pull-y'].forEach((name) => button.style.setProperty(name, '0px'));
+      function clearEyeTimers() {
+        window.clearTimeout(tiredTimer);
+        window.clearTimeout(sleepTimer);
+        tiredTimer = null;
+        sleepTimer = null;
       }
+      function setEyeState(next) {
+        eyeState = next;
+        button.classList.toggle('oa-button--sleeping', next === 'sleeping');
+        button.classList.toggle('oa-button--awake', next === 'awake');
+        button.classList.toggle('oa-button--tired', next === 'tired');
+      }
+      function resetTracking(resetGaze = true) {
+        if (resetGaze) {
+          button.style.setProperty('--gaze-x', '0px');
+          button.style.setProperty('--gaze-y', '0px');
+        }
+        button.style.setProperty('--pull-x', '0px');
+        button.style.setProperty('--pull-y', '0px');
+      }
+      function updateGaze(clientX, clientY) {
+        if (button.disabled || currentState === 'disabled' || currentState === 'loading') return;
+        const eye = button.querySelector('.oa-button__eye');
+        const eyeRect = eye.getBoundingClientRect();
+        const dx = clientX - (eyeRect.left + eyeRect.width / 2);
+        const dy = clientY - (eyeRect.top + eyeRect.height / 2);
+        const distance = Math.hypot(dx, dy);
+        const strength = Math.min(1, distance / 180);
+        const nx = distance ? (dx / distance) * strength : 0;
+        const ny = distance ? (dy / distance) * strength : 0;
+        button.style.setProperty('--gaze-x', (nx * 4.2).toFixed(2) + 'px');
+        button.style.setProperty('--gaze-y', (ny * 2.5).toFixed(2) + 'px');
 
-      button.addEventListener('pointermove', (event) => {
-        if (button.disabled || event.pointerType === 'touch' || currentState === 'disabled' || currentState === 'loading') return;
         const rect = button.getBoundingClientRect();
-        if (!rect.width || !rect.height) return;
-        const nx = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
-        const ny = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
-        button.style.setProperty('--gaze-x', `${(nx * 4.2).toFixed(2)}px`);
-        button.style.setProperty('--gaze-y', `${(ny * 2.5).toFixed(2)}px`);
-        button.style.setProperty('--pull-x', `${(nx * 1.15).toFixed(2)}px`);
-        button.style.setProperty('--pull-y', `${(ny * 0.75).toFixed(2)}px`);
+        const inside = clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+        if (inside && rect.width > 0 && rect.height > 0) {
+          const pullX = Math.max(-1, Math.min(1, ((clientX - rect.left) / rect.width) * 2 - 1));
+          const pullY = Math.max(-1, Math.min(1, ((clientY - rect.top) / rect.height) * 2 - 1));
+          button.style.setProperty('--pull-x', (pullX * 1.15).toFixed(2) + 'px');
+          button.style.setProperty('--pull-y', (pullY * 0.75).toFixed(2) + 'px');
+        } else {
+          button.style.setProperty('--pull-x', '0px');
+          button.style.setProperty('--pull-y', '0px');
+        }
+      }
+      function sleepEye() {
+        clearEyeTimers();
+        setEyeState('sleeping');
+        resetTracking();
+      }
+      function scheduleSleep() {
+        clearEyeTimers();
+        tiredTimer = window.setTimeout(() => {
+          if (button.disabled || currentState === 'disabled' || currentState === 'loading') { sleepEye(); return; }
+          setEyeState('tired');
+          tiredTimer = null;
+          sleepTimer = window.setTimeout(() => {
+            setEyeState('sleeping');
+            resetTracking();
+            sleepTimer = null;
+          }, 780);
+        }, 2200);
+      }
+      function wakeEye(clientX, clientY) {
+        if (button.disabled || currentState === 'disabled' || currentState === 'loading') return;
+        clearEyeTimers();
+        setEyeState('awake');
+        updateGaze(clientX, clientY);
+        scheduleSleep();
+      }
+      window.addEventListener('pointermove', (event) => {
+        if (event.pointerType === 'touch' || button.disabled || currentState === 'disabled' || currentState === 'loading') return;
+        const rect = button.getBoundingClientRect();
+        const inside = event.clientX >= rect.left && event.clientX <= rect.right &&
+          event.clientY >= rect.top && event.clientY <= rect.bottom;
+        if (eyeState === 'sleeping' && !inside) return;
+        if (eyeState !== 'awake') setEyeState('awake');
+        updateGaze(event.clientX, event.clientY);
+        scheduleSleep();
+      }, { passive: true });
+      button.addEventListener('pointerenter', (event) => {
+        if (event.pointerType === 'touch') return;
+        wakeEye(event.clientX, event.clientY);
       });
-      button.addEventListener('pointerleave', resetTracking);
+      button.addEventListener('pointerleave', () => resetTracking(false));
+      window.addEventListener('blur', sleepEye);
+      document.addEventListener('visibilitychange', () => { if (document.hidden) sleepEye(); });
       button.addEventListener('click', () => {
         activations += 1;
         countReadout.textContent = String(activations).padStart(2, '0');
