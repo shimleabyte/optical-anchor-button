@@ -186,6 +186,19 @@ Keyboard focus remains a sign that the control is actively being navigated, so t
 - Preserve the visible focus ring until focus is genuinely lost.
 - Ensure timer cancellation and rescheduling cannot cause a stale sleep timer to close the eye while focus is still active.
 
+### Decision 10: fatigue while keyboard-focused / tired, but never fully asleep
+
+**Chosen direction:** C — Tired, but never fully asleep.
+
+While the button retains keyboard focus, the eye may gradually show tired cues, but it must not close fully. When focus leaves, the normal idle-to-sleep progression can resume. This preserves visible keyboard context without freezing the eye's entire fatigue behavior.
+
+**Behavior constraints:**
+- Focused state may progress from awake to tired using the existing fatigue cues.
+- While keyboard focus remains, suppress the transition to full sleep but do not force the eye to remain fully awake.
+- On blur, resume the normal idle-to-sleep progression without an abrupt expression jump.
+- Keep the focus-visible ring independent of eye aperture and expression.
+- Ensure sleep timers are cleared, paused, or reconciled when focus changes to prevent stale callbacks from closing a focused eye.
+
 ## Accessibility and engineering constraints
 
 - Use native `<button>` semantics and default `type="button"`.
