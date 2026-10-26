@@ -113,6 +113,29 @@ describe('OpticalButton', () => {
     }
   });
 
+  it('blinks irregularly while focused without entering sleep', () => {
+    vi.useFakeTimers();
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0);
+    try {
+      render(<OpticalButton />);
+      const button = screen.getByRole('button');
+      fireEvent.focus(button);
+
+      expect(button).toHaveClass('oa-button--awake');
+      vi.advanceTimersByTime(2200);
+      expect(button).toHaveClass('oa-button--tired');
+      vi.advanceTimersByTime(2400);
+      expect(button).toHaveClass('oa-button--blinking');
+      vi.advanceTimersByTime(135);
+      expect(button).not.toHaveClass('oa-button--blinking');
+      expect(button).toHaveClass('oa-button--tired');
+      expect(button).not.toHaveClass('oa-button--sleeping');
+    } finally {
+      random.mockRestore();
+      vi.useRealTimers();
+    }
+  });
+
   it('keeps a disabled button asleep and does not wake on pointer movement', () => {
     render(<OpticalButton disabled>Unavailable</OpticalButton>);
     const button = screen.getByRole('button', { name: 'Unavailable' });
