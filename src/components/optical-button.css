@@ -260,6 +260,16 @@
 .oa-button.demo-force-tired .oa-button__lid-highlight,
 .oa-button.demo-force-hover .oa-button__tear-duct,
 .oa-button.demo-force-tired .oa-button__tear-duct { opacity: 1; }
+.oa-button--blinking .oa-button__lid-cover--sleeping { opacity: 1; }
+.oa-button--blinking .oa-button__lid-cover--awake,
+.oa-button--blinking .oa-button__lid-cover--tired,
+.oa-button--blinking .oa-button__lid-edge,
+.oa-button--blinking .oa-button__lid--upper,
+.oa-button--blinking .oa-button__lid--lower,
+.oa-button--blinking .oa-button__lid-highlight,
+.oa-button--blinking .oa-button__tear-duct { opacity: 0; }
+.oa-button--blinking .oa-button__closed-lid { opacity: 1; }
+.oa-button--blinking .oa-button__lid-cover { transition-duration: 48ms; }
 .oa-button__label {
   position: absolute;
   left: 8px;
@@ -369,5 +379,6 @@
     animation-iteration-count: 1 !important;
   }
   .oa-button__face { will-change: auto; }
+  .oa-button__lid-cover, .oa-button__lid-edge, .oa-button__lid--upper, .oa-button__lid--lower, .oa-button__lid-highlight, .oa-button__tear-duct { transition-duration: .01ms !important; }
   .oa-button__lid-cover, .oa-button__lid-edge, .oa-button__lid--upper, .oa-button__lid--lower, .oa-button__lid-highlight, .oa-button__tear-duct { transition-duration: .01ms !important; }
 }
