@@ -21,7 +21,11 @@ describe('OpticalButton', () => {
     expect(screen.getByRole('button', { name: 'Optical Anchor eye control' })).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
     expect(screen.queryByText("Let's Collab")).not.toBeInTheDocument();
-    expect(screen.getByRole('button').querySelector('.oa-button__eye')).toHaveAttribute('viewBox', '0 0 160 104');
+    const button = screen.getByRole('button');
+    expect(button.querySelector('.oa-button__eye')).toHaveAttribute('viewBox', '0 0 160 104');
+    expect(button.querySelector('.oa-button__brow--excited')).toBeInTheDocument();
+    expect(button.querySelector('.oa-button__bubble')).toHaveTextContent("Let's collab!");
+    expect(button.querySelector('.oa-button__bubble')).toHaveAttribute('aria-hidden', 'true');
   });
 
   it('keeps SVG resource identifiers unique across multiple instances', () => {
