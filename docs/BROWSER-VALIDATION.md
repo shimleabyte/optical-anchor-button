@@ -2,7 +2,7 @@
 
 ## Current branch status
 
-The current implementation replaces whole-eye vertical squashing with layered SVG eyelid covers for awake, tired, and sleeping states. The iris is clipped to the almond-shaped aperture, the inner/outer corners are asymmetric, and the bezel has clearer concentric rims and contact shading. Structural tests cover the presence and distinct geometry of these lid layers. The visual result still requires a real-browser pass; unit tests and type checks alone cannot verify anatomy, alignment, or transitions.
+The current implementation replaces whole-eye vertical squashing with layered SVG eyelid covers for awake, tired, and sleeping states. The iris is clipped to the almond-shaped aperture, the inner/outer corners are asymmetric, and the bezel has clearer concentric rims and contact shading. A Playwright Chromium run now checks physical hover, pointer exit, keyboard focus, disabled/loading behavior, and viewport fit at 320 px and 390 px. The screenshots are available in the linked workflow artifact. These browser checks verify the exercised interaction and viewport contracts; they do not prove every anatomical detail or transition quality, so the remaining visual checklist is still useful before merge.
 
 ## Manual/browser regression checklist
 
