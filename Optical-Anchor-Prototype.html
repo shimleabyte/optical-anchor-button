@@ -451,7 +451,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
   visibility: hidden;
   transform: translateY(4px) scale(.94) rotate(2deg);
   transform-origin: bottom left;
-  transition: opacity 150ms ease, transform 190ms var(--oa-ease), visibility 150ms ease;
+  transition: opacity 150ms ease, transform 190ms var(--oa-ease), visibility 0s linear 150ms;
   pointer-events: none;
 }
 .oa-button__bubble::after {
@@ -569,6 +569,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
 .oa-button.demo-force-hover:not(:disabled) .oa-button__bubble {
   opacity: 1;
   visibility: visible;
+  transition-delay: 0s;
   transform: translateY(0) scale(1) rotate(0deg);
 }
 @media (hover: hover) and (pointer: fine) {
@@ -580,6 +581,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
   .oa-button:not(:disabled):hover .oa-button__bubble {
     opacity: 1;
     visibility: visible;
+    transition-delay: 0s;
     transform: translateY(0) scale(1) rotate(0deg);
   }
 }
@@ -599,7 +601,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
     animation-iteration-count: 1 !important;
   }
   .oa-button__face { will-change: auto; }
-  .oa-button__bubble { transition-duration: .01ms !important; }
+  .oa-button__bubble { transition-duration: .01ms !important; transition-delay: 0s !important; }
   .oa-button__lid-cover, .oa-button__lid-edge, .oa-button__lid--upper, .oa-button__lid--lower, .oa-button__lid-highlight, .oa-button__tear-duct { transition-duration: .01ms !important; }
 }
 
