@@ -183,6 +183,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
                 <circle cx="25.6" cy="17.4" r="1.35" fill="#FFFFFF" />
               </g>
               <path d="M6.5 19 Q24 7.2 41.5 19" fill="none" stroke="#2A1B15" strokeWidth="0.75" opacity="0.42" />
+              <path className="oa-button__loading-scan" d="M5.5 19 H42.5" fill="none" />
               <path className="oa-button__eyelid" d="M4.5 19 Q24 23.5 43.5 19" fill="none" stroke="#2A1B15" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
             <span className="oa-button__label">{children}</span>
