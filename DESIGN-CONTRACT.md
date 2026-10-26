@@ -45,7 +45,7 @@
 - **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed.
 - **Sleep:** After another 780 ms idle, the eye closes and the gaze resets.
 - **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, it waits for the next button entry; waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
-- **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking.
+- **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking. When the pointer leaves the viewport, the gaze briefly holds its last fixation, then gradually returns toward center without triggering sleep by itself.
 - **Pressed:** The face travels down by 1 px; no bounce or ripple.
 - **Focus-visible:** A clear 2 px ivory outline with an orange secondary edge.
 - **Disabled/loading:** Native disabled semantics; tracking is blocked and the eye sleeps. Loading gets a small corner spinner.
@@ -118,6 +118,19 @@ When the sleeping eye is reactivated by pointer entry, the eyelids open quickly 
 - The gaze settles into fixation without overshoot or spring-like bounce.
 - Brow movement stays subtle; do not add a surprised expression.
 - Timing and coordination remain implementation parameters to validate in the browser.
+
+### Decision 06: pointer exit / gentle return to neutral
+
+**Chosen direction:** B — Gentle return to neutral.
+
+When the pointer leaves the browser viewport, the eye briefly preserves its last fixation before slowly returning its gaze toward the center. This provides a quiet release from tracking without an abrupt gaze reset or an immediate transition to sleep.
+
+**Behavior constraints:**
+- Hold the last gaze target briefly after pointer exit.
+- Return toward the neutral center gradually, with controlled motion and no overshoot or spring bounce.
+- Pointer exit alone must not force the eye into the sleeping state.
+- The face and housing remain neutral outside the button; this decision applies to gaze behavior.
+- Exact hold duration and return timing remain tunable implementation parameters to validate in the browser.
 
 ## Accessibility and engineering constraints
 
