@@ -16,6 +16,7 @@ const previewStates: { id: PreviewState; label: string; index: string }[] = [
 
 export default function App() {
   const [previewState, setPreviewState] = useState<PreviewState>('default');
+  const [isPointerHovering, setIsPointerHovering] = useState(false);
   const [demoClicks, setDemoClicks] = useState(0);
   const classForState = previewState === 'hover'
     ? 'demo-force-hover'
@@ -28,6 +29,7 @@ export default function App() {
           : '';
   const isDisabled = previewState === 'disabled';
   const isLoading = previewState === 'loading';
+  const displayedState = isPointerHovering && !isDisabled && !isLoading ? 'HOVER' : previewState;
 
   return (
     <main className="studio-shell">
@@ -82,6 +84,10 @@ export default function App() {
                 onClick={() => setDemoClicks((count) => count + 1)}
                 aria-label="Optical Anchor eye button"
                 aria-describedby="button-hint"
+                onPointerEnter={(event) => {
+                  if (event.pointerType !== 'touch' && !isDisabled && !isLoading) setIsPointerHovering(true);
+                }}
+                onPointerLeave={() => setIsPointerHovering(false)}
               />
               <p id="button-hint" className="button-hint">Hover to wake the eye. The brow lifts and the collab bubble appears; move away to return to neutral.</p>
             </div>
@@ -89,7 +95,7 @@ export default function App() {
           </div>
 
           <div className="stage-footer">
-            <div className="state-readout"><span className="readout-key">STATE</span><span className="readout-value">{previewState.toUpperCase()}</span></div>
+            <div className="state-readout"><span className="readout-key">STATE</span><span className="readout-value">{displayedState.toUpperCase()}</span></div>
             <div className="state-readout"><span className="readout-key">ACTIVATIONS</span><span className="readout-value">{String(demoClicks).padStart(2, '0')}</span></div>
             <div className="state-readout"><span className="readout-key">INPUT</span><span className="readout-value">POINTER / KEYBOARD</span></div>
           </div>
