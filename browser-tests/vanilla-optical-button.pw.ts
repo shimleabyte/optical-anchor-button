@@ -257,7 +257,6 @@ test('destroy clears controller timers/listeners/classes and reacts to live redu
       leaks,
       pendingTimers: Object.values(control.controller.timers).filter(Boolean).length,
       classesAfterDestroy: retainedButton.className,
-      controller: control.controller,
     };
   });
 
@@ -270,16 +269,25 @@ test('destroy clears controller timers/listeners/classes and reacts to live redu
   await expect(page.getByRole('button', { name: 'Optical Anchor eye button' })).toHaveClass(/oa-button--sleeping/);
 
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  const liveMotion = await page.evaluate(() => {
+  await page.evaluate(() => {
     const control = window.OpticalAnchorButton!.create({ ariaLabel: 'Live motion preference' });
     document.body.appendChild(control.element);
-    const before = control.controller.reducedMotion;
-    return { control, before };
+    (window as Window & { __liveMotionControl?: typeof control }).__liveMotionControl = control;
   });
-  await expect.poll(async () => liveMotion.control.controller.reducedMotion).toBe(false);
+  await expect.poll(async () => page.evaluate(() =>
+    (window as Window & { __liveMotionControl?: { controller: { reducedMotion: boolean } } })
+      .__liveMotionControl?.controller.reducedMotion,
+  )).toBe(false);
   await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect.poll(async () => liveMotion.control.controller.reducedMotion).toBe(true);
-  await page.evaluate((control) => control.destroy(), liveMotion.control);
+  await expect.poll(async () => page.evaluate(() =>
+    (window as Window & { __liveMotionControl?: { controller: { reducedMotion: boolean } } })
+      .__liveMotionControl?.controller.reducedMotion,
+  )).toBe(true);
+  await page.evaluate(() => {
+    const target = window as Window & { __liveMotionControl?: { destroy: () => void } };
+    target.__liveMotionControl?.destroy();
+    delete target.__liveMotionControl;
+  });
 });
 
 test('supports sm/md/lg factory sizing, fullWidth caps, and mobile viewport fit', async ({ page }) => {
