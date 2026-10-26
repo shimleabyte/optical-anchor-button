@@ -30,7 +30,7 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 
 ## Validation record
 
-- Automated validation: GitHub Actions Quality checks run #97 passed on commit `f0b64264` (type-check, unit tests, production build).
+- Automated validation: GitHub Actions Quality checks run #105 passed on commit `d6f66720` with the excited brow, hover-only bubble, tests, and prototype synced (type-check, unit tests, production build).
 - Browser visual validation: pending. Automated checks do not verify rendered anatomy, material alignment, or transition quality. Inspect the React showcase and standalone prototype before merge.
 
 ## SVG/rendering notes
