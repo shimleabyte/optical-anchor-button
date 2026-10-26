@@ -107,6 +107,10 @@ test('disabled and loading controls cannot expose or activate the hover bubble',
   await expect(button).toBeDisabled();
   await expect(button).toHaveAttribute('aria-busy', 'true');
   await expect(bubble).toHaveCSS('visibility', 'hidden');
+  const scan = button.locator('.oa-button__loading-scan');
+  await expect(scan).toHaveCSS('animation-name', 'oa-optical-scan');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(scan).toHaveCSS('animation-name', 'none');
 });
 
 

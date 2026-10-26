@@ -90,6 +90,10 @@ test('preview states preserve native disabled/loading behavior and reset cleanly
   await page.getByRole('button', { name: /Loading/ }).click();
   await expect(button).toBeDisabled();
   await expect(button).toHaveAttribute('aria-busy', 'true');
+  const scan = button.locator('.oa-button__loading-scan');
+  await expect(scan).toHaveCSS('animation-name', 'oa-optical-scan');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(scan).toHaveCSS('animation-name', 'none');
 
   await page.getByRole('button', { name: /Idle/ }).click();
   await expect(button).toBeEnabled();

@@ -17,7 +17,7 @@
     pressed: "The enamel face presses by one pixel. No bounce, ripple, or exaggerated scale.",
     focus: "A clear external focus ring marks keyboard navigation independently of the eye expression.",
     disabled: "The housing is muted, the eye sleeps, and pointer-driven movement is disabled.",
-    loading: "The eye rests while a small mechanical indicator communicates ongoing work."
+    loading: "The eye opens into a focused calibration sweep while a segmented register marks progress; activation remains blocked."
   };
 
   var control = globalThis.OpticalAnchorButton.create({
