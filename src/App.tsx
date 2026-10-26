@@ -6,7 +6,7 @@ type PreviewState = 'default' | 'hover' | 'tired' | 'pressed' | 'focus' | 'disab
 
 const previewStates: { id: PreviewState; label: string; index: string }[] = [
   { id: 'default', label: 'Idle', index: '00' },
-  { id: 'hover', label: 'Awake', index: '01' },
+  { id: 'hover', label: 'Hover / Excited', index: '01' },
   { id: 'tired', label: 'Tired', index: '02' },
   { id: 'pressed', label: 'Pressed', index: '03' },
   { id: 'focus', label: 'Focus', index: '04' },
@@ -83,7 +83,7 @@ export default function App() {
                 aria-label="Optical Anchor eye button"
                 aria-describedby="button-hint"
               />
-              <p id="button-hint" className="button-hint">Hover to wake the eye, then move anywhere on the page. It tires after a pause.</p>
+              <p id="button-hint" className="button-hint">Hover to wake the eye. The brow lifts and the collab bubble appears; move away to return to neutral.</p>
             </div>
             <div className="object-measure" aria-hidden="true"><span>132 PX</span><span>01 / OPTICAL</span></div>
           </div>
