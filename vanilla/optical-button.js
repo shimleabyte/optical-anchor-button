@@ -18,7 +18,7 @@
     if (options.describedBy) button.setAttribute("aria-describedby", options.describedBy);
 
     button.innerHTML = '<span class="oa-button__face"><span class="oa-button__content">' +
-      SVG_MARKUP.replace(/(id="|url\\(#)oa-/g, function (_, prefix) { return prefix + id + "-"; }) +
+      SVG_MARKUP.replace(/(id="|url\(#)oa-/g, function (_, prefix) { return prefix + id + "-"; }) +
       '<span class="oa-button__bubble" aria-hidden="true">Let\'s collab!</span></span></span>';
 
     if (options.children != null && String(options.children).length) {
