@@ -16,6 +16,9 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 - No open-eye upper/lower contour remains visible on top of the sleeping cover.
 - The iris stays clipped to the aperture at extreme gaze offsets; highlights remain legible without escaping the eye silhouette.
 - Awake/tired/sleep transitions crossfade cleanly and do not expose overlapping lid shapes as a double outline.
+- Irregular blinks fully cover the aperture briefly, reopen cleanly, and do not alter iris geometry.
+- A keyboard-focused eye may blink and become tired but never enters sleep until focus is lost.
+- Reduced-motion preference disables autonomous blinking and shortens visual transitions.
 - The iris follows the pointer beyond the button after the eye wakes.
 - After 2.2 seconds of inactivity, the eye gets tired; after another 780 ms, it sleeps and resets its gaze.
 - Hover and pressed housing colors remain warm and restrained.
@@ -24,8 +27,8 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 
 ## Validation record
 
-- Automated validation status: not yet run in this execution environment.
-- Browser visual validation status: pending; do not treat the historical 12-check report as approval of the new eyelid geometry.
+- Automated validation: GitHub Actions Quality checks run #94 passed on the component/prototype implementation (type-check, unit tests, production build). A documentation-only follow-up is separate from that code validation.
+- Browser visual validation: pending. The historical 12-check report is not approval of the new eyelid geometry; inspect the rendered React showcase and standalone prototype before merge.
 
 ## SVG/rendering notes
 
