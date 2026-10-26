@@ -413,16 +413,16 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
 .oa-button.demo-force-tired .oa-button__lid-highlight,
 .oa-button.demo-force-hover .oa-button__tear-duct,
 .oa-button.demo-force-tired .oa-button__tear-duct { opacity: 1; }
-.oa-button--blinking .oa-button__lid-cover--sleeping { opacity: 1; }
-.oa-button--blinking .oa-button__lid-cover--awake,
-.oa-button--blinking .oa-button__lid-cover--tired,
-.oa-button--blinking .oa-button__lid-edge,
-.oa-button--blinking .oa-button__lid--upper,
-.oa-button--blinking .oa-button__lid--lower,
-.oa-button--blinking .oa-button__lid-highlight,
-.oa-button--blinking .oa-button__tear-duct { opacity: 0; }
-.oa-button--blinking .oa-button__closed-lid { opacity: 1; }
-.oa-button--blinking .oa-button__lid-cover { transition-duration: 48ms; }
+.oa-button.oa-button--blinking .oa-button__lid-cover--sleeping { opacity: 1; }
+.oa-button.oa-button--blinking .oa-button__lid-cover--awake,
+.oa-button.oa-button--blinking .oa-button__lid-cover--tired,
+.oa-button.oa-button--blinking .oa-button__lid-edge,
+.oa-button.oa-button--blinking .oa-button__lid--upper,
+.oa-button.oa-button--blinking .oa-button__lid--lower,
+.oa-button.oa-button--blinking .oa-button__lid-highlight,
+.oa-button.oa-button--blinking .oa-button__tear-duct { opacity: 0; }
+.oa-button.oa-button--blinking .oa-button__closed-lid { opacity: 1; }
+.oa-button.oa-button--blinking .oa-button__lid-cover { transition-duration: 48ms; }
 .oa-button__label {
   position: absolute;
   left: 8px;
@@ -520,6 +520,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
 }
 .oa-button.demo-force-tired:not(:disabled) .oa-button__iris { opacity: 1; }
 .oa-button.demo-force-tired:not(:disabled) .oa-button__closed-lid { opacity: .42; }
+.oa-button.demo-force-tired.oa-button--blinking:not(:disabled) .oa-button__closed-lid { opacity: 1; }
 .oa-button.demo-force-tired:not(:disabled) .oa-button__brow { transform: translateY(2.5px); opacity: .58; }
 .oa-button.demo-force-pressed:not(:disabled) { --press-y: 1px; border-color: #9e5638; }
 .oa-button.demo-force-pressed:not(:disabled) .oa-button__face { background: linear-gradient(145deg, #a44926, #84341d 80%); border-color: #c45c33; }
