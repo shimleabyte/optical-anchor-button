@@ -423,7 +423,7 @@
   transition-delay: 0s;
   transform: translateY(0) scale(1) rotate(0deg);
 }
-@media (hover: hover) and (pointer: fine) {
+@media (any-hover: hover) and (any-pointer: fine) {
   .oa-button:not(:disabled):hover .oa-button__brow--neutral { opacity: 0; }
   .oa-button:not(:disabled):hover .oa-button__brow--excited {
     opacity: 1;
