@@ -1,8 +1,8 @@
 # Optical Anchor Button
 
-A standalone React button concept with a custom optical signature.
+An eye-first React button experiment built around a centered, oversized, pointer-aware iris.
 
-Optical Anchor combines a burnt-orange face, a dark precision frame, a hand-drawn eye, page-wide pointer tracking after wake-up, a fatigue-to-sleep cycle, and a short mechanical press response. This is a focused single-component project, not a general UI kit.
+Optical Anchor combines a machined graphite frame, a layered burnt-orange enamel face, and a custom vector eye with warm sclera shading, an amber/copper iris, radial fibres, glossy reflections, and page-wide tracking. The CTA label is intentionally removed in this design branch so the eye becomes the single focal point.
 
 ![Optical Anchor design preview](docs/previews/optical-anchor.svg)
 
@@ -12,12 +12,12 @@ Optical Anchor combines a burnt-orange face, a dark precision frame, a hand-draw
 
 - Identity: Precision Instrument / Studio Hardware.
 - Material: anodized-inspired matte surface with a dark inset frame.
-- Geometry: square silhouette, 2 px corner radius, and fine inset edge.
-- Signature: one custom-drawn optical eye with restrained brow expression.
+- Geometry: compact hardware housing with a 4 px corner radius, inset precision frame, and a centered eye scaled to dominate the face.
+- Signature: a large hand-drawn SVG eye with layered sclera, limbal ring, radial iris fibres, pupil reflections, eyelids, and crease lines.
 - Eye lifecycle: starts asleep, wakes when the button is hovered, tracks pointer direction across the page, grows tired after 2.2 seconds of inactivity, then sleeps 780 ms later.
 - Microgravity: the face shifts by at most about 1.15 px horizontally and 0.75 px vertically only while the pointer is over the button. The system cursor is never moved.
-- State feedback: default, hover, pressed, focus-visible, disabled, and loading.
-- Accessibility: native button semantics, keyboard activation, visible focus, stable label, and reduced-motion support.
+- State feedback: sleeping, awake, tired, pressed, focus-visible, disabled, and loading.
+- Accessibility: native button semantics, keyboard activation, a programmatic accessible name, visible focus, optional custom children, and reduced-motion support.
 - Banlist: no purple/blue gradient, gratuitous glow, glassmorphism, third-party icon packs, emoji, or ambient animation.
 
 See DESIGN-CONTRACT.md for the full specification.
@@ -28,19 +28,19 @@ Requires Node.js 20.19+ or 22.12+.
 
 1. Run npm install.
 2. Run npm run dev.
-3. Open the local URL printed by Vite. Use the state selector to inspect the six states and hover the button to wake the eye, then move the pointer elsewhere in the page. Pause to observe the tired and sleeping states.
+3. Open the local URL printed by Vite. Hover the eye housing to wake it, move elsewhere on the page to watch the iris track, then pause to observe the tired and sleeping states. The label is absent by design.
 
 ## Verify
 
 Run `npm run typecheck`, `npm test`, and `npm run build`.
 
-GitHub Actions passed type-checking, unit tests, and the production build on the current implementation. The updated standalone HTML prototype also passed 10 interaction/responsive checks in headless Chromium with no uncaught page errors. See [docs/BROWSER-VALIDATION.md](docs/BROWSER-VALIDATION.md) for the scope and limitations of those checks.
+GitHub Actions passed type-checking, unit tests, and the production build on the current implementation. The previous standalone eye-lifecycle prototype passed 12 interaction/responsive checks in headless Chromium. This design branch changes the SVG artwork and layout, so it needs a fresh visual and responsive validation before it can be called verified. See [docs/BROWSER-VALIDATION.md](docs/BROWSER-VALIDATION.md) for the scope and limitations of those checks.
 
 ## Component API
 
-OpticalButton extends native React button attributes with loading, size (sm/md/lg), and fullWidth props. The default size is md (44 px); sm is 36 px and lg is 52 px. The default label is Let's Collab, and the default button type is button to avoid accidental form submission.
+OpticalButton extends native React button attributes with loading, size (sm/md/lg), and fullWidth props. The eye-only default has an accessible name of “Optical Anchor eye control” and a button type of button to avoid accidental form submission. Sizes are sm (156 × 112 px), md (184 × 132 px), and lg (216 × 156 px). Optional children are supported as a secondary caption, but the showcase leaves them empty.
 
-The eye is decorative and hidden from assistive technology. The visible button label supplies its accessible name.
+The eye is decorative and hidden from assistive technology. A programmatic accessible name is provided when the button has no visible children.
 
 ## Scope excluded from v1
 
