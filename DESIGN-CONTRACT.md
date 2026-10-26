@@ -5,13 +5,13 @@
 **Name:** Optical Anchor  
 **Product:** One reusable native button component.  
 **Identity:** Precision instrument expressed through studio hardware cues.  
-**Primary signature:** One oversized, custom-drawn SVG eye centered within a burnt-orange enamel housing.  
+**Primary signature:** One oversized, custom-drawn SVG eye centered in a raised circular bezel; a slim horizontal capsule housing extends behind it.  
 **Design intent:** The eye itself is the action affordance; the previous “Let's Collab” CTA is deliberately removed in this experimental branch.
 
 ## Visual language
 
-- **Housing:** Compact graphite frame, inset border, small hardware-like radius, and a warm enamel face.
-- **Eye scale:** Dominant focal element. Standard housing is 184 × 132 px; eye artwork is 132 × 86 px. Smaller and larger sizes scale proportionally.
+- **Housing:** Slim horizontal capsule with graphite frame and warm enamel face; a raised circular bezel overlaps the housing at its exact center.
+- **Eye scale:** Dominant focal element. Standard housing is 280 × 76 px; central bezel is 138 × 138 px; eye artwork is 132 × 86 px. Smaller and larger sizes scale proportionally.
 - **Sclera:** Warm ivory with a gentle top highlight and shadowed lower edge, avoiding stark flat white.
 - **Iris:** Layered amber-to-copper radial color, dark limbal ring, fine radial fibres, an inner warm ring, deep pupil, and restrained moisture glints.
 - **Eyelids:** Upper and lower contours, a warm upper-lid gradient, soft brow crease, and separate closed-lid stroke for sleeping state.
@@ -31,9 +31,9 @@
 
 ## Button dimensions
 
-- `sm`: 156 × 112 px.
-- `md`: 184 × 132 px; default.
-- `lg`: 216 × 156 px.
+- `sm`: 236 × 64 px; bezel 116 × 116 px.
+- `md`: 280 × 76 px; bezel 138 × 138 px; default.
+- `lg`: 324 × 88 px; bezel 160 × 160 px.
 - `fullWidth`: expands the housing to the containing block's width while keeping the eye centered.
 - Optional `children` are supported as a small secondary caption. The showcase leaves children empty.
 
