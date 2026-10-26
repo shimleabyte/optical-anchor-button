@@ -41,7 +41,7 @@
 ## Interaction contract
 
 - **Sleeping:** The aperture is closed and the iris hidden until the pointer enters the button.
-- **Awake:** The aperture opens, the iris follows cursor direction anywhere within the page, and the brow subtly relaxes.
+- **Awake:** The aperture opens, the iris follows cursor direction anywhere within the page, and the brow subtly relaxes. Page-wide tracking continues while awake or tired, even when the pointer is outside the button; the housing remains neutral outside the button.
 - **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed.
 - **Sleep:** After another 780 ms idle, the eye closes and the gaze resets.
 - **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, renewed pointer movement wakes it if the pointer is still over the button; if the pointer is outside the button, it waits for the next button entry. Waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
@@ -144,6 +144,20 @@ After the eye reaches full sleep, fresh pointer movement wakes it if the pointer
 - The wake transition follows Decision 05: open quickly but gently, coordinate iris orientation toward the pointer, then settle into fixation.
 - Pointer movement must not bypass the waking transition or cause the iris to teleport to its target.
 - The wake trigger is distinct from the fatigue and sleep timers; implementation should avoid stale timers accidentally returning the eye to sleep immediately after waking.
+
+### Decision 08: gaze boundary / page-wide tracking
+
+**Chosen direction:** A — Page-wide tracking.
+
+While the eye is awake or tired, its iris tracks the pointer throughout the browser viewport, including when the pointer is far from the button. Only the iris gaze changes; the housing and enamel face stay neutral when the pointer is outside the button.
+
+**Behavior constraints:**
+- Track the pointer throughout the viewport while awake or tired, not just while hovering over the button.
+- Keep housing microgravity and pointer-responsive face movement limited to the pointer being over the button.
+- On viewport exit, follow Decision 06: briefly hold the last fixation, then return gradually toward center without triggering sleep by itself.
+- After full sleep, follow Decision 07: movement wakes the eye only if the pointer is still over the button; otherwise, button re-entry is required.
+- The gaze boundary and sleep state are separate concerns; do not let page-wide tracking prevent fatigue or sleep.
+- Pointer coordinates, target transitions, and event listeners must remain bounded and cleaned up correctly when the component unmounts.
 
 ## Accessibility and engineering constraints
 
