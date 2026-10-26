@@ -1,7 +1,19 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { OpticalButton } from '../src/components/OpticalButton';
+
+afterEach(() => cleanup());
+
+function dispatchPointerMove(target: Element, clientX: number, clientY: number) {
+  const event = new Event('pointermove', { bubbles: true, cancelable: true });
+  Object.defineProperties(event, {
+    pointerType: { value: 'mouse' },
+    clientX: { value: clientX },
+    clientY: { value: clientY },
+  });
+  fireEvent(target, event);
+}
 
 describe('OpticalButton', () => {
   it('renders a native button with the default accessible label', () => {
@@ -56,10 +68,10 @@ describe('OpticalButton', () => {
       eye.getBoundingClientRect = vi.fn(() => eyeRect);
       expect(button).toHaveClass('oa-button--sleeping');
 
-      fireEvent.pointerMove(button, { pointerType: 'mouse', clientX: 180, clientY: 120 });
+      dispatchPointerMove(button, 180, 120);
       expect(button).toHaveClass('oa-button--awake');
 
-      fireEvent.pointerMove(button, { pointerType: 'mouse', clientX: 900, clientY: 80 });
+      dispatchPointerMove(button, 900, 80);
       expect(button.style.getPropertyValue('--gaze-x')).not.toBe('0px');
       expect(button.style.getPropertyValue('--pull-x')).toBe('0px');
 
@@ -76,7 +88,7 @@ describe('OpticalButton', () => {
   it('keeps a disabled button asleep and does not wake on pointer movement', () => {
     render(<OpticalButton disabled>Unavailable</OpticalButton>);
     const button = screen.getByRole('button', { name: 'Unavailable' });
-    fireEvent.pointerMove(button, { pointerType: 'mouse', clientX: 20, clientY: 20 });
+    dispatchPointerMove(button, 20, 20);
     expect(button).toHaveClass('oa-button--sleeping');
     expect(button).not.toHaveClass('oa-button--awake');
   });
