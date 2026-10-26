@@ -130,6 +130,7 @@ describe('OpticalButton', () => {
     expect(button).toHaveAttribute('aria-busy', 'true');
     expect(button).toHaveClass('oa-button--loading');
     expect(button.querySelector('.oa-button__loading-scan')).not.toBeNull();
+    expect(button.querySelector('.oa-button__loading-reticle')).not.toBeNull();
     await user.click(button);
     expect(onClick).not.toHaveBeenCalled();
   });

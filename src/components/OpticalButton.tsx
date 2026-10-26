@@ -376,6 +376,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
                   <circle cx="88.7" cy="61.2" r="2" fill="#f3d9b2" opacity=".72" />
                   <circle cx="72.8" cy="42.4" r="1.5" fill="#ffffff" />
                 </g>
+                <circle className="oa-button__loading-reticle" cx="80" cy="52" r="31" clipPath={'url(#' + eyeId + '-aperture-clip)'} fill="none" stroke="#f4c77c" strokeWidth="1.1" strokeDasharray="2 5" opacity="0" />
                 <path className="oa-button__loading-scan" d="M10 53 H151" clipPath={'url(#' + eyeId + '-aperture-clip)'} fill="none" />
                 <path
                   className="oa-button__lid-cover oa-button__lid-cover--awake"
