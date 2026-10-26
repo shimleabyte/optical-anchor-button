@@ -7,6 +7,7 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 ## Manual/browser regression checklist
 
 - The body, bezel, and eye share a consistent visual center at sm, md, and lg sizes.
+- The size matrix renders sm at 236 × 64 px with a 116 px bezel and 108 × 70 px eye; md at 280 × 76 px with a 138 px bezel and 132 × 86 px eye; lg at 324 × 88 px with a 160 px bezel and 158 × 103 px eye.
 - The bezel appears mechanically seated in the capsule, with distinct graphite, copper, and inset-rim boundaries.
 - Idle shows no speech bubble; hovering the button raises the excited brow and reveals “Let's collab!” without a persistent label.
 - Leaving the button hides the bubble and returns the brow to neutral while page-wide eye tracking may continue.
@@ -14,7 +15,10 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 - Keyboard focus alone does not show the speech bubble or the excited brow.
 - Physical excited expression is gated to `any-hover: hover` and `any-pointer: fine`; touch-only devices do not acquire a persistent hover bubble.
 - The hover/focus expression and bubble remain hidden when the button is disabled or loading.
-- Bubble placement stays clear of the brow and bezel at sm/md/lg and full-width sizes; it remains inside narrow 320 px and 390 px layouts.
+- Bubble placement stays clear of the brow and bezel at sm/md/lg and full-width sizes; it remains within the housing bounds and inside narrow 320 px and 390 px layouts.
+- `fullWidth` fills a narrower parent and caps at 360 px when its parent is wider; the bezel and iris remain horizontally centered.
+- On hybrid-capable input, synthetic touch pointer entry does not add the physical-hover class or change gaze, while mouse movement can still activate the hover expression.
+- On touch-only emulation, touch pointer movement does not wake or steer the eye and does not expose the excited brow or bubble.
 - Bubble fade-out completes before visibility becomes hidden; reduced-motion removes the delay.
 - The sleeping state fully covers the sclera and iris; only the closed-lid contour remains.
 - Waking reveals the almond aperture without stretching or flattening the iris.
@@ -34,11 +38,12 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 
 ## Validation record
 
-- Automated quality checks: [GitHub Actions Quality checks](https://github.com/shimleabyte/optical-anchor-button/actions/workflows/ci.yml) runs type-checking, unit tests, and the production build.
-- Chromium browser QA: [Browser QA workflow](https://github.com/shimleabyte/optical-anchor-button/actions/workflows/browser-qa.yml) checks idle and hover rendering, pointer exit, keyboard focus, disabled/loading behavior, reduced motion, and horizontal fit at 320 px and 390 px.
-- Browser evidence: the workflow uploads idle, hover, and narrow-viewport screenshots plus Playwright traces and an HTML report as the `optical-anchor-browser-evidence` artifact.
-- The showcase status readout now reports physical hover separately from the selected preview state, so the live object doesn't visually claim to be idle while the real pointer is hovering over it.
-- A passing automation run confirms only the exercised browser contracts; inspect the screenshots for detailed eye anatomy, material boundaries, and transition quality before merging.
+- Quality workflow: [GitHub Actions checks](https://github.com/shimleabyte/optical-anchor-button/actions/workflows/ci.yml) runs TypeScript validation, unit tests, and a production build with both the main showcase and QA matrix as build entries.
+- Browser workflow: [Chromium Browser QA](https://github.com/shimleabyte/optical-anchor-button/actions/workflows/browser-qa.yml) checks button dimensions and eye/bezel scaling for sm/md/lg; bubble bounds; wide and narrow `fullWidth` parents; disabled/loading, focus-visible and reduced-motion states; and simulated hybrid and touch-only pointer input.
+- The QA matrix is available at `/component-matrix.html` while the Vite development server is running.
+- The workflow artifacts include desktop idle and hover screenshots, the desktop size matrix, a 320 px full-width matrix screenshot, 320 px / 390 px hover screenshots, failure traces, and the Playwright HTML report.
+- Automated checks confirm only the exercised interaction and layout contracts; inspect the screenshots for fine anatomical construction, bezel/housing material alignment, and transition quality before merging.
+
 
 ## SVG/rendering notes
 
