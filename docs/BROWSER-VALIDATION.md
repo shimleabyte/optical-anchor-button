@@ -13,6 +13,10 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 - Leaving the button hides the bubble and returns the brow to neutral while page-wide eye tracking may continue.
 - The showcase `STATE` readout changes to `HOVER` while the live object is physically hovered, then returns to the selected preview state on pointer exit.
 - Keyboard focus alone does not show the speech bubble or the excited brow.
+- The button exposes a useful accessible name; the eye SVG and visual-only collab bubble are excluded from that name, and the hint is associated through `aria-describedby`.
+- Enter and Space activate the native button without revealing hover-only decoration.
+- When focus leaves an already-tired button, its remaining tired interval completes before sleep instead of restarting the idle interval.
+- Unmount clears pending idle/blink/return timers, removes window/document listeners, and clears transient inline eye transforms/classes.
 - Physical excited expression is gated to `any-hover: hover` and `any-pointer: fine`; touch-only devices do not acquire a persistent hover bubble.
 - The hover/focus expression and bubble remain hidden when the button is disabled or loading.
 - Bubble placement stays clear of the brow and bezel at sm/md/lg and full-width sizes; it remains within the housing bounds and inside narrow 320 px and 390 px layouts.
