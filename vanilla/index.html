@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#e9e3da">
+  <meta name="description" content="Optical Anchor — standalone Vanilla JavaScript component study.">
+  <title>Optical Anchor — Vanilla Study</title>
+  <link rel="stylesheet" href="./vanilla.css">
+  <script src="./eye-controller.js" defer></script>
+  <script src="./optical-button.js" defer></script>
+  <script src="./showcase.js" defer></script>
+</head>
+<body>
+  <main class="studio-shell">
+    <header class="studio-header">
+      <a class="studio-mark" href="#top" aria-label="Optical Anchor study home">
+        <span class="studio-mark__symbol" aria-hidden="true"><span></span></span>
+        <span>O/A <span class="studio-mark__divider">/</span> COMPONENTS</span>
+      </a>
+      <div class="header-meta"><span>VANILLA BUILD</span><span class="header-meta__index">NO. 002</span></div>
+    </header>
+
+    <section id="top" class="intro-grid">
+      <div class="intro-copy">
+        <p class="eyebrow"><span class="eyebrow__line"></span> A SINGLE-COMPONENT REBUILD</p>
+        <h1>Optical<br><span>Anchor.</span></h1>
+        <p class="intro-description">A single oversized eye in a machined orange housing. Warm iris detail, quiet depth, and a gaze that follows the pointer.</p>
+        <div class="intent-note"><span class="intent-note__number">01</span><p>Same signature.<br>Smaller runtime surface.</p></div>
+        <div class="palette-block">
+          <p class="micro-label">MATERIAL REGISTER</p>
+          <div class="swatch-row">
+            <div class="swatch-item"><span class="swatch swatch--orange"></span><span>Burnt orange<small>#B34D26</small></span></div>
+            <div class="swatch-item"><span class="swatch swatch--graphite"></span><span>Graphite<small>#191816</small></span></div>
+            <div class="swatch-item"><span class="swatch swatch--ivory"></span><span>Ivory<small>#F3EEE6</small></span></div>
+          </div>
+        </div>
+      </div>
+
+      <section class="object-stage" aria-labelledby="stage-title">
+        <div class="stage-header">
+          <div><p class="micro-label">LIVE OBJECT / 002</p><h2 id="stage-title">Optical Anchor <span>— Vanilla</span></h2></div>
+          <div class="stage-status"><span class="stage-status__dot"></span> INTERACTIVE</div>
+        </div>
+        <div class="stage-center">
+          <div class="object-index" aria-hidden="true"><span>OA</span><span>002</span></div>
+          <div class="button-wrap">
+            <div id="optical-button-host"></div>
+            <p id="button-hint" class="button-hint">Hover to wake the eye. Move away to return to neutral; keyboard activation stays native.</p>
+          </div>
+          <div class="object-measure" aria-hidden="true"><span>132 PX</span><span>02 / VANILLA</span></div>
+        </div>
+        <div class="stage-footer">
+          <div class="state-readout"><span class="readout-key">STATE</span><span id="readout-state" class="readout-value">DEFAULT</span></div>
+          <div class="state-readout"><span class="readout-key">ACTIVATIONS</span><span id="readout-count" class="readout-value">00</span></div>
+          <div class="state-readout"><span class="readout-key">RUNTIME</span><span class="readout-value">HTML / CSS / JS</span></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="state-section" aria-labelledby="state-title">
+      <div class="section-heading"><div><p class="micro-label">BEHAVIOUR MATRIX / 7 STATES</p><h2 id="state-title">Inspect the response.</h2></div><p class="section-aside">Switch states to inspect visual behavior. Physical hover remains separate from the preview selection.</p></div>
+      <div class="state-selector" role="group" aria-label="Preview button state">
+        <button type="button" class="state-option state-option--active" data-state="default" aria-pressed="true"><span class="state-option__index">00</span><span>Idle</span></button>
+        <button type="button" class="state-option" data-state="hover" aria-pressed="false"><span class="state-option__index">01</span><span>Hover / Excited</span></button>
+        <button type="button" class="state-option" data-state="tired" aria-pressed="false"><span class="state-option__index">02</span><span>Tired</span></button>
+        <button type="button" class="state-option" data-state="pressed" aria-pressed="false"><span class="state-option__index">03</span><span>Pressed</span></button>
+        <button type="button" class="state-option" data-state="focus" aria-pressed="false"><span class="state-option__index">04</span><span>Focus</span></button>
+        <button type="button" class="state-option" data-state="disabled" aria-pressed="false"><span class="state-option__index">05</span><span>Disabled</span></button>
+        <button type="button" class="state-option" data-state="loading" aria-pressed="false"><span class="state-option__index">06</span><span>Loading</span></button>
+      </div>
+      <div class="state-explanation" aria-live="polite"><span class="state-explanation__mark" aria-hidden="true"></span><p id="state-explanation">The eye starts asleep. Hover the button to wake it; it follows the pointer, grows tired after a pause, then sleeps.</p><button type="button" class="reset-button" id="reset-study">RESET STUDY</button></div>
+    </section>
+    <footer class="studio-footer"><span>OPTICAL ANCHOR / VANILLA REBUILD</span><span>HTML · CSS · JAVASCRIPT</span><span>NO FRAMEWORK RUNTIME</span></footer>
+  </main>
+</body>
+</html>
