@@ -43,9 +43,10 @@
 
 ## Interaction contract
 
-- **Sleeping:** The aperture is closed and the iris hidden until the pointer enters the button.
+- **Sleeping:** The eyelid cover closes the full aperture and hides the iris without squashing either shape; pointer entry wakes the eye.
 - **Awake:** The aperture opens, the iris follows cursor direction anywhere within the page, and the brow subtly relaxes. Page-wide tracking continues while awake or tired, even when the pointer is outside the button; the housing remains neutral outside the button.
-- **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed. While keyboard focus remains, tired cues are allowed, but the eye cannot enter full sleep.
+- **Blink:** While awake or tired, variable-delay timers trigger brief full eyelid closures over the eye silhouette. The iris and sclera keep their native geometry; blinking is disabled when reduced motion is requested.
+- **Tired:** After 2.2 seconds without pointer movement, the upper lid lowers over the iris to create a half-closed expression. While keyboard focus remains, tired cues are allowed, but the eye cannot enter full sleep.
 - **Sleep:** After another 780 ms idle, the eye closes and the gaze resets, except while keyboard-focused. When focus is lost, the normal idle-to-sleep progression resumes.
 - **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, renewed pointer movement wakes it if the pointer is still over the button; if the pointer is outside the button, it waits for the next button entry. Waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
 - **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking. When the pointer leaves the viewport, the gaze briefly holds its last fixation, then gradually returns toward center without triggering sleep by itself.
