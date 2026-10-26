@@ -42,8 +42,8 @@
 
 - **Sleeping:** The aperture is closed and the iris hidden until the pointer enters the button.
 - **Awake:** The aperture opens, the iris follows cursor direction anywhere within the page, and the brow subtly relaxes. Page-wide tracking continues while awake or tired, even when the pointer is outside the button; the housing remains neutral outside the button.
-- **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed.
-- **Sleep:** After another 780 ms idle, the eye closes and the gaze resets.
+- **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed. While keyboard focus remains, tired cues are allowed, but the eye cannot enter full sleep.
+- **Sleep:** After another 780 ms idle, the eye closes and the gaze resets, except while keyboard-focused. When focus is lost, the normal idle-to-sleep progression resumes.
 - **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, renewed pointer movement wakes it if the pointer is still over the button; if the pointer is outside the button, it waits for the next button entry. Waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
 - **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking. When the pointer leaves the viewport, the gaze briefly holds its last fixation, then gradually returns toward center without triggering sleep by itself.
 - **Pressed:** The face travels down by 1 px; no bounce or ripple.
@@ -172,6 +172,19 @@ When the button receives keyboard focus, the eye wakes gently and adopts a neutr
 - Keep the visible focus ring clear throughout the wake transition and while focus remains.
 - Preserve native button semantics and Enter/Space activation; focus and wake behavior must not activate the button.
 - Avoid competing wake triggers or stale sleep timers that immediately close the eye after focus wakes it.
+
+### Decision 10: fatigue while keyboard-focused / tired, but never fully asleep
+
+**Chosen direction:** C — Tired, but never fully asleep.
+
+Keyboard focus remains a sign that the control is actively being navigated, so the eye may express gradual fatigue while focused but must not fully close. Once focus is lost, the normal idle-to-sleep progression applies again.
+
+**Behavior constraints:**
+- Fatigue cues may progress while keyboard focus remains, including a lowered upper lid and relaxed brow.
+- Full sleep is prohibited while the button retains keyboard focus.
+- On blur, resume the normal idle-to-sleep progression without an abrupt expression change or an immediate forced sleep.
+- Preserve the visible focus ring until focus is genuinely lost.
+- Ensure timer cancellation and rescheduling cannot cause a stale sleep timer to close the eye while focus is still active.
 
 ## Accessibility and engineering constraints
 
