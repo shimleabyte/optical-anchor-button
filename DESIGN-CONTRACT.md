@@ -1,63 +1,69 @@
-# Optical Anchor — Design Contract v1
+# Optical Anchor — Design Contract v2 / Eye-First Experiment
 
 ## Product direction
 
 **Name:** Optical Anchor  
-**Product:** One reusable standalone button component.  
-**Identity:** Precision Instrument, expressed through studio hardware cues.  
-**Signature:** One custom-drawn optical eye whose pupil follows pointer direction, paired with restrained eyebrow expression and a small gravity illusion.
+**Product:** One reusable native button component.  
+**Identity:** Precision instrument expressed through studio hardware cues.  
+**Primary signature:** One oversized, custom-drawn SVG eye centered within a burnt-orange enamel housing.  
+**Design intent:** The eye itself is the action affordance; the previous “Let's Collab” CTA is deliberately removed in this experimental branch.
+
+## Visual language
+
+- **Housing:** Compact graphite frame, inset border, small hardware-like radius, and a warm enamel face.
+- **Eye scale:** Dominant focal element. Standard housing is 184 × 132 px; eye artwork is 132 × 86 px. Smaller and larger sizes scale proportionally.
+- **Sclera:** Warm ivory with a gentle top highlight and shadowed lower edge, avoiding stark flat white.
+- **Iris:** Layered amber-to-copper radial color, dark limbal ring, fine radial fibres, an inner warm ring, deep pupil, and restrained moisture glints.
+- **Eyelids:** Upper and lower contours, a warm upper-lid gradient, soft brow crease, and separate closed-lid stroke for sleeping state.
+- **Shadow:** Localized contact/drop shading and recessed face treatment only. No ambient glow or oversized shadow.
+- **Motion:** The aperture opens on hover, the iris tracks page-wide while awake, and inactivity transitions the eye through tired to sleep.
 
 ## Visual tokens
 
 | Token | Value | Role |
 | --- | --- | --- |
-| `--oa-orange` | `#B34D26` | Main burnt-orange face |
-| `--oa-orange-hover` | `#AD4823` | Slightly deeper hover face, preserving text contrast |
-| `--oa-orange-pressed` | `#963D1C` | Pressed face |
-| `--oa-ink` | `#191816` | Graphite frame / dark stage |
-| `--oa-frame-line` | `#65402E` | Normal outer edge |
-| `--oa-ivory` | `#F3EEE6` | Eye sclera, text, and focus ring on dark surroundings |
-| `2px` | Corner radius | Square geometry, not pill-shaped |
-| `1px` | Inset/border detail | Precision edge treatment |
+| `--oa-orange` | `#B34D26` | Main enamel face |
+| `--oa-orange-hover` | `#A84422` | Hover face |
+| `--oa-orange-pressed` | `#89361D` | Pressed face |
+| `--oa-ink` | `#191816` | Graphite frame |
+| `--oa-frame-line` | `#6C4635` | Warm frame edge |
+| `--oa-ivory` | `#F3EEE6` | Focus ring and surrounding light tones |
 
 ## Button dimensions
 
-- `sm`: 36 px high.
-- `md`: 44 px high; default.
-- `lg`: 52 px high.
-- The eye is part of the component's visual signature, not a third-party icon.
-- Label uses inherited neutral sans-serif type and stays editable via `children`.
+- `sm`: 156 × 112 px.
+- `md`: 184 × 132 px; default.
+- `lg`: 216 × 156 px.
+- `fullWidth`: expands the housing to the containing block's width while keeping the eye centered.
+- Optional `children` are supported as a small secondary caption. The showcase leaves children empty.
 
 ## Interaction contract
 
-- **Idle:** relaxed brow, centered gaze, neutral face.
-- **Hover:** gaze follows pointer; brow lifts slightly; face shifts one shade deeper; inset/outer edges become brighter.
-- **Pressed:** face travels down by 1 px; no bounce or ripple.
-- **Focus-visible:** clear 2 px ivory outline for dark surfaces, with an orange secondary edge.
-- **Disabled:** native disabled behavior and clearly muted surface.
-- **Loading:** busy state, visible spinner, stable label, and blocked repeat activation. It looks different from disabled.
-- **Microgravity:** button face follows pointer by no more than 1.15 px horizontally and 0.75 px vertically. The operating-system pointer is never moved.
-- **Pointer leave:** gaze and face offset return to zero.
-- **Touch:** pointer tracking is skipped on touch pointers; native pressed feedback remains.
-- **Reduced motion:** transitions and spinner animation become effectively immediate.
+- **Sleeping:** The aperture is closed and the iris hidden until the pointer enters the button.
+- **Awake:** The aperture opens, the iris follows cursor direction anywhere within the page, and the brow subtly relaxes.
+- **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed.
+- **Sleep:** After another 780 ms idle, the eye closes and the gaze resets.
+- **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, it waits for the next button entry.
+- **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking.
+- **Pressed:** The face travels down by 1 px; no bounce or ripple.
+- **Focus-visible:** A clear 2 px ivory outline with an orange secondary edge.
+- **Disabled/loading:** Native disabled semantics; tracking is blocked and the eye sleeps. Loading gets a small corner spinner.
+- **Touch:** Pointer tracking is skipped on touch pointer movement.
+- **Reduced motion:** Transitions and spinner animation become effectively immediate.
 
 ## Accessibility and engineering constraints
 
 - Use native `<button>` semantics and default `type="button"`.
-- Keep the eye decorative (`aria-hidden`); visible button content supplies the accessible name.
-- Preserve Enter/Space behavior and a visible keyboard focus indicator.
-- Keep `loading` distinct from `disabled`; loading also sets `aria-busy`.
-- Do not make any action depend on the eye's expression.
+- Keep the SVG eye decorative (`aria-hidden`); provide the default programmatic accessible name “Optical Anchor eye control” when there are no visible children.
+- Preserve Enter/Space activation and visible keyboard focus.
+- Keep `loading` distinct from `disabled`; loading sets `aria-busy`.
+- SVG gradient, clip, and filter IDs must be unique per rendered component instance.
+- Do not make activation depend on the eye's expression.
 - No pointer manipulation, routing, network calls, sound, or business logic inside the component.
 
 ## Banlist
 
 - No Lucide, Feather, Heroicons, or emoji.
-- No purple-blue gradient, gratuitous glow, glassmorphism, or RGB gamer aesthetic.
-- No pill shape, giant shadow, gratuitous 3D bevel, noisy texture, random expression, or ambient animation.
-- No generic scroll animations, bounce, ripple, or pointer teleportation.
-- No marketing copy that substitutes for a defined component contract.
-
-## Prototype scope
-
-This prototype validates the `primary` visual direction only. Additional `secondary` and `ghost` variants should be added only after the primary's proportions and interaction feel are approved. The showcase's forced-state classes are demo-only and are not part of the component API.
+- No purple-blue gradients, gratuitous glow, glassmorphism, or RGB gamer aesthetic.
+- No pill housing, giant shadows, gratuitous 3D bevel, noisy texture, or ambient animation.
+- No generic bounce, ripple, or pointer teleportation.
