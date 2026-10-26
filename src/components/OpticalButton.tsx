@@ -328,8 +328,8 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
                   d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52 C129 79 104 89 80 89 C56 89 31 79 9 52Z"
                   fill={'url(#' + eyeId + '-lid)'}
                 />
-                <path className="oa-button__lid-edge oa-button__lid-edge--awake" d="M9 52 C31 39 54 30 80 30 C106 30 129 39 151 52Z" />
-                <path className="oa-button__lid-edge oa-button__lid-edge--tired" d="M9 52 C31 47 55 49 80 48 C105 49 129 47 151 52Z" />
+                <path className="oa-button__lid-edge oa-button__lid-edge--awake" d="M9 52 C31 39 54 30 80 30 C106 30 129 39 151 52" />
+                <path className="oa-button__lid-edge oa-button__lid-edge--tired" d="M9 52 C31 47 55 49 80 48 C105 49 129 47 151 52" />
               </g>
               <path className="oa-button__lid--upper" stroke={'url(#' + eyeId + '-lid)'} d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52" />
               <path className="oa-button__lid--lower" d="M10 52 C34 79 56 89 80 89 C104 89 126 79 150 52" />
