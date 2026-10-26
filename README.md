@@ -2,7 +2,7 @@
 
 An eye-first React button experiment built around a centered, oversized, pointer-aware iris.
 
-Optical Anchor combines a machined graphite frame, a layered burnt-orange enamel face, and a custom vector eye with warm sclera shading, an amber/copper iris, radial fibres, glossy reflections, and page-wide tracking. The CTA label is intentionally removed in this design branch so the eye becomes the single focal point.
+Optical Anchor combines a machined graphite frame, a lightly micro-grained burnt-orange enamel face, and a custom vector eye with warm sclera shading, an amber/copper iris, radial fibres, glossy reflections, and page-wide tracking. The CTA label is intentionally removed in this design branch so the eye becomes the single focal point.
 
 ![Optical Anchor design preview](docs/previews/optical-anchor.svg)
 
