@@ -85,6 +85,13 @@
   from { stroke-dashoffset: 37; }
   to { stroke-dashoffset: 0; }
 }
+.oa-button--loading .oa-button__loading-reticle {
+  opacity: .9;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: oa-reticle-orbit 2200ms linear infinite;
+}
+@keyframes oa-reticle-orbit { to { transform: rotate(360deg); } }
 .oa-button--sm { height: 36px; min-width: 190px; font-size: 13px; }
 .oa-button--sm .oa-button__content { gap: 8px; padding-inline: 10px; }
 .oa-button--sm .oa-button__eye { flex-basis: 32px; width: 32px; height: 25px; }
@@ -103,9 +110,10 @@
 .oa-button.demo-force-focus:not(:disabled) { outline: 2px solid #f3eee6; outline-offset: 4px; }
 .oa-button.demo-force-focus:not(:disabled)::before { border-color: #b34d26; }
 @media (prefers-reduced-motion: reduce) {
-  .oa-button, .oa-button::before, .oa-button__face, .oa-button__iris, .oa-button__sclera, .oa-button__eyelid, .oa-button__brow, .oa-button__status-mark, .oa-button__spinner, .oa-button__loading-scan {
+  .oa-button, .oa-button::before, .oa-button__face, .oa-button__iris, .oa-button__sclera, .oa-button__eyelid, .oa-button__brow, .oa-button__status-mark, .oa-button__spinner, .oa-button__loading-scan, .oa-button__loading-reticle {
     transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
   }
   .oa-button__face { will-change: auto; }
   .oa-button--loading .oa-button__loading-scan { animation: none; stroke-dasharray: 6 31; stroke-dashoffset: 18; }
+  .oa-button--loading .oa-button__loading-reticle { animation: none; opacity: .9; }
 }
