@@ -6,7 +6,7 @@ Optical Anchor combines a machined graphite frame, a lightly micro-grained burnt
 
 ![Optical Anchor design preview](docs/previews/optical-anchor.svg)
 
-[Interactive HTML prototype](Optical-Anchor-Prototype.html) · [Browser validation report](docs/BROWSER-VALIDATION.md)
+[Interactive HTML prototype](Optical-Anchor-Prototype.html) · [Component QA matrix](component-matrix.html) · [Browser validation report](docs/BROWSER-VALIDATION.md)
 
 ## Design contract
 
@@ -34,7 +34,7 @@ Requires Node.js 20.19+ or 22.12+.
 
 Run `npm run typecheck`, `npm test`, `npm run build`, and `npm run test:browser`.
 
-GitHub Actions runs the type-check, unit tests, production build, and Playwright Chromium regression suite. Browser coverage includes idle/hover rendering, pointer exit, keyboard focus, disabled/loading states, and horizontal-fit checks at 320 px and 390 px. The browser workflow uploads screenshots, traces, and an HTML report as artifacts. Automated coverage is not a substitute for reviewing the eye anatomy and material alignment; see [docs/BROWSER-VALIDATION.md](docs/BROWSER-VALIDATION.md).
+GitHub Actions runs the type-check, unit tests, production build, and Playwright Chromium regression suite. Browser coverage includes the `sm` / `md` / `lg` dimensions, bezel and eye scaling, full-width parent caps, idle/hover rendering, pointer exit, keyboard focus, disabled/loading states, reduced motion, simulated touch/mouse input, and narrow viewport fit. The browser workflow uploads desktop and responsive screenshots, traces, and an HTML report as artifacts. Automated checks do not certify every anatomical detail or transition, so review the evidence before merging; see [docs/BROWSER-VALIDATION.md](docs/BROWSER-VALIDATION.md).
 
 ## Component API
 
