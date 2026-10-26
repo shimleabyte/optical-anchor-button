@@ -14,8 +14,11 @@
 - **Eye scale:** Dominant focal element. Standard housing is 280 × 76 px; central bezel is 138 × 138 px; eye artwork is 132 × 86 px. Smaller and larger sizes scale proportionally.
 - **Sclera:** Warm ivory with a gentle top highlight and shadowed lower edge, avoiding stark flat white.
 - **Iris:** Layered amber-to-copper radial color, dark limbal ring, fine radial fibres, an inner warm ring, deep pupil, and restrained moisture glints.
-- **Eyelids:** Upper and lower contours, a warm upper-lid gradient, soft brow crease, and separate closed-lid stroke for sleeping state.
-- **Surface texture:** Very low-contrast procedural micro-grain on the matte enamel housing and raised bezel; satin iris and sclera remain smooth for focal contrast.
+- **Eyelids:** An anatomical almond aperture with asymmetric inner/outer corners, a tapered upper lid, a soft lower waterline, a separate crease, and a shaped closed-eye contour.
+- **Aperture construction:** The iris is clipped to the eye silhouette. Awake, tired, and sleeping states use independent upper-lid cover shapes; the sclera and iris retain their natural geometry and are never flattened with a vertical scale transform.
+- **Bezel integration:** The central bezel uses an outer graphite seat, copper rim, fine inset ring, and controlled contact shadow so the raised eye housing reads as a single assembled object rather than a circle pasted onto the capsule.
+- **Iris rendering:** Keep the amber/copper radial structure, limbal ring, fine radial fibres, warm inner ring, deep pupil, and restrained corneal highlights. The major catchlight stays coherent with the housing's light direction.
+- **Surface texture:** Very low-contrast procedural micro-grain on the matte enamel housing and raised bezel; sclera and iris remain smooth for focal contrast.
 - **Shadow:** Localized contact/drop shading and recessed face treatment only. No ambient glow or oversized shadow.
 - **Motion:** The aperture opens on hover, the iris tracks page-wide while awake, and inactivity transitions the eye through tired to sleep.
 
