@@ -243,7 +243,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
                   <circle cx="72.8" cy="42.4" r="1.5" fill="#ffffff" />
                 </g>
               </g>
-              <path className="oa-button__lid--upper" d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52" />
+              <path className="oa-button__lid--upper" stroke={'url(#' + eyeId + '-lid)'} d="M9 52 C31 25 56 15 80 15 C104 15 129 25 151 52" />
               <path className="oa-button__lid--lower" d="M10 52 C34 79 56 89 80 89 C104 89 126 79 150 52" />
               <path className="oa-button__closed-lid" d="M9 52 C39 66 121 66 151 52" />
               <path className="oa-button__lid-highlight" d="M24 38 C44 21 61 18 80 18 C100 18 117 22 136 38" />
