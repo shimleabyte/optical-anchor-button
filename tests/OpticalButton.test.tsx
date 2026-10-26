@@ -24,6 +24,13 @@ describe('OpticalButton', () => {
     expect(screen.getByRole('button').querySelector('.oa-button__eye')).toHaveAttribute('viewBox', '0 0 160 104');
   });
 
+  it('keeps SVG resource identifiers unique across multiple instances', () => {
+    render(<><OpticalButton /><OpticalButton /></>);
+    const ids = Array.from(document.querySelectorAll('.oa-button__eye [id]'), (node) => node.id);
+    expect(ids.length).toBeGreaterThan(0);
+    expect(new Set(ids).size).toBe(ids.length);
+  });
+
   it('passes activation to the consumer', async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();
