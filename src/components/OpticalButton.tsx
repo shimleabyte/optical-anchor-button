@@ -78,7 +78,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         if (state === 'sleeping' || blocked || prefersReducedMotion || document.hidden) return;
         const tired = state === 'tired';
         const delay = tired
-          ? 2400 + Math.random() * 2200
+          ? (focused ? 2400 + Math.random() * 2200 : 260 + Math.random() * 260)
           : 3400 + Math.random() * 3300;
         blinkTimer = window.setTimeout(() => {
           blinkTimer = undefined;
@@ -87,7 +87,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
           blinkEndTimer = window.setTimeout(() => {
             button.classList.remove('oa-button--blinking');
             blinkEndTimer = undefined;
-            scheduleBlink();
+            if (state !== 'tired' || focused) scheduleBlink();
           }, tired ? 135 : 110);
         }, delay);
       };
