@@ -23,5 +23,7 @@ jobs:
         run: npm run typecheck
       - name: Unit tests
         run: npm test
+      - name: Check Vanilla stylesheet sync
+        run: npm run check:vanilla-css
       - name: Production build
         run: npm run build
