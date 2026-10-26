@@ -31,6 +31,25 @@ describe('OpticalButton', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 
+  it('keeps iris geometry intact and layers distinct eyelid shapes over the aperture', () => {
+    render(<OpticalButton />);
+    const eye = screen.getByRole('button').querySelector('.oa-button__eye') as SVGSVGElement;
+    const iris = eye.querySelector('.oa-button__iris');
+    const awakeLid = eye.querySelector('.oa-button__lid-cover--awake');
+    const tiredLid = eye.querySelector('.oa-button__lid-cover--tired');
+    const sleepingLid = eye.querySelector('.oa-button__lid-cover--sleeping');
+
+    expect(iris).toHaveAttribute('clip-path', expect.stringContaining('aperture-clip'));
+    expect(awakeLid).toBeInTheDocument();
+    expect(tiredLid).toBeInTheDocument();
+    expect(sleepingLid).toBeInTheDocument();
+    expect(new Set([
+      awakeLid?.getAttribute('d'),
+      tiredLid?.getAttribute('d'),
+      sleepingLid?.getAttribute('d'),
+    ]).size).toBe(3);
+  });
+
   it('passes activation to the consumer', async () => {
     const user = userEvent.setup();
     const onClick = vi.fn();
