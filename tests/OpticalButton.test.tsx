@@ -1,6 +1,7 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import opticalButtonStyles from '../src/components/optical-button.css?raw';
 import { OpticalButton } from '../src/components/OpticalButton';
 
 afterEach(() => cleanup());
@@ -15,6 +16,32 @@ function dispatchPointerMove(target: Element, clientX: number, clientY: number) 
   fireEvent(target, event);
 }
 
+function findCssBlocks(source: string, header: string) {
+  const blocks: { start: number; end: number; text: string }[] = [];
+  let searchFrom = 0;
+
+  while (true) {
+    const start = source.indexOf(header, searchFrom);
+    if (start < 0) break;
+    const openBrace = source.indexOf('{', start);
+    if (openBrace < 0) break;
+
+    let depth = 0;
+    let end = openBrace;
+    for (; end < source.length; end += 1) {
+      if (source[end] === '{') depth += 1;
+      if (source[end] === '}') depth -= 1;
+      if (depth === 0) break;
+    }
+
+    if (depth !== 0) break;
+    blocks.push({ start, end: end + 1, text: source.slice(start, end + 1) });
+    searchFrom = end + 1;
+  }
+
+  return blocks;
+}
+
 describe('OpticalButton', () => {
   it('renders a centered eye-first native button with a useful default accessible label', () => {
     render(<OpticalButton />);
@@ -25,6 +52,28 @@ describe('OpticalButton', () => {
     expect(button.querySelector('.oa-button__brow--excited')).toBeInTheDocument();
     expect(button.querySelector('.oa-button__bubble')).toHaveTextContent("Let's collab!");
     expect(button.querySelector('.oa-button__bubble')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('limits physical hover expression to hover-capable fine pointers', () => {
+    const mediaBlocks = findCssBlocks(opticalButtonStyles, '@media (hover: hover) and (pointer: fine)');
+    const mediaCss = mediaBlocks.map((block) => block.text).join('\n');
+    const outsideMedia = mediaBlocks.reduce(
+      (source, block) => source.slice(0, source.indexOf(block.text)) + source.slice(source.indexOf(block.text) + block.text.length),
+      opticalButtonStyles,
+    );
+    const physicalHoverSelectors = [
+      '.oa-button:not(:disabled):hover .oa-button__brow--neutral',
+      '.oa-button:not(:disabled):hover .oa-button__brow--excited',
+      '.oa-button:not(:disabled):hover .oa-button__bubble',
+    ];
+
+    expect(mediaBlocks.length).toBeGreaterThan(0);
+    for (const selector of physicalHoverSelectors) {
+      expect(mediaCss).toContain(selector);
+      expect(outsideMedia).not.toContain(selector);
+    }
+    expect(opticalButtonStyles).toContain('--bubble-x: 35px; --bubble-y: -68px;');
+    expect(opticalButtonStyles).toContain('--bubble-x: 49px; --bubble-y: -85px;');
   });
 
   it('keeps SVG resource identifiers unique across multiple instances', () => {
