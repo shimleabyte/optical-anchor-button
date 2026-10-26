@@ -1,22 +1,25 @@
 # Browser validation — page-wide gaze lifecycle
 
-## Current status
+## Standalone prototype result
 
-The page-wide gaze lifecycle is implemented in the React component and standalone HTML prototype. **Fresh browser validation has not yet been run for this revision.** Do not interpret the historical 20/20 result below as proof that this update passes.
+**10 / 10 functional and responsive checks passed** against `Optical-Anchor-Prototype.html` in headless Chromium. No uncaught page errors were observed. The scenario ran at 1280 × 900 and then at a 390 × 844 viewport.
 
-## Expected behavior to verify
+Validated behavior:
+- The eye starts closed.
+- Pointer entry on the button wakes the eye.
+- After waking, the iris tracks pointer movement elsewhere in the page.
+- The button's microgravity resets outside its hit area while the gaze continues.
+- Pointer inactivity changes the eye to tired after 2.2 seconds.
+- The eye closes and resets after another 780 ms.
+- Page movement does not wake the eye again while it is sleeping; button re-entry does.
+- The disabled preview remains disabled and forces the eye back to sleep.
+- The narrow viewport has no horizontal overflow.
+- The flow produced no uncaught JavaScript errors.
 
-- The eye is closed on first render.
-- Entering the button with a mouse or pen wakes the eye.
-- After waking, pointer movement elsewhere inside the page continues to steer the iris.
-- The face microgravity returns to neutral outside the button while the iris keeps tracking.
-- After 2.2 seconds without pointer movement, the eye becomes tired; after another 780 ms, it closes and its gaze resets.
-- Moving the pointer again during the tired phase wakes the eye immediately and restarts the idle timer.
-- Disabled/loading controls remain asleep and do not react to pointer movement.
-- Touch pointer movement does not trigger the gaze behavior.
-- Window blur or document visibility loss resets the eye to sleep.
-- Native keyboard activation, focus-visible styling, reduced motion, responsive layout, and no-overflow checks remain intact.
+## React package verification
 
-## Historical baseline
+GitHub Actions' **Quality checks** workflow passed the TypeScript type-check, unit tests, and production build on commit `afc1d6b`. The test suite includes checks for the eye lifecycle and viewport pointer movement. Re-run the workflow after future changes; the standalone browser test and React package checks cover different execution paths.
 
-The previous prototype revision recorded 20/20 checks in Chromium 144. That report covered local button-only tracking, including resetting gaze on pointer leave. Those assertions are obsolete because the current behavior deliberately tracks beyond the button. Run the updated prototype and React test/build scripts before publishing a new pass count.
+## Scope
+
+These checks are focused behavior checks, not a full accessibility audit. Reduced-motion, focus-visible, native keyboard activation, and other existing component behaviors are covered by the project's test baseline, but the 10-check run above specifically records the new lifecycle and responsive behavior.
