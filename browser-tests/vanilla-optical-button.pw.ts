@@ -17,9 +17,9 @@ test('loads the standalone build without React and exposes native button semanti
     react: typeof (window as Window & { React?: unknown }).React,
     factory: typeof (window as Window & { OpticalAnchorButton?: { create?: unknown } }).OpticalAnchorButton?.create,
     controller: typeof (window as Window & { OpticalAnchorEyeController?: unknown }).OpticalAnchorEyeController,
-    vanillaScriptTypes: Array.from(document.querySelectorAll('script[src]'))
-      .filter((script) => /\\/vanilla\\/(eye-controller|optical-button|showcase)\\.js$/.test(script.getAttribute('src') || ''))
-      .map((script) => script.getAttribute('type') || 'classic'),
+    vanillaScriptTypes: Array.from(document.querySelectorAll(
+      'script[src="./eye-controller.js"], script[src="./optical-button.js"], script[src="./showcase.js"]',
+    )).map((script) => script.getAttribute('type') || 'classic'),
   }));
   expect(runtime.react).toBe('undefined');
   expect(runtime.factory).toBe('function');
