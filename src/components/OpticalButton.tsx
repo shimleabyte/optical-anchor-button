@@ -122,6 +122,7 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         lastPointerY = event.clientY;
         hasPointerTarget = true;
         const rect = button.getBoundingClientRect();
+        button.classList.remove('oa-button--returning');
         pointerInsideButton = event.clientX >= rect.left && event.clientX <= rect.right &&
           event.clientY >= rect.top && event.clientY <= rect.bottom;
         if (state === 'sleeping') {
@@ -149,7 +150,10 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         window.clearTimeout(returnTimer);
         if (state === 'sleeping') return;
         returnTimer = window.setTimeout(() => {
-          if (state !== 'sleeping') resetGaze();
+          if (state !== 'sleeping') {
+            button.classList.add('oa-button--returning');
+            resetGaze();
+          }
           returnTimer = undefined;
         }, 180);
       };
