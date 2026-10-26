@@ -44,7 +44,7 @@ export default function App() {
           <p className="eyebrow"><span className="eyebrow__line" /> A SINGLE-COMPONENT EXPERIMENT</p>
           <h1>Optical<br /><span>Anchor.</span></h1>
           <p className="intro-description">
-            A hardware-minded button with one small sign of life. Precise surfaces, controlled movement, an eye that pays attention.
+            A single oversized eye in a machined orange housing. Warm iris detail, quiet depth, and a gaze that follows the pointer.
           </p>
           <div className="intent-note">
             <span className="intent-note__number">01</span>
@@ -77,13 +77,12 @@ export default function App() {
                 disabled={isDisabled}
                 loading={isLoading}
                 onClick={() => setDemoClicks((count) => count + 1)}
+                aria-label="Optical Anchor eye button"
                 aria-describedby="button-hint"
-              >
-                Let's Collab
-              </OpticalButton>
+              />
               <p id="button-hint" className="button-hint">Hover to wake the eye, then move anywhere on the page. It tires after a pause.</p>
             </div>
-            <div className="object-measure" aria-hidden="true"><span>44 PX</span><span>01 / PRESS</span></div>
+            <div className="object-measure" aria-hidden="true"><span>132 PX</span><span>01 / OPTICAL</span></div>
           </div>
 
           <div className="stage-footer">
@@ -135,11 +134,11 @@ export default function App() {
 function stateExplanation(state: PreviewState) {
   const explanations: Record<PreviewState, string> = {
     default: 'The eye starts asleep. Hover the button to wake it; it follows the pointer across the page, grows tired after a pause, then sleeps.',
-    hover: 'The brow lifts, the inset edge catches light while the face moves one shade deeper.',
-    pressed: 'The face travels down by one pixel. No bounce, ripple, or exaggerated scale.',
+    hover: 'The eyelid opens and the iris responds to pointer direction. The housing stays restrained and tactile.',
+    pressed: 'The entire enamel face presses by one pixel. The eye remains the only focal point.',
     focus: 'A clear external focus ring identifies keyboard focus without relying on color alone.',
-    disabled: 'The control is unavailable, with a distinct surface and no pointer-driven movement.',
-    loading: 'The label remains stable while a restrained indicator communicates ongoing work.',
+    disabled: 'The housing is muted, the eye sleeps, and pointer motion is disabled.',
+    loading: 'The eye sleeps while a small mechanical indicator communicates ongoing work.',
   };
   return explanations[state];
 }
