@@ -12,7 +12,9 @@
     this.destroyed = false;
     this.timers = { tired: 0, sleep: 0, blink: 0, blinkEnd: 0, return: 0 };
     this.pointer = { hasTarget: false, x: global.innerWidth / 2, y: global.innerHeight / 2, inside: false };
-    this.reducedMotion = global.matchMedia ? global.matchMedia("(prefers-reduced-motion: reduce)").matches : false;
+    this.motionQuery = global.matchMedia ? global.matchMedia("(prefers-reduced-motion: reduce)") : null;
+    this.reducedMotion = this.motionQuery ? this.motionQuery.matches : false;
+    this.motionListenerMode = null;
 
     this.onPointerMove = this.onPointerMove.bind(this);
     this.onPointerOut = this.onPointerOut.bind(this);
@@ -22,6 +24,7 @@
     this.onBlur = this.onBlur.bind(this);
     this.onPointerEnter = this.onPointerEnter.bind(this);
     this.onPointerLeave = this.onPointerLeave.bind(this);
+    this.onMotionPreferenceChange = this.onMotionPreferenceChange.bind(this);
 
     global.addEventListener("pointermove", this.onPointerMove, { passive: true });
     global.addEventListener("pointerout", this.onPointerOut);
@@ -31,6 +34,13 @@
     button.addEventListener("blur", this.onBlur);
     button.addEventListener("pointerenter", this.onPointerEnter);
     button.addEventListener("pointerleave", this.onPointerLeave);
+    if (this.motionQuery && this.motionQuery.addEventListener) {
+      this.motionQuery.addEventListener("change", this.onMotionPreferenceChange);
+      this.motionListenerMode = "event";
+    } else if (this.motionQuery && this.motionQuery.addListener) {
+      this.motionQuery.addListener(this.onMotionPreferenceChange);
+      this.motionListenerMode = "legacy";
+    }
 
     this.setState("sleeping");
     if (this.focused) this.onFocus();
@@ -246,6 +256,12 @@
     else if (this.state !== "sleeping") this.scheduleBlink();
   };
 
+  EyeController.prototype.onMotionPreferenceChange = function (event) {
+    this.reducedMotion = Boolean(event.matches);
+    if (this.reducedMotion) this.clearBlinkTimers();
+    else if (this.state !== "sleeping" && !this.isBlocked()) this.scheduleBlink();
+  };
+
   EyeController.prototype.destroy = function () {
     if (this.destroyed) return;
     this.destroyed = true;
@@ -253,6 +269,11 @@
     global.removeEventListener("pointerout", this.onPointerOut);
     global.removeEventListener("blur", this.onWindowBlur);
     document.removeEventListener("visibilitychange", this.onVisibilityChange);
+    if (this.motionQuery && this.motionListenerMode === "event") {
+      this.motionQuery.removeEventListener("change", this.onMotionPreferenceChange);
+    } else if (this.motionQuery && this.motionListenerMode === "legacy") {
+      this.motionQuery.removeListener(this.onMotionPreferenceChange);
+    }
     this.button.removeEventListener("focus", this.onFocus);
     this.button.removeEventListener("blur", this.onBlur);
     this.button.removeEventListener("pointerenter", this.onPointerEnter);
