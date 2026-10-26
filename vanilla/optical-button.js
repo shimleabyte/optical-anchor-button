@@ -12,9 +12,11 @@
     button.type = options.type || "button";
     button.className = ["oa-button", "oa-button--sleeping", "oa-button--" + size,
       options.fullWidth ? "oa-button--full-width" : "", options.className || ""].filter(Boolean).join(" ");
-    button.disabled = Boolean(options.disabled || options.loading);
+    var isDisabled = Boolean(options.disabled);
+    var isLoading = Boolean(options.loading);
+    button.disabled = isDisabled || isLoading;
     if (options.ariaLabel || !options.children) button.setAttribute("aria-label", options.ariaLabel || "Optical Anchor eye control");
-    if (options.loading) button.setAttribute("aria-busy", "true");
+    if (isLoading) button.setAttribute("aria-busy", "true");
     if (options.describedBy) button.setAttribute("aria-describedby", options.describedBy);
 
     button.innerHTML = '<span class="oa-button__face"><span class="oa-button__content">' +
@@ -33,19 +35,24 @@
     var eyeController = new global.OpticalAnchorEyeController(button);
     var destroyed = false;
 
+    function syncAvailability() {
+      button.disabled = isDisabled || isLoading;
+      button.classList.toggle("oa-button--loading", isLoading);
+      if (isLoading) button.setAttribute("aria-busy", "true");
+      else button.removeAttribute("aria-busy");
+      eyeController.setBlocked(button.disabled);
+    }
+
     return {
       element: button,
       controller: eyeController,
       setDisabled: function (disabled) {
-        button.disabled = Boolean(disabled || button.classList.contains("oa-button--loading"));
-        eyeController.setBlocked(button.disabled);
+        isDisabled = Boolean(disabled);
+        syncAvailability();
       },
       setLoading: function (loading) {
-        button.classList.toggle("oa-button--loading", Boolean(loading));
-        if (loading) button.setAttribute("aria-busy", "true");
-        else button.removeAttribute("aria-busy");
-        button.disabled = Boolean(loading || options.disabled);
-        eyeController.setBlocked(button.disabled);
+        isLoading = Boolean(loading);
+        syncAvailability();
       },
       destroy: function () {
         if (destroyed) return;
