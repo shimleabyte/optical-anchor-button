@@ -93,6 +93,19 @@ The eye uses short blinks with variable intervals. A blink may happen after a ga
 - Blinking never changes the current gaze target.
 - Exact timing and duration remain tunable implementation parameters and must be validated visually.
 
+### Decision 04: fatigue expression / gradual layered fatigue
+
+**Chosen direction:** A — Gradual layered fatigue.
+
+Fatigue accumulates through several subtle cues rather than a single sudden eyelid change. The upper lid gradually lowers, the brow relaxes slightly, and occasional blinks become slower. The eye continues fixating on the current pointer target until the sleep transition; it must not look away merely because it becomes tired.
+
+**Behavior constraints:**
+- Use a gradual progression of eyelid aperture, brow tension, and blink timing.
+- Keep the gaze target stable while awake and tired.
+- Slower blinks are occasional cues, not a repeated exaggerated animation.
+- The final transition to sleep should read as the culmination of fatigue, not an abrupt state toggle.
+- The exact fatigue curve and timing remain implementation parameters to test visually.
+
 ## Accessibility and engineering constraints
 
 - Use native `<button>` semantics and default `type="button"`.
