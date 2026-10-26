@@ -55,13 +55,42 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
       let state: EyeState = 'sleeping';
       let tiredTimer: number | undefined;
       let sleepTimer: number | undefined;
+      let blinkTimer: number | undefined;
+      let blinkEndTimer: number | undefined;
       let focused = button.matches(':focus');
+      const prefersReducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
       let pointerInsideButton = false;
       let hasPointerTarget = false;
       let lastPointerX = window.innerWidth / 2;
       let lastPointerY = window.innerHeight / 2;
       let returnTimer: number | undefined;
 
+      const clearBlinkTimers = () => {
+        window.clearTimeout(blinkTimer);
+        window.clearTimeout(blinkEndTimer);
+        blinkTimer = undefined;
+        blinkEndTimer = undefined;
+        button.classList.remove('oa-button--blinking');
+      };
+      const scheduleBlink = () => {
+        window.clearTimeout(blinkTimer);
+        blinkTimer = undefined;
+        if (state === 'sleeping' || blocked || prefersReducedMotion || document.hidden) return;
+        const tired = state === 'tired';
+        const delay = tired
+          ? 2400 + Math.random() * 2200
+          : 3400 + Math.random() * 3300;
+        blinkTimer = window.setTimeout(() => {
+          blinkTimer = undefined;
+          if (state === 'sleeping' || blocked || document.hidden) return;
+          button.classList.add('oa-button--blinking');
+          blinkEndTimer = window.setTimeout(() => {
+            button.classList.remove('oa-button--blinking');
+            blinkEndTimer = undefined;
+            scheduleBlink();
+          }, tired ? 135 : 110);
+        }, delay);
+      };
       const clearTimers = () => {
         window.clearTimeout(tiredTimer);
         window.clearTimeout(sleepTimer);
@@ -69,10 +98,13 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         sleepTimer = undefined;
       };
       const setEye = (next: EyeState) => {
+        const changed = state !== next;
         state = next;
         button.classList.toggle('oa-button--sleeping', next === 'sleeping');
         button.classList.toggle('oa-button--awake', next === 'awake');
         button.classList.toggle('oa-button--tired', next === 'tired');
+        if (next === 'sleeping') clearBlinkTimers();
+        else if (changed) scheduleBlink();
       };
       const setGaze = (x: number, y: number) => {
         const eye = button.querySelector('.oa-button__eye');
@@ -181,7 +213,10 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
           sleep();
         }
       };
-      const handleVisibility = () => { if (document.hidden) handleWindowBlur(); };
+      const handleVisibility = () => {
+        if (document.hidden) handleWindowBlur();
+        else if (state !== 'sleeping') scheduleBlink();
+      };
 
       if (blocked) {
         sleep();
