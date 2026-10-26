@@ -44,7 +44,7 @@
 - **Awake:** The aperture opens, the iris follows cursor direction anywhere within the page, and the brow subtly relaxes.
 - **Tired:** After 2.2 seconds without pointer movement, the aperture becomes half-closed.
 - **Sleep:** After another 780 ms idle, the eye closes and the gaze resets.
-- **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, it waits for the next button entry.
+- **Reactivation:** Moving the pointer while tired wakes the eye. Once fully asleep, it waits for the next button entry; waking uses a quick but gentle eyelid opening, with the iris moving toward the pointer as the aperture opens before settling into fixation.
 - **Microgravity:** The enamel face follows pointer movement by at most 1.15 px horizontally and 0.75 px vertically while the pointer is over the button. Outside it, the face stays neutral while the iris keeps tracking.
 - **Pressed:** The face travels down by 1 px; no bounce or ripple.
 - **Focus-visible:** A clear 2 px ivory outline with an orange secondary edge.
@@ -105,6 +105,19 @@ Fatigue accumulates through several subtle cues rather than a single sudden eyel
 - Slower blinks are occasional cues, not a repeated exaggerated animation.
 - The final transition to sleep should read as the culmination of fatigue, not an abrupt state toggle.
 - The exact fatigue curve and timing remain implementation parameters to test visually.
+
+### Decision 05: waking behavior / soft, attentive awakening
+
+**Chosen direction:** A — Soft, attentive awakening.
+
+When the sleeping eye is reactivated by pointer entry, the eyelids open quickly but gently. The iris begins orienting toward the pointer during the opening motion, then settles into the fixation behavior defined in Decision 01. The expression should convey renewed attention rather than surprise, alarm, or an abrupt instrument-like activation.
+
+**Behavior constraints:**
+- Eyelid opening is prompt but controlled, without a sudden startled snap.
+- Iris orientation begins during the opening transition, so gaze and aperture feel coordinated.
+- The gaze settles into fixation without overshoot or spring-like bounce.
+- Brow movement stays subtle; do not add a surprised expression.
+- Timing and coordination remain implementation parameters to validate in the browser.
 
 ## Accessibility and engineering constraints
 
