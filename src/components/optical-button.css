@@ -28,8 +28,21 @@
 }
 .oa-button__content { display: flex; flex: 1; min-width: 0; align-items: center; gap: 11px; padding: 0 13px; }
 .oa-button__eye { display: block; flex: 0 0 36px; width: 36px; height: 28px; overflow: visible; color: #2a1b15; }
-.oa-button__iris { transform: translate(var(--gaze-x), var(--gaze-y)); transform-box: fill-box; transform-origin: center; transition: transform 85ms cubic-bezier(0.2, 0.65, 0.25, 1); }
-.oa-button__brow { transform: translateY(0) rotate(0deg); transform-box: fill-box; transform-origin: center; transition: transform 130ms cubic-bezier(0.2, 0.65, 0.25, 1), opacity 130ms ease; }
+.oa-button__iris { opacity: 0; transform: translate(var(--gaze-x), var(--gaze-y)); transform-box: fill-box; transform-origin: center; transition: transform 105ms cubic-bezier(0.2, 0.65, 0.25, 1), opacity 140ms ease; }
+.oa-button__sclera { transform: scaleY(0.025); transform-box: fill-box; transform-origin: center; transition: transform 210ms cubic-bezier(0.2, 0.65, 0.25, 1); }
+.oa-button__eyelid { opacity: 1; transition: opacity 130ms ease; }
+.oa-button__brow { transform: translateY(1.2px) rotate(0deg); transform-box: fill-box; transform-origin: center; opacity: 0.76; transition: transform 170ms cubic-bezier(0.2, 0.65, 0.25, 1), opacity 170ms ease; }
+.oa-button--awake .oa-button__sclera { transform: scaleY(1); }
+.oa-button--awake .oa-button__iris { opacity: 1; }
+.oa-button--awake .oa-button__eyelid { opacity: 0; }
+.oa-button--awake .oa-button__brow { transform: translateY(0) rotate(0deg); opacity: 1; }
+.oa-button--tired .oa-button__sclera { transform: scaleY(0.52); }
+.oa-button--tired .oa-button__iris { opacity: 1; }
+.oa-button--tired .oa-button__eyelid { opacity: 0.35; }
+.oa-button--tired .oa-button__brow { transform: translateY(2px) rotate(1.5deg); opacity: 0.72; }
+.oa-button.demo-force-hover .oa-button__sclera { transform: scaleY(1); }
+.oa-button.demo-force-hover .oa-button__iris { opacity: 1; }
+.oa-button.demo-force-hover .oa-button__eyelid { opacity: 0; }
 .oa-button__label { display: block; min-width: 0; overflow: hidden; color: #fff8f1; text-overflow: ellipsis; white-space: nowrap; letter-spacing: -0.012em; }
 .oa-button__status { display: flex; flex: 0 0 10px; width: 10px; height: 10px; margin-left: auto; align-items: center; justify-content: center; }
 .oa-button__status-mark { display: block; width: 5px; height: 5px; border: 1px solid rgb(255 248 241 / 82%); background: transparent; transform: rotate(45deg); transition: background-color var(--oa-speed) var(--oa-ease), transform var(--oa-speed) var(--oa-ease); }
@@ -73,7 +86,7 @@
 .oa-button.demo-force-focus:not(:disabled) { outline: 2px solid #f3eee6; outline-offset: 4px; }
 .oa-button.demo-force-focus:not(:disabled)::before { border-color: #b34d26; }
 @media (prefers-reduced-motion: reduce) {
-  .oa-button, .oa-button::before, .oa-button__face, .oa-button__iris, .oa-button__brow, .oa-button__status-mark, .oa-button__spinner {
+  .oa-button, .oa-button::before, .oa-button__face, .oa-button__iris, .oa-button__sclera, .oa-button__eyelid, .oa-button__brow, .oa-button__status-mark, .oa-button__spinner {
     transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important;
   }
   .oa-button__face { will-change: auto; }
