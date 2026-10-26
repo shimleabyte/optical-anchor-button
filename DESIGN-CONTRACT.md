@@ -6,7 +6,7 @@
 **Product:** One reusable native button component.  
 **Identity:** Precision instrument expressed through studio hardware cues.  
 **Primary signature:** One oversized, custom-drawn SVG eye centered in a raised circular bezel; a slim horizontal capsule housing extends behind it.  
-**Design intent:** The eye itself is the action affordance; the previous “Let's Collab” CTA is deliberately removed in this experimental branch.
+**Design intent:** The eye itself is the action affordance. “Let's collab!” exists only as a contextual speech bubble while the pointer hovers the button; it is not a persistent CTA or a replacement label.
 
 ## Visual language
 
@@ -20,7 +20,7 @@
 - **Iris rendering:** Keep the amber/copper radial structure, limbal ring, fine radial fibres, warm inner ring, deep pupil, and restrained corneal highlights. The major catchlight stays coherent with the housing's light direction.
 - **Surface texture:** Very low-contrast procedural micro-grain on the matte enamel housing and raised bezel; sclera and iris remain smooth for focal contrast.
 - **Shadow:** Localized contact/drop shading and recessed face treatment only. No ambient glow or oversized shadow.
-- **Motion:** The aperture opens on hover, the iris tracks page-wide while awake, and inactivity transitions the eye through tired to sleep.
+- **Motion and expression:** The aperture opens on hover, the iris tracks page-wide while awake, and inactivity transitions the eye through tired to sleep. Hovering the button is the eye's most excited state: the brow rises into a higher, more emphatic arch and a small “Let's collab!” speech bubble appears. Once the pointer leaves the button, the excited brow and bubble return to neutral even if page-wide gaze tracking continues. Keyboard focus alone never triggers the bubble.
 
 ## Visual tokens
 
