@@ -6,7 +6,7 @@
 **Product:** One reusable native button component.  
 **Identity:** Precision instrument expressed through studio hardware cues.  
 **Primary signature:** One oversized, custom-drawn SVG eye centered in a raised circular bezel; a slim horizontal capsule housing extends behind it.  
-**Design intent:** The eye itself is the action affordance. “Let's collab!” exists only as a contextual speech bubble while the pointer hovers the button; it is not a persistent CTA or a replacement label.
+**Design intent:** The eye itself is the action affordance. “Let's collab!” exists only as a contextual speech bubble while a real hover-capable fine pointer is over the button; it is not a persistent CTA or a replacement label. The showcase may force the hover expression for inspection on any device.
 
 ## Visual language
 
@@ -20,7 +20,8 @@
 - **Iris rendering:** Keep the amber/copper radial structure, limbal ring, fine radial fibres, warm inner ring, deep pupil, and restrained corneal highlights. The major catchlight stays coherent with the housing's light direction.
 - **Surface texture:** Very low-contrast procedural micro-grain on the matte enamel housing and raised bezel; sclera and iris remain smooth for focal contrast.
 - **Shadow:** Localized contact/drop shading and recessed face treatment only. No ambient glow or oversized shadow.
-- **Motion and expression:** The aperture opens on hover, the iris tracks page-wide while awake, and inactivity transitions the eye through tired to sleep. Hovering the button is the eye's most excited state: the brow rises into a higher, more emphatic arch and a small “Let's collab!” speech bubble appears. Once the pointer leaves the button, the excited brow and bubble return to neutral even if page-wide gaze tracking continues. Keyboard focus alone never triggers the bubble.
+- **Motion and expression:** The aperture opens on hover, the iris tracks page-wide while awake, and inactivity transitions the eye through tired to sleep. Hovering the button is the eye's most excited state: the brow rises into a higher, more emphatic arch and a small “Let's collab!” speech bubble appears. Physical hover styles are gated by `any-hover: hover` and `any-pointer: fine` so touch-only devices do not retain simulated hover. Once the pointer leaves the button, the excited brow and bubble return to neutral even if page-wide gaze tracking continues. Keyboard focus alone never triggers the bubble.
+- **Speech bubble placement:** The bubble is positioned relative to the centered eye and uses size-specific `--bubble-x` / `--bubble-y` offsets for `sm`, `md`, and `lg`; it cannot capture pointer input or enter the accessibility tree. Its visibility hides after the fade-out completes, while reduced-motion makes that transition immediate.
 
 ## Visual tokens
 
