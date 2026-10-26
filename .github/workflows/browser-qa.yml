@@ -1,0 +1,39 @@
+name: Browser QA
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chromium:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run browser regression tests
+        run: npm run test:browser
+      - name: Upload screenshots, trace, and HTML report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: optical-anchor-browser-evidence
+          path: |
+            artifacts/
+            test-results/
+            playwright-report/
+          if-no-files-found: warn
+          retention-days: 14
