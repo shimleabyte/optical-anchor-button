@@ -9,15 +9,28 @@
     var button = document.createElement("button");
     var id = "oa-vanilla-" + (++instanceCounter);
     var size = ["sm", "md", "lg"].includes(options.size) ? options.size : "md";
-    button.type = options.type || "button";
+    var attributes = options.attributes && typeof options.attributes === "object" ? options.attributes : {};
+    var managedAttributes = ["class", "style", "type", "disabled", "aria-label", "aria-describedby", "aria-busy"];
+    Object.keys(attributes).forEach(function (name) {
+      var value = attributes[name];
+      if (managedAttributes.indexOf(name.toLowerCase()) >= 0 || /^on/i.test(name) ||
+          value === null || value === undefined || value === false) return;
+      button.setAttribute(name, value === true ? "" : String(value));
+    });
+
+    button.type = options.type || attributes.type || "button";
     button.className = ["oa-button", "oa-button--sleeping", "oa-button--" + size,
       options.fullWidth ? "oa-button--full-width" : "", options.className || ""].filter(Boolean).join(" ");
-    var isDisabled = Boolean(options.disabled);
+    var isDisabled = Boolean(options.disabled || (attributes.disabled !== undefined &&
+      attributes.disabled !== null && attributes.disabled !== false));
     var isLoading = Boolean(options.loading);
     button.disabled = isDisabled || isLoading;
-    if (options.ariaLabel || !options.children) button.setAttribute("aria-label", options.ariaLabel || "Optical Anchor eye control");
+    var label = options.ariaLabel || attributes["aria-label"];
+    if (label) button.setAttribute("aria-label", String(label));
+    else if (!options.children) button.setAttribute("aria-label", "Optical Anchor eye control");
+    var describedBy = options.describedBy || attributes["aria-describedby"];
+    if (describedBy) button.setAttribute("aria-describedby", String(describedBy));
     if (isLoading) button.setAttribute("aria-busy", "true");
-    if (options.describedBy) button.setAttribute("aria-describedby", options.describedBy);
 
     button.innerHTML = '<span class="oa-button__face"><span class="oa-button__content">' +
       SVG_MARKUP.replace(/(id="|url\(#)oa-/g, function (_, prefix) { return prefix + id + "-"; }) +
