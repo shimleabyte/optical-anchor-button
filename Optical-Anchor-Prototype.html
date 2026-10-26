@@ -598,7 +598,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
         pressed: 'The face travels down by one pixel. No bounce, ripple, or exaggerated scale.',
         focus: 'A clear external focus ring identifies keyboard focus without relying on color alone.',
         disabled: 'The control is unavailable, with a distinct surface and no pointer-driven movement.',
-        loading: 'The label remains stable while a restrained indicator communicates ongoing work.'
+        loading: 'The eye rests while a small corner indicator communicates ongoing work.'
       };
       let currentState = 'default';
       let activations = 0;
@@ -615,12 +615,7 @@ button:focus-visible, a:focus-visible { outline-offset: 4px; }
         if (next === 'hover') button.classList.add('demo-force-hover');
         if (next === 'pressed') button.classList.add('demo-force-pressed');
         if (next === 'focus') button.classList.add('demo-force-focus');
-        if (next === 'loading') {
-          button.classList.add('oa-button--loading');
-          document.querySelector('#status-mark').className = 'oa-button__spinner';
-        } else {
-          document.querySelector('#status-mark').className = 'oa-button__status-mark';
-        }
+        if (next === 'loading') button.classList.add('oa-button--loading');
         if (next === 'disabled' || next === 'loading') sleepEye();
         options.forEach((option) => {
           const active = option.dataset.state === next;
