@@ -196,7 +196,9 @@ test('keeps synthetic touch entry neutral while a hybrid device can still use a 
   const context = await browser.newContext({
     baseURL: 'http://127.0.0.1:4173',
     viewport: { width: 1440, height: 1000 },
-    hasTouch: true,
+  });
+  await context.addInitScript(() => {
+    Object.defineProperty(navigator, 'maxTouchPoints', { configurable: true, get: () => 1 });
   });
 
   try {
