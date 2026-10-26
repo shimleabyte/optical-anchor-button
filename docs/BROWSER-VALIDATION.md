@@ -1,29 +1,22 @@
-# Browser validation — Prototype 0.1.0
+# Browser validation — page-wide gaze lifecycle
 
-The self-contained HTML prototype was loaded into Chromium 144 through Playwright page.set_content so CSS and JavaScript ran without remote dependencies.
+## Current status
 
-## Result
+The page-wide gaze lifecycle is implemented in the React component and standalone HTML prototype. **Fresh browser validation has not yet been run for this revision.** Do not interpret the historical 20/20 result below as proof that this update passes.
 
-20 / 20 checks passed against the interactive HTML prototype.
+## Expected behavior to verify
 
-Validated:
-- Native accessible button and visible label.
-- Eye pupil tracking and face microgravity stay within defined limits.
-- Pointer leave resets gaze and pull values.
-- Hover changes face, edge, and brow expression.
-- Pressed state shifts the face by 1 px.
-- Enter and Space activate the native button.
-- Disabled prevents activation.
-- Loading disables repeat activation, exposes aria-busy, and uses a distinct face treatment.
-- Focus indicator remains visible on dark stage.
-- Reduced-motion preference shortens transitions and spinner animation.
-- Full-width mode fits a narrower parent.
-- State controls preserve aria-pressed and reset returns to default.
-- No horizontal overflow at 390 px or 320 px.
-- No uncaught JavaScript errors.
+- The eye is closed on first render.
+- Entering the button with a mouse or pen wakes the eye.
+- After waking, pointer movement elsewhere inside the page continues to steer the iris.
+- The face microgravity returns to neutral outside the button while the iris keeps tracking.
+- After 2.2 seconds without pointer movement, the eye becomes tired; after another 780 ms, it closes and its gaze resets.
+- Moving the pointer again during the tired phase wakes the eye immediately and restarts the idle timer.
+- Disabled/loading controls remain asleep and do not react to pointer movement.
+- Touch pointer movement does not trigger the gaze behavior.
+- Window blur or document visibility loss resets the eye to sleep.
+- Native keyboard activation, focus-visible styling, reduced motion, responsive layout, and no-overflow checks remain intact.
 
-Contrast ratios recorded in the browser checklist are token-pair calculations, not a full automated accessibility audit.
+## Historical baseline
 
-## Important limitation
-
-This validates the self-contained HTML prototype only. The React component unit tests and package build have not yet passed in this execution environment because npm registry resolution failed with EAI_AGAIN. Do not treat prototype checks as proof that the React package has passed its build or tests.
+The previous prototype revision recorded 20/20 checks in Chromium 144. That report covered local button-only tracking, including resetting gaze on pointer leave. Those assertions are obsolete because the current behavior deliberately tracks beyond the button. Run the updated prototype and React test/build scripts before publishing a new pass count.
