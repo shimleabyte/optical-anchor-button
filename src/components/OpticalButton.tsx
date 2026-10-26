@@ -55,6 +55,12 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
       let state: EyeState = 'sleeping';
       let tiredTimer: number | undefined;
       let sleepTimer: number | undefined;
+      let focused = button.matches(':focus');
+      let pointerInsideButton = false;
+      let hasPointerTarget = false;
+      let lastPointerX = window.innerWidth / 2;
+      let lastPointerY = window.innerHeight / 2;
+      let returnTimer: number | undefined;
 
       const clearTimers = () => {
         window.clearTimeout(tiredTimer);
@@ -68,73 +74,131 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         button.classList.toggle('oa-button--awake', next === 'awake');
         button.classList.toggle('oa-button--tired', next === 'tired');
       };
-      const reset = (resetGaze = true) => {
-        if (resetGaze) {
-          button.style.setProperty('--gaze-x', '0px');
-          button.style.setProperty('--gaze-y', '0px');
-        }
+      const setGaze = (x: number, y: number) => {
+        const eye = button.querySelector('.oa-button__eye');
+        if (!eye) return;
+        const rect = eye.getBoundingClientRect();
+        const dx = x - (rect.left + rect.width / 2);
+        const dy = y - (rect.top + rect.height / 2);
+        const distance = Math.hypot(dx, dy);
+        const strength = Math.min(1, distance / 210);
+        button.style.setProperty('--gaze-x', (distance ? dx / distance * strength * 8 : 0).toFixed(2) + 'px');
+        button.style.setProperty('--gaze-y', (distance ? dy / distance * strength * 5.2 : 0).toFixed(2) + 'px');
+      };
+      const resetPull = () => {
         button.style.setProperty('--pull-x', '0px');
         button.style.setProperty('--pull-y', '0px');
       };
+      const resetGaze = () => {
+        button.style.setProperty('--gaze-x', '0px');
+        button.style.setProperty('--gaze-y', '0px');
+      };
       const sleep = () => {
         clearTimers();
+        if (focused) {
+          setEye('tired');
+          return;
+        }
         setEye('sleeping');
-        reset();
+        resetGaze();
       };
       const scheduleSleep = () => {
         clearTimers();
         tiredTimer = window.setTimeout(() => {
-          setEye('tired');
           tiredTimer = undefined;
+          setEye('tired');
+          if (focused) return;
           sleepTimer = window.setTimeout(sleep, TIRED_MS);
         }, IDLE_MS);
       };
+      const wake = () => {
+        window.clearTimeout(returnTimer);
+        setEye('awake');
+        scheduleSleep();
+      };
       const handleMove = (event: globalThis.PointerEvent) => {
         if (blocked || event.pointerType === 'touch') return;
+        lastPointerX = event.clientX;
+        lastPointerY = event.clientY;
+        hasPointerTarget = true;
         const rect = button.getBoundingClientRect();
-        const inside = event.clientX >= rect.left && event.clientX <= rect.right &&
+        pointerInsideButton = event.clientX >= rect.left && event.clientX <= rect.right &&
           event.clientY >= rect.top && event.clientY <= rect.bottom;
-        if (state === 'sleeping' && !inside) return;
-
-        setEye('awake');
-        const eye = button.querySelector('.oa-button__eye');
-        if (eye) {
-          const eyeRect = eye.getBoundingClientRect();
-          const dx = event.clientX - (eyeRect.left + eyeRect.width / 2);
-          const dy = event.clientY - (eyeRect.top + eyeRect.height / 2);
-          const distance = Math.hypot(dx, dy);
-          const strength = Math.min(1, distance / 210);
-          const nx = distance ? dx / distance * strength : 0;
-          const ny = distance ? dy / distance * strength : 0;
-          button.style.setProperty('--gaze-x', (nx * 8).toFixed(2) + 'px');
-          button.style.setProperty('--gaze-y', (ny * 5.2).toFixed(2) + 'px');
+        if (state === 'sleeping') {
+          if (!pointerInsideButton) return;
+          wake();
+        } else {
+          setEye('awake');
+          scheduleSleep();
         }
-        if (inside && rect.width && rect.height) {
+
+        setGaze(event.clientX, event.clientY);
+        if (pointerInsideButton && rect.width && rect.height) {
           const nx = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
           const ny = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
           button.style.setProperty('--pull-x', (nx * 1.15).toFixed(2) + 'px');
           button.style.setProperty('--pull-y', (ny * 0.75).toFixed(2) + 'px');
         } else {
-          button.style.setProperty('--pull-x', '0px');
-          button.style.setProperty('--pull-y', '0px');
+          resetPull();
         }
+      };
+      const handlePointerOut = (event: globalThis.PointerEvent) => {
+        if (event.relatedTarget !== null) return;
+        pointerInsideButton = false;
+        resetPull();
+        window.clearTimeout(returnTimer);
+        if (state === 'sleeping') return;
+        returnTimer = window.setTimeout(() => {
+          if (state !== 'sleeping') resetGaze();
+          returnTimer = undefined;
+        }, 180);
+      };
+      const handleFocus = () => {
+        focused = true;
+        if (blocked) return;
+        clearTimers();
+        setEye('awake');
+        if (hasPointerTarget) setGaze(lastPointerX, lastPointerY);
+        else resetGaze();
         scheduleSleep();
       };
-      const handleBlur = () => sleep();
-      const handleVisibility = () => { if (document.hidden) sleep(); };
+      const handleFocusOut = () => {
+        focused = false;
+        if (blocked) return;
+        scheduleSleep();
+      };
+      const handleWindowBlur = () => {
+        pointerInsideButton = false;
+        resetPull();
+        if (focused) {
+          clearTimers();
+          setEye('tired');
+        } else {
+          sleep();
+        }
+      };
+      const handleVisibility = () => { if (document.hidden) handleWindowBlur(); };
 
       if (blocked) {
         sleep();
         return;
       }
+      if (focused) handleFocus();
       window.addEventListener('pointermove', handleMove, { passive: true });
-      window.addEventListener('blur', handleBlur);
+      window.addEventListener('pointerout', handlePointerOut);
+      window.addEventListener('blur', handleWindowBlur);
+      button.addEventListener('focus', handleFocus);
+      button.addEventListener('blur', handleFocusOut);
       document.addEventListener('visibilitychange', handleVisibility);
       return () => {
         window.removeEventListener('pointermove', handleMove);
-        window.removeEventListener('blur', handleBlur);
+        window.removeEventListener('pointerout', handlePointerOut);
+        window.removeEventListener('blur', handleWindowBlur);
+        button.removeEventListener('focus', handleFocus);
+        button.removeEventListener('blur', handleFocusOut);
         document.removeEventListener('visibilitychange', handleVisibility);
         clearTimers();
+        window.clearTimeout(returnTimer);
       };
     }, [blocked]);
 
