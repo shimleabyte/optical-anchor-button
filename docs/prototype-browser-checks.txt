@@ -1,13 +1,20 @@
-PASS | eye starts closed
-PASS | hovering the button wakes the eye
-PASS | iris tracks the pointer outside the button after waking
-PASS | button microgravity resets outside the hit area
-PASS | inactivity changes the expression to tired after 2.2 seconds
-PASS | tired expression returns to sleep after 780 ms
-PASS | page movement does not wake an eye that is already sleeping
-PASS | moving back onto the button wakes the eye again
-PASS | disabled preview state disables the button
-PASS | disabled preview forces the eye to sleep
-PASS | no horizontal overflow at 390px
-PASS | no uncaught JavaScript errors
-TOTAL: 12/12 passed
+# Historical checks from the page-wide tracking baseline.
+# This is not a passed report for design/centered-oversized-eye.
+# Re-run after visual browser validation.
+
+BASELINE-PASS | eye starts closed
+BASELINE-PASS | hovering the button wakes the eye
+BASELINE-PASS | iris tracks the pointer outside the button after waking
+BASELINE-PASS | button microgravity resets outside the hit area
+BASELINE-PASS | inactivity changes the expression to tired after 2.2 seconds
+BASELINE-PASS | tired expression returns to sleep after 780 ms
+BASELINE-PASS | page movement does not wake an eye that is already sleeping
+BASELINE-PASS | moving back onto the button wakes the eye again
+BASELINE-PASS | disabled preview forces the eye to sleep
+BASELINE-PASS | no horizontal overflow at 390px
+BASELINE-PASS | no uncaught JavaScript errors
+
+PENDING | visual size and centering across sm/md/lg
+PENDING | sclera, iris fibre, and eyelid rendering
+PENDING | no CTA label/status mark in the new default
+PENDING | responsive 390px and 320px after eye enlargement
