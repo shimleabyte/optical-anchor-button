@@ -49,9 +49,14 @@ describe('OpticalButton', () => {
     try {
       const { unmount } = render(<OpticalButton>Watch me</OpticalButton>);
       const button = screen.getByRole('button', { name: 'Watch me' });
+      const buttonRect = { x: 100, y: 100, left: 100, top: 100, right: 316, bottom: 144, width: 216, height: 44, toJSON: () => ({}) };
+      const eye = button.querySelector('.oa-button__eye') as SVGSVGElement;
+      const eyeRect = { x: 110, y: 106, left: 110, top: 106, right: 146, bottom: 134, width: 36, height: 28, toJSON: () => ({}) };
+      button.getBoundingClientRect = vi.fn(() => buttonRect);
+      eye.getBoundingClientRect = vi.fn(() => eyeRect);
       expect(button).toHaveClass('oa-button--sleeping');
 
-      fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 180, clientY: 180 });
+      fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 180, clientY: 120 });
       expect(button).toHaveClass('oa-button--awake');
 
       fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 900, clientY: 80 });
