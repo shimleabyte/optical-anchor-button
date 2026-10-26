@@ -307,3 +307,22 @@ test('touch-only emulation neither wakes the gaze nor activates the physical hov
     await context.close();
   }
 });
+
+test('exposes a single meaningful button name and supports keyboard activation', async ({ page }) => {
+  const button = page.getByRole('button', { name: 'Optical Anchor eye button' });
+  const bubble = button.locator('.oa-button__bubble');
+  await expect(button).toHaveAttribute('aria-describedby', 'button-hint');
+  await expect(button.locator('.oa-button__eye')).toHaveAttribute('aria-hidden', 'true');
+  await expect(bubble).toHaveAttribute('aria-hidden', 'true');
+
+  await page.mouse.move(0, 0);
+  await page.keyboard.press('Tab');
+  await page.keyboard.press('Tab');
+  await expect(button).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('.stage-footer .readout-value').nth(1)).toHaveText('01');
+  await page.keyboard.press('Space');
+  await expect(page.locator('.stage-footer .readout-value').nth(1)).toHaveText('02');
+  await expect(bubble).toHaveCSS('visibility', 'hidden');
+});
+
