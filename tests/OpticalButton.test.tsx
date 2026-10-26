@@ -222,7 +222,7 @@ describe('OpticalButton', () => {
     try {
       const { unmount } = render(<OpticalButton>Lifecycle target</OpticalButton>);
       const button = screen.getByRole('button', { name: 'Lifecycle target' });
-      dispatchPointerMove(button, 20, 20);
+      dispatchPointerMove(button, 0, 0);
       expect(vi.getTimerCount()).toBeGreaterThan(0);
 
       const windowHandlers = windowAdd.mock.calls.filter(([type]) =>
