@@ -56,10 +56,10 @@ describe('OpticalButton', () => {
       eye.getBoundingClientRect = vi.fn(() => eyeRect);
       expect(button).toHaveClass('oa-button--sleeping');
 
-      fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 180, clientY: 120 });
+      fireEvent.pointerMove(button, { pointerType: 'mouse', clientX: 180, clientY: 120 });
       expect(button).toHaveClass('oa-button--awake');
 
-      fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 900, clientY: 80 });
+      fireEvent.pointerMove(button, { pointerType: 'mouse', clientX: 900, clientY: 80 });
       expect(button.style.getPropertyValue('--gaze-x')).not.toBe('0px');
       expect(button.style.getPropertyValue('--pull-x')).toBe('0px');
 
@@ -76,7 +76,7 @@ describe('OpticalButton', () => {
   it('keeps a disabled button asleep and does not wake on pointer movement', () => {
     render(<OpticalButton disabled>Unavailable</OpticalButton>);
     const button = screen.getByRole('button', { name: 'Unavailable' });
-    fireEvent.pointerMove(window, { pointerType: 'mouse', clientX: 20, clientY: 20 });
+    fireEvent.pointerMove(button, { pointerType: 'mouse', clientX: 20, clientY: 20 });
     expect(button).toHaveClass('oa-button--sleeping');
     expect(button).not.toHaveClass('oa-button--awake');
   });
