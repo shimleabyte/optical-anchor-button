@@ -201,4 +201,75 @@ describe('OpticalButton', () => {
     render(<OpticalButton size="lg" fullWidth>Wide</OpticalButton>);
     expect(screen.getByRole('button', { name: 'Wide' })).toHaveClass('oa-button--lg', 'oa-button--full-width');
   });
+
+  it('keeps the accessible name useful and decorative eye copy out of the name', () => {
+    const { rerender } = render(<OpticalButton>Open portfolio</OpticalButton>);
+    const button = screen.getByRole('button', { name: 'Open portfolio' });
+    expect(button.querySelector('.oa-button__eye')).toHaveAttribute('aria-hidden', 'true');
+    expect(button.querySelector('.oa-button__bubble')).toHaveAttribute('aria-hidden', 'true');
+
+    rerender(<OpticalButton aria-label="Launch project">Open portfolio</OpticalButton>);
+    expect(screen.getByRole('button', { name: 'Launch project' })).toBeInTheDocument();
+  });
+
+  it('removes global listeners and pending timers on unmount', () => {
+    vi.useFakeTimers();
+    const windowAdd = vi.spyOn(window, 'addEventListener');
+    const windowRemove = vi.spyOn(window, 'removeEventListener');
+    const documentAdd = vi.spyOn(document, 'addEventListener');
+    const documentRemove = vi.spyOn(document, 'removeEventListener');
+
+    try {
+      const { unmount } = render(<OpticalButton>Lifecycle target</OpticalButton>);
+      const button = screen.getByRole('button', { name: 'Lifecycle target' });
+      dispatchPointerMove(button, 20, 20);
+      expect(vi.getTimerCount()).toBeGreaterThan(0);
+
+      const windowHandlers = windowAdd.mock.calls.filter(([type]) =>
+        ['pointermove', 'pointerout', 'blur'].includes(String(type)),
+      );
+      const visibilityHandlers = documentAdd.mock.calls.filter(([type]) => type === 'visibilitychange');
+      expect(windowHandlers.length).toBe(3);
+      expect(visibilityHandlers.length).toBe(1);
+
+      unmount();
+      for (const [type, listener] of windowHandlers) {
+        expect(windowRemove.mock.calls.some(([removedType, removedListener]) =>
+          removedType === type && removedListener === listener,
+        )).toBe(true);
+      }
+      for (const [type, listener] of visibilityHandlers) {
+        expect(documentRemove.mock.calls.some(([removedType, removedListener]) =>
+          removedType === type && removedListener === listener,
+        )).toBe(true);
+      }
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      windowAdd.mockRestore();
+      windowRemove.mockRestore();
+      documentAdd.mockRestore();
+      documentRemove.mockRestore();
+      vi.useRealTimers();
+    }
+  });
+
+  it('finishes the tired phase promptly when keyboard focus leaves', () => {
+    vi.useFakeTimers();
+    try {
+      render(<OpticalButton>Focus lifecycle</OpticalButton>);
+      const button = screen.getByRole('button', { name: 'Focus lifecycle' });
+      fireEvent.focus(button);
+      vi.advanceTimersByTime(2200);
+      expect(button).toHaveClass('oa-button--tired');
+
+      fireEvent.blur(button);
+      vi.advanceTimersByTime(779);
+      expect(button).not.toHaveClass('oa-button--sleeping');
+      vi.advanceTimersByTime(1);
+      expect(button).toHaveClass('oa-button--sleeping');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
 });
