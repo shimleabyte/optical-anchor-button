@@ -1,7 +1,8 @@
-import { forwardRef, useCallback, useRef, type ButtonHTMLAttributes, type PointerEvent } from 'react';
+import { forwardRef, useCallback, useEffect, useRef, type ButtonHTMLAttributes, type PointerEvent } from 'react';
 import './optical-button.css';
 
 export type OpticalButtonSize = 'sm' | 'md' | 'lg';
+type EyeState = 'sleeping' | 'awake' | 'tired';
 
 export interface OpticalButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   /** Keeps the face in its progress state and prevents repeat activation. */
@@ -12,10 +13,10 @@ export interface OpticalButtonProps extends ButtonHTMLAttributes<HTMLButtonEleme
   fullWidth?: boolean;
 }
 
-/**
- * Optical Anchor is a native button with a small, pointer-aware optical mark.
- * The mark is decorative; the accessible name comes from the button content.
- */
+const IDLE_MS = 2200;
+const TIRED_MS = 780;
+
+/** A native button whose eye wakes on hover, tracks page-wide, then tires and sleeps. */
 export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
   function OpticalButton(
     {
@@ -43,49 +44,116 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
       else if (forwardedRef) forwardedRef.current = node;
     }, [forwardedRef]);
 
-    const resetTracking = useCallback(() => {
-      const node = localRef.current;
-      if (!node) return;
-      node.style.setProperty('--gaze-x', '0px');
-      node.style.setProperty('--gaze-y', '0px');
-      node.style.setProperty('--pull-x', '0px');
-      node.style.setProperty('--pull-y', '0px');
-    }, []);
+    useEffect(() => {
+      const button = localRef.current;
+      if (!button) return;
+      let state: EyeState = 'sleeping';
+      let tiredTimer: number | undefined;
+      let sleepTimer: number | undefined;
+
+      const clearTimers = () => {
+        window.clearTimeout(tiredTimer);
+        window.clearTimeout(sleepTimer);
+        tiredTimer = undefined;
+        sleepTimer = undefined;
+      };
+      const setEye = (next: EyeState) => {
+        state = next;
+        button.classList.toggle('oa-button--sleeping', next === 'sleeping');
+        button.classList.toggle('oa-button--awake', next === 'awake');
+        button.classList.toggle('oa-button--tired', next === 'tired');
+      };
+      const reset = (gaze = true) => {
+        if (gaze) {
+          button.style.setProperty('--gaze-x', '0px');
+          button.style.setProperty('--gaze-y', '0px');
+        }
+        button.style.setProperty('--pull-x', '0px');
+        button.style.setProperty('--pull-y', '0px');
+      };
+      const sleep = () => {
+        clearTimers();
+        setEye('sleeping');
+        reset();
+      };
+      const scheduleSleep = () => {
+        clearTimers();
+        tiredTimer = window.setTimeout(() => {
+          setEye('tired');
+          tiredTimer = undefined;
+          sleepTimer = window.setTimeout(sleep, TIRED_MS);
+        }, IDLE_MS);
+      };
+      const handleMove = (event: globalThis.PointerEvent) => {
+        if (blocked || event.pointerType === 'touch') return;
+        const rect = button.getBoundingClientRect();
+        const inside = event.clientX >= rect.left && event.clientX <= rect.right &&
+          event.clientY >= rect.top && event.clientY <= rect.bottom;
+        // Sleeping eyes ignore unrelated page movement until the button is entered.
+        if (state === 'sleeping' && !inside) return;
+
+        setEye('awake');
+        const eye = button.querySelector('.oa-button__eye');
+        if (eye) {
+          const eyeRect = eye.getBoundingClientRect();
+          const dx = event.clientX - (eyeRect.left + eyeRect.width / 2);
+          const dy = event.clientY - (eyeRect.top + eyeRect.height / 2);
+          const distance = Math.hypot(dx, dy);
+          const strength = Math.min(1, distance / 180);
+          const nx = distance ? dx / distance * strength : 0;
+          const ny = distance ? dy / distance * strength : 0;
+          button.style.setProperty('--gaze-x', (nx * 4.2).toFixed(2) + 'px');
+          button.style.setProperty('--gaze-y', (ny * 2.5).toFixed(2) + 'px');
+        }
+        if (inside && rect.width && rect.height) {
+          const nx = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
+          const ny = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
+          button.style.setProperty('--pull-x', (nx * 1.15).toFixed(2) + 'px');
+          button.style.setProperty('--pull-y', (ny * 0.75).toFixed(2) + 'px');
+        } else {
+          button.style.setProperty('--pull-x', '0px');
+          button.style.setProperty('--pull-y', '0px');
+        }
+        scheduleSleep();
+      };
+      const handleBlur = () => sleep();
+      const handleVisibility = () => { if (document.hidden) sleep(); };
+
+      if (blocked) {
+        sleep();
+        return;
+      }
+      window.addEventListener('pointermove', handleMove, { passive: true });
+      window.addEventListener('blur', handleBlur);
+      document.addEventListener('visibilitychange', handleVisibility);
+      return () => {
+        window.removeEventListener('pointermove', handleMove);
+        window.removeEventListener('blur', handleBlur);
+        document.removeEventListener('visibilitychange', handleVisibility);
+        clearTimers();
+      };
+    }, [blocked]);
 
     const handlePointerMove = useCallback((event: PointerEvent<HTMLButtonElement>) => {
       onPointerMove?.(event);
-      if (event.pointerType === 'touch' || blocked) return;
-      const node = localRef.current;
-      if (!node) return;
-
-      const rect = node.getBoundingClientRect();
-      if (!rect.width || !rect.height) return;
-      const nx = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width) * 2 - 1));
-      const ny = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height) * 2 - 1));
-
-      // Keep the optical movement expressive but physically restrained.
-      node.style.setProperty('--gaze-x', `${(nx * 4.2).toFixed(2)}px`);
-      node.style.setProperty('--gaze-y', `${(ny * 2.5).toFixed(2)}px`);
-      node.style.setProperty('--pull-x', `${(nx * 1.15).toFixed(2)}px`);
-      node.style.setProperty('--pull-y', `${(ny * 0.75).toFixed(2)}px`);
-    }, [blocked, onPointerMove]);
-
+    }, [onPointerMove]);
     const handlePointerLeave = useCallback((event: PointerEvent<HTMLButtonElement>) => {
-      resetTracking();
+      const node = localRef.current;
+      node?.style.setProperty('--pull-x', '0px');
+      node?.style.setProperty('--pull-y', '0px');
       onPointerLeave?.(event);
-    }, [onPointerLeave, resetTracking]);
-
+    }, [onPointerLeave]);
     const handlePointerDown = useCallback((event: PointerEvent<HTMLButtonElement>) => {
       onPointerDown?.(event);
     }, [onPointerDown]);
-
     const handlePointerUp = useCallback((event: PointerEvent<HTMLButtonElement>) => {
       onPointerUp?.(event);
     }, [onPointerUp]);
 
     const classes = [
       'oa-button',
-      `oa-button--${size}`,
+      'oa-button--sleeping',
+      'oa-button--' + size,
       fullWidth ? 'oa-button--full-width' : '',
       loading ? 'oa-button--loading' : '',
       className,
@@ -107,26 +175,15 @@ export const OpticalButton = forwardRef<HTMLButtonElement, OpticalButtonProps>(
         <span className="oa-button__face">
           <span className="oa-button__content">
             <svg className="oa-button__eye" viewBox="0 0 48 36" aria-hidden="true" focusable="false">
-              <path
-                className="oa-button__brow"
-                d="M10 8.5 Q22 2.5 34 8.5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.2"
-                strokeLinecap="round"
-              />
-              <path
-                d="M4.5 19 Q24 4.5 43.5 19 Q24 33.5 4.5 19Z"
-                fill="#F3EEE6"
-                stroke="#2A1B15"
-                strokeWidth="1.1"
-              />
+              <path className="oa-button__brow" d="M10 8.5 Q22 2.5 34 8.5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" />
+              <path className="oa-button__sclera" d="M4.5 19 Q24 4.5 43.5 19 Q24 33.5 4.5 19Z" fill="#F3EEE6" stroke="#2A1B15" strokeWidth="1.1" />
               <g className="oa-button__iris">
                 <circle cx="24" cy="19" r="7.1" fill="#8B3C20" />
                 <circle cx="24" cy="19" r="4.1" fill="#171513" />
                 <circle cx="25.6" cy="17.4" r="1.35" fill="#FFFFFF" />
               </g>
               <path d="M6.5 19 Q24 7.2 41.5 19" fill="none" stroke="#2A1B15" strokeWidth="0.75" opacity="0.42" />
+              <path className="oa-button__eyelid" d="M4.5 19 Q24 23.5 43.5 19" fill="none" stroke="#2A1B15" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
             <span className="oa-button__label">{children}</span>
             <span className="oa-button__status" aria-hidden="true">
