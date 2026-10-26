@@ -111,7 +111,6 @@
 }
 .oa-button__lid--upper {
   fill: none;
-  stroke: url(#oa-lid);
   stroke-width: 3.7;
   stroke-linecap: round;
   stroke-linejoin: round;
