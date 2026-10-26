@@ -27,8 +27,8 @@ The current implementation replaces whole-eye vertical squashing with layered SV
 
 ## Validation record
 
-- Automated validation: GitHub Actions Quality checks run #94 passed on the component/prototype implementation (type-check, unit tests, production build). A documentation-only follow-up is separate from that code validation.
-- Browser visual validation: pending. The historical 12-check report is not approval of the new eyelid geometry; inspect the rendered React showcase and standalone prototype before merge.
+- Automated validation: GitHub Actions Quality checks run #97 passed on commit `f0b64264` (type-check, unit tests, production build).
+- Browser visual validation: pending. Automated checks do not verify rendered anatomy, material alignment, or transition quality. Inspect the React showcase and standalone prototype before merge.
 
 ## SVG/rendering notes
 
