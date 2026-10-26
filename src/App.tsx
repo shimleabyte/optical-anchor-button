@@ -87,7 +87,9 @@ export default function App() {
                 onPointerEnter={(event) => {
                   if (event.pointerType !== 'touch' && !isDisabled && !isLoading) setIsPointerHovering(true);
                 }}
-                onPointerLeave={() => setIsPointerHovering(false)}
+                onPointerLeave={(event) => {
+                  if (event.pointerType !== 'touch') setIsPointerHovering(false);
+                }}
               />
               <p id="button-hint" className="button-hint">Hover to wake the eye. The brow lifts and the collab bubble appears; move away to return to neutral.</p>
             </div>
