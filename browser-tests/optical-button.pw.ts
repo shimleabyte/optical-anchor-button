@@ -112,6 +112,8 @@ test('disabled and loading controls cannot expose or activate the hover bubble',
 
 test('keeps sm, md, and lg dimensions proportional and positions each hover bubble within its housing', async ({ page }) => {
   await page.goto('/component-matrix.html');
+  await mkdir(artifactDir, { recursive: true });
+  await page.screenshot({ path: `${artifactDir}/component-matrix-desktop-sizes.png`, fullPage: true });
   const sizes = [
     { key: 'sm', label: 'Small Optical Anchor', width: 236, height: 64, eye: [108, 70], bezel: 116 },
     { key: 'md', label: 'Medium Optical Anchor', width: 280, height: 76, eye: [132, 86], bezel: 138 },
