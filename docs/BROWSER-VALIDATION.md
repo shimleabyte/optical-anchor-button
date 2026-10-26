@@ -1,25 +1,24 @@
-# Browser validation — page-wide gaze lifecycle
+# Browser validation — eye-first design branch
 
-## Standalone prototype result
+## Current branch status
 
-**12 / 12 functional and responsive checks passed** against `Optical-Anchor-Prototype.html` in headless Chromium. No uncaught page errors were observed. The scenario ran at 1280 × 900 and then at a 390 × 844 viewport.
+The earlier 12-check report recorded the page-wide tracking lifecycle before this design revision. It is a historical baseline, not a visual pass for the current centered-eye artwork.
 
-Validated behavior:
-- The eye starts closed.
-- Pointer entry on the button wakes the eye.
-- After waking, the iris tracks pointer movement elsewhere in the page.
-- The button's microgravity resets outside its hit area while the gaze continues.
-- Pointer inactivity changes the eye to tired after 2.2 seconds.
-- The eye closes and resets after another 780 ms.
-- Page movement does not wake the eye again while it is sleeping; button re-entry does.
-- The disabled preview remains disabled and forces the eye back to sleep.
-- The narrow viewport has no horizontal overflow.
-- The flow produced no uncaught JavaScript errors.
+The current branch changes the button dimensions, replaces the eye SVG with shaded sclera and a layered copper/amber iris, removes the default CTA label, and updates the standalone prototype. GitHub Actions checks the React type-check, unit tests, and production build; those checks do not render the standalone HTML in a real browser.
 
-## React package verification
+## Manual/browser regression checklist
 
-GitHub Actions' **Quality checks** workflow passed the TypeScript type-check, unit tests, and production build on commit `afc1d6b`. The test suite includes checks for the eye lifecycle and viewport pointer movement. Re-run the workflow after future changes; the standalone browser test and React package checks cover different execution paths.
+- The eye is centered within the enclosure at sm, md, and lg sizes.
+- The default render shows no “Let's Collab” label or right-side status mark.
+- The eye is closed initially and opens on button entry.
+- The iris follows the pointer beyond the button after the eye wakes.
+- Iris translation stays bounded within the eye aperture.
+- After 2.2 seconds of inactivity, the eye gets tired; after another 780 ms, it sleeps and resets its gaze.
+- The upper and lower eyelid outlines stay crisp through sleeping, awake, and tired states.
+- Hover and pressed housing colors remain warm and restrained.
+- Focus-visible, disabled, loading, and reduced-motion states remain legible.
+- No horizontal overflow at 390 px or 320 px; no uncaught JavaScript errors.
 
-## Scope
+## SVG/rendering notes
 
-These checks are focused behavior checks, not a full accessibility audit. Reduced-motion, focus-visible, native keyboard activation, and other existing component behaviors are covered by the project's test baseline, but the 12-check run above specifically records the new lifecycle and responsive behavior.
+The React component uses `useId` to scope gradient, clip-path, and filter resources per instance. The standalone HTML prototype uses fixed SVG IDs because it contains a single eye instance. The browser checklist should be re-run before merging this experimental branch.
