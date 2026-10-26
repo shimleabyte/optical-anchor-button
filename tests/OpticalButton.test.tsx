@@ -16,11 +16,10 @@ function dispatchPointerMove(target: Element, clientX: number, clientY: number) 
 }
 
 describe('OpticalButton', () => {
-  it('renders a centered eye-only native button with a useful default accessible label', () => {
+  it('renders a centered eye-first native button with a useful default accessible label', () => {
     render(<OpticalButton />);
     expect(screen.getByRole('button', { name: 'Optical Anchor eye control' })).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveAttribute('type', 'button');
-    expect(screen.queryByText("Let's Collab")).not.toBeInTheDocument();
     const button = screen.getByRole('button');
     expect(button.querySelector('.oa-button__eye')).toHaveAttribute('viewBox', '0 0 160 104');
     expect(button.querySelector('.oa-button__brow--excited')).toBeInTheDocument();
