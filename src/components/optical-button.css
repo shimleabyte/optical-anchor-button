@@ -185,6 +185,7 @@
   opacity: 1;
   transition: opacity 150ms ease;
 }
+.oa-button--returning .oa-button__iris { transition-duration: 520ms; }
 .oa-button--awake .oa-button__aperture,
 .oa-button.demo-force-hover .oa-button__aperture {
   transform: scaleY(1);
