@@ -81,7 +81,7 @@ export default function App() {
               >
                 Let's Collab
               </OpticalButton>
-              <p id="button-hint" className="button-hint">Move the pointer across the face.</p>
+              <p id="button-hint" className="button-hint">Hover to wake the eye, then move anywhere on the page. It tires after a pause.</p>
             </div>
             <div className="object-measure" aria-hidden="true"><span>44 PX</span><span>01 / PRESS</span></div>
           </div>
@@ -100,7 +100,7 @@ export default function App() {
             <p className="micro-label">BEHAVIOUR MATRIX / 6 STATES</p>
             <h2 id="state-title">Inspect the response.</h2>
           </div>
-          <p className="section-aside">Choose a state to inspect its visual treatment. Move the pointer over the live button to test tracking.</p>
+          <p className="section-aside">Choose a visual state, hover the button once, then move the pointer anywhere in the page to test its gaze.</p>
         </div>
         <div className="state-selector" role="group" aria-label="Preview button state">
           {previewStates.map((state) => (
@@ -134,7 +134,7 @@ export default function App() {
 
 function stateExplanation(state: PreviewState) {
   const explanations: Record<PreviewState, string> = {
-    default: 'Neutral expression. The pupil starts centered; the frame defines the button without a shadow.',
+    default: 'The eye starts asleep. Hover the button to wake it; it follows the pointer across the page, grows tired after a pause, then sleeps.',
     hover: 'The brow lifts, the inset edge catches light while the face moves one shade deeper.',
     pressed: 'The face travels down by one pixel. No bounce, ripple, or exaggerated scale.',
     focus: 'A clear external focus ring identifies keyboard focus without relying on color alone.',
