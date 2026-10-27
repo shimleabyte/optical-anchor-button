@@ -114,6 +114,8 @@ test('disabled and loading controls cannot expose or activate the hover bubble',
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(scan).toHaveCSS('animation-name', 'none');
   await expect(reticle).toHaveCSS('animation-name', 'none');
+  await mkdir(artifactDir, { recursive: true });
+  await page.screenshot({ path: `${artifactDir}/desktop-loading-calibration.png`, fullPage: true });
 });
 
 
