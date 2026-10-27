@@ -97,6 +97,8 @@ test('preview states preserve native disabled/loading behavior and reset cleanly
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(scan).toHaveCSS('animation-name', 'none');
   await expect(reticle).toHaveCSS('animation-name', 'none');
+  await mkdir(artifactDir, { recursive: true });
+  await page.screenshot({ path: `${artifactDir}/vanilla-loading-calibration.png`, fullPage: true });
 
   await page.getByRole('button', { name: /Idle/ }).click();
   await expect(button).toBeEnabled();
