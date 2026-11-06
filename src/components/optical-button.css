@@ -117,3 +117,34 @@
   .oa-button--loading .oa-button__loading-scan { animation: none; stroke-dasharray: 6 31; stroke-dashoffset: 18; }
   .oa-button--loading .oa-button__loading-reticle { animation: none; opacity: .9; }
 }
+
+/* Artwork-only page treatment: the optical face stands alone. */
+.oa-button.oa-button--art-only {
+  width: clamp(132px, 18vmin, 164px);
+  min-width: 0;
+  height: auto;
+  aspect-ratio: 1;
+  padding: 5px;
+  border-radius: 3px;
+  box-shadow: 0 22px 44px rgb(25 24 22 / 14%);
+}
+
+.oa-button.oa-button--art-only::before {
+  display: none;
+}
+
+.oa-button.oa-button--art-only .oa-button__content {
+  justify-content: center;
+  padding: 0;
+}
+
+.oa-button.oa-button--art-only .oa-button__eye {
+  flex: 0 0 88px;
+  width: 88px;
+  height: 66px;
+}
+
+.oa-button.oa-button--art-only .oa-button__label,
+.oa-button.oa-button--art-only .oa-button__status {
+  display: none;
+}
