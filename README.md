@@ -31,7 +31,7 @@ npm install
 npm run dev
 ```
 
-Open the local URL printed by Vite. Use the state selector to inspect component states, hover the button to wake the eye, move the pointer elsewhere in the page, then pause to observe the tired and sleeping states.
+Open the local URL printed by Vite. The page contains only the centered button artwork. Hover it to wake the eye, move the pointer elsewhere in the page, then pause to observe the tired and sleeping states.
 
 If you prefer pnpm, use `pnpm install` and `pnpm dev consistently for that checkout. No lockfile is currently committed, so dependency versions selected by the package manager may differ within the version ranges in `package.json`.
 
@@ -49,7 +49,7 @@ The repository includes type-checking, unit tests, and a production build. See [
 
 `OpticalButton` extends native React button attributes with `loading`, `size` (`sm` / `md` / `lg`), and `fullWidth` props. The default size is `md` (44 px); `sm` is 36 px and `lg` is 52 px. The default label is “Let's Collab”, and the default button type is `button` to avoid accidental form submission.
 
-The eye is decorative and hidden from assistive technology. The visible button label supplies its accessible name.
+The eye is decorative and hidden from assistive technology. The standalone artwork page supplies an accessible name through `aria-label`; the component retains its default label when used in other contexts.
 
 ## Scope excluded from v1
 
